@@ -1,5 +1,6 @@
 **Combat:**
 - Attack order is determined by an attack speed attribute. If two values are equal, randomise attack order.
+- Character doesn't need a weapon to fight.
 
 **Enemies:**
 - Some users want to see the battle and support radius, more experienced users may not.
