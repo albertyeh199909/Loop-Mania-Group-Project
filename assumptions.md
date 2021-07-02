@@ -1,3 +1,6 @@
+**Combat:**
+- Attack order is determined by an attack speed attribute. If two values are equal, randomise attack order.
+
 **Enemies:**
 - Some users want to see the battle and support radius, more experienced users may not.
 - Maximum of 1 enemy per tile.
