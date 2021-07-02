@@ -4,7 +4,7 @@
 - Allied soldier turned zombies are able to infect other soldiers too (through critical bite).
 
 **Equipment:**
-- Equipment is vague in its description. Assumption is that (e.g. for armour), "provides defence" equals "halves enemy attack".
+- Equipment is vague in its description. Assumption is that (e.g. for armour), "provides defence" equals "halves enemy attack" and isn't an extra property.
 
 **Inventory:**
 - Health potion is added to inventory for later consumption instead of automatically being consumed.
