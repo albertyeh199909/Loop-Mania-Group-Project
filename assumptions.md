@@ -1,15 +1,17 @@
-**Combat:**
-- Attack order is determined by an attack speed attribute. If two values are equal, randomise attack order.
-- Character doesn't need a weapon to fight.
-
 **Enemies:**
 - Some users want to see the battle and support radius, more experienced users may not.
 - Maximum of 1 enemy per tile.
-- Allied soldier turned zombies are able to infect other soldiers too (through critical bite).
+- Users should see character and enemy health display according to their status
 
 **Equipment:**
-- Equipment is vague in its description. Assumption is that (e.g. for armour), "provides defence" equals "halves enemy attack" and isn't an extra property.
+- Equipment is vague in its description. Assumption is that (e.g. for armour), "provides defence" equals "halves enemy attack".
 
 **Inventory:**
 - Health potion is added to inventory for later consumption instead of automatically being consumed.
-- The character can get more than 1 rare item.
+
+
+**Rewards:**
+- All basic items have a similar drop rate when defeating enemies
+- All basic items have a similar drop rate when card is destroyed
+- All card types have a similar chance of dropping
+
