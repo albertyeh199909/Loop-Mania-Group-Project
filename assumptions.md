@@ -12,3 +12,4 @@
 
 **Inventory:**
 - Health potion is added to inventory for later consumption instead of automatically being consumed.
+- The character can get more than 1 rare item.
