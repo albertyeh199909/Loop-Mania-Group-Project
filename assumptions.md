@@ -5,7 +5,7 @@
 **Enemies:**
 - Some users want to see the battle and support radius, more experienced users may not.
 - Maximum of 1 enemy per tile.
-- Users should see character and enemy health display according to their status
+- Users should see character and enemy health display according to their status.
 - Allied soldier turned zombies are able to infect other soldiers too (through critical bite).
 
 **Equipment:**
@@ -19,7 +19,7 @@
 - User can't switch between modes in the middle of a game.
 
 **Rewards:**
-- All basic items have a similar drop rate when defeating enemies
-- All basic items have a similar drop rate when card is destroyed
-- All card types have a similar chance of dropping
+- All basic items have a similar drop rate when defeating enemies.
+- All basic items have a similar drop rate when card is destroyed.
+- All card types have a similar chance of dropping.
 
