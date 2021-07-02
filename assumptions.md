@@ -15,6 +15,9 @@
 - Health potion is added to inventory for later consumption instead of automatically being consumed.
 - The character can get more than 1 rare item.
 
+**Mode**
+- User can't switch between modes in the middle of a game.
+
 **Rewards:**
 - All basic items have a similar drop rate when defeating enemies
 - All basic items have a similar drop rate when card is destroyed
