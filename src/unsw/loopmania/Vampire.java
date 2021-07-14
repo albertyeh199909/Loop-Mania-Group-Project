@@ -6,6 +6,13 @@ public class Vampire extends BasicEnemy {
     }
 
     @Override
+    public void move() {
+        //Twice as fast as zombies
+        super.move();
+        super.move();
+    }
+
+    @Override
     public void inflictDamage() {}
 
     @Override
