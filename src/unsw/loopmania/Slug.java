@@ -5,10 +5,10 @@ public class Slug extends BasicEnemy{
         super(pathPosition, 10, 2, 5, 2);
     }
 
-
     @Override
-    public void inflictDamage() {}
-
-    @Override
-    public void takeDamage() {}
+    public void move() {
+        //Twice as fast as zombies
+        super.move();
+        super.move();
+    }
 }
