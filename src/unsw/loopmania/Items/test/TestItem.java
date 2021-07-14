@@ -2,7 +2,6 @@ package unsw.loopmania.items.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
-import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.items.Armour;
 import unsw.loopmania.items.*;
 
@@ -34,7 +33,7 @@ public class TestItem {
 
     // test basic items
     @Test
-    public void testCreate()
+    public void testBasic()
     {
         ArrayList<BasicItem> basicItem = new ArrayList<BasicItem>();
 
@@ -105,5 +104,41 @@ public class TestItem {
                 assertEquals(item.isApplicable(), false);
         }
     }
+
+    //test the rare item
+    @Test
+    public void test_rare()
+    {
+        //create the item "The Ring"
+        TheRing ring = new TheRing(20,"TheRing");
+
+        //test wheather one rare item can be put into rare item class
+        RareItem contianer = ring;
+
+        //play around with the ring
+        contianer.setDropRate(30);
+        assertEquals(contianer.getDropRate(),30);
+        assertEquals(ring.getDropRate(),30);
+        assertEquals(contianer.isApplicable(), false);
+    }
+
+
+    //test is everything can be put into item abstract class
+    @Test
+    public void test_abs()
+    {
+        ArrayList<Item> array = new ArrayList<Item>();
+        Armour A = new Armour(20, "Armour", 100);
+        Shield B = new Shield(21, "Shield", 200);
+        TheRing ring = new TheRing(20,"TheRing");
+        array.add(A);
+        array.add(B);
+        array.add(ring);
+        assertEquals(array.get(0).getType(),"Armour");
+        assertEquals(array.get(1).getType(),"Shield");
+        assertEquals(array.get(2).getType(),"TheRing");
+    }
+
+
 }
 
