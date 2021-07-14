@@ -28,9 +28,19 @@ public class BasicEnemyTest {
     }
 
     @Test
-    public void testEnemyBasicDamage() {
+    public void testEnemyBasicTakeDamage() {
         BasicEnemy enemy = new BasicEnemy(new PathPosition(0, Arrays.asList(new Pair<>(0, 1), new Pair<>(0,2))), 2, 2, 2, 2);
         enemy.takeDamage(new DamageClass(enemy, 1, 0));
         assertEquals(enemy.getHealth(), 1);
+    }
+
+
+    @Test
+    public void testEnemyBasicInflictDamage() {
+        BasicEnemy enemy = new BasicEnemy(new PathPosition(0, Arrays.asList(new Pair<>(0, 1), new Pair<>(0,2))), 2, 2, 2, 2);
+        Character character = new Character();
+        int health = character.getHealth();
+        enemy.inflictDamage();
+        assertEquals(character.getHealth(), health - 2);
     }
 }
