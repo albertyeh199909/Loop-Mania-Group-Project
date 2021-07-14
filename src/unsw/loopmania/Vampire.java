@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Vampire extends BasicEnemy {
     private boolean isCrit = false;
-    private int criticalChance = 15;    
+    private int criticalChance = 10;    
 
     public Vampire(PathPosition pathPosition) {
         super(pathPosition, 10, 4, 10, 2);
