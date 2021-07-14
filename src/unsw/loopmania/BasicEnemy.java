@@ -13,6 +13,8 @@ public class BasicEnemy extends MovingEntity {
     private int damage;
     private int supportRadius;
 
+    private MovingEntity movingEntity;
+
     private boolean inBattle;
 
     public BasicEnemy(PathPosition position, int health, int battleRadius, int damage, int supportRadius) {
@@ -50,9 +52,17 @@ public class BasicEnemy extends MovingEntity {
         }
     }
 
-    public void inflictDamage() { }
+    public void inflictDamage() {
+        if (movingEntity instanceof Character) {
+            ((Character) movingEntity).takeDamage(new DamageClass(this, this.damage, 0));
+        }
 
-    public void takeDamage(DamageClass damage) {}
+        // else if for allied soldier using same format
+    }
+
+    public void takeDamage(DamageClass damage) {
+        this.health -= damage.getDamage();
+    }
 
     public int getHealth() {
         return this.health;
