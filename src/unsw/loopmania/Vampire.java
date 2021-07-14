@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class Vampire extends BasicEnemy {
     private boolean isCrit = false;
+    private int criticalChance = 15;    
 
     public Vampire(PathPosition pathPosition) {
         super(pathPosition, 10, 4, 10, 2);
@@ -17,18 +18,23 @@ public class Vampire extends BasicEnemy {
     }
 
     @Override
-    public void inflictDamage() {
+    public void inflictDamage(movingEntity entity) {
+        int damageValue = this.damage;
         if (isCrit) {
-            ((Character) movingEntity).takeDamage(new DamageClass(this, this.damage * 2, 0));
-        } else {
-            int number = new Random().nextInt(100);
-            if (number < 15) {
-                isCrit = true;
-                ((Character) movingEntity).takeDamage(new DamageClass(this, this.damage * 2, 0));
-            } else {
-                ((Character) movingEntity).takeDamage(new DamageClass(this, this.damage, 0));
+            damageValue = damageValue + new Random().nextInt(3);
+
+            int continueCrit =  new Random().nextInt(100);
+            if(continueCrit < 90) {
+                isCrit = false;
             }
         }
+        
+        DamageClass damage = entity.takeDamage(new DamageClass(this, damageValue, this.criticalChance));
+        
+        if(damage.getIsCritical()) {
+            isCrit = true;
+        }
+        
     }
 
     @Override
