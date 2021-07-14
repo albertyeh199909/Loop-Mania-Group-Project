@@ -8,9 +8,9 @@ import java.lang.Math;
  */
 public class BasicEnemy extends MovingEntity {
     // TODO = modify this, and add additional forms of enemy
-    private int health;
+    protected int health;
     private int battleRadius;
-    private int damage;
+    protected int damage;
     private int supportRadius;
 
     protected MovingEntity movingEntity;
