@@ -17,16 +17,14 @@ import unsw.loopmania.PathPosition;
 public class BasicEnemyTest {
     @Test
     public void testEnemyMovement() {
-        BasicEnemy enemy = new BasicEnemy(new PathPosition(0, Arrays.asList(new Pair<>(0, 1), new Pair<>(0,2))));
+        BasicEnemy enemy = new BasicEnemy(new PathPosition(0, Arrays.asList(new Pair<>(0, 1), new Pair<>(0,2))), 2, 2, 2, 2);
 
         for (int i = 0; i < 100; i++) {
             assertNotNull(enemy.getX());
             assertNotNull(enemy.getY());
+            assertTrue(enemy.getX() <= 32);
+            assertTrue(enemy.getY() <= 32);
             enemy.move();
         }
-
-
-        //assert not out of bounds
-
     }
 }
