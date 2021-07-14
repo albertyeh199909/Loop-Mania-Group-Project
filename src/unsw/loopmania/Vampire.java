@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import java.util.Random;
+
 public class Vampire extends BasicEnemy {
     private boolean isCrit = false;
 
@@ -17,9 +19,15 @@ public class Vampire extends BasicEnemy {
     @Override
     public void inflictDamage() {
         if (isCrit) {
-            ((Character) movingEntity).takeDamage(new DamageClass(this, 20, 0));
+            ((Character) movingEntity).takeDamage(new DamageClass(this, this.damage * 2, 0));
         } else {
-
+            int number = new Random().nextInt(100);
+            if (number < 15) {
+                isCrit = true;
+                ((Character) movingEntity).takeDamage(new DamageClass(this, this.damage * 2, 0));
+            } else {
+                ((Character) movingEntity).takeDamage(new DamageClass(this, this.damage, 0));
+            }
         }
     }
 
