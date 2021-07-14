@@ -13,7 +13,7 @@ public class BasicEnemy extends MovingEntity {
     private int damage;
     private int supportRadius;
 
-    private MovingEntity movingEntity;
+    protected MovingEntity movingEntity;
 
     private boolean inBattle;
 
