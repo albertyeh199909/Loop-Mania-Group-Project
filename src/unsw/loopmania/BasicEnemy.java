@@ -1,14 +1,26 @@
 package unsw.loopmania;
 
 import java.util.Random;
+import java.lang.Math;
 
 /**
  * a basic form of enemy in the world
  */
 public class BasicEnemy extends MovingEntity {
     // TODO = modify this, and add additional forms of enemy
-    public BasicEnemy(PathPosition position) {
+    private int health;
+    private int battleRadius;
+    private int damage;
+    private int supportRadius;
+
+    private boolean inBattle;
+
+    public BasicEnemy(PathPosition position, int health, int battleRadius, int damage, int supportRadius) {
         super(position);
+        this.health = health;
+        this.battleRadius = battleRadius;
+        this.damage = damage;
+        this.supportRadius = supportRadius;
     }
 
     /**
@@ -17,12 +29,32 @@ public class BasicEnemy extends MovingEntity {
     public void move(){
         // TODO = modify this, since this implementation doesn't provide the expected enemy behaviour
         // this basic enemy moves in a random direction... 25% chance up or down, 50% chance not at all...
-        int directionChoice = (new Random()).nextInt(2);
-        if (directionChoice == 0){
-            moveUpPath();
+        if (!inBattle) {
+            int directionChoice = (new Random()).nextInt(2);
+            if (directionChoice == 0) {
+                moveUpPath();
+            } else if (directionChoice == 1) {
+                moveDownPath();
+            }
+
+            if (Math.hypot(getX() - character.getX(), getY() - character.getY()) <= battleRadius) {
+                inBattle = true;
+            }
+
+        } else {
+            if (Math.abs(getX() - character.getX()) > 1 || Math.abs(getY() - character.getY()) > 1) {
+                moveUpPath();
+            } else {
+                inflictDamage();
+            }
         }
-        else if (directionChoice == 1){
-            moveDownPath();
-        }
+    }
+
+    public void inflictDamage() { }
+
+    public void takeDamage(DamageClass damage) {}
+
+    public int getHealth() {
+        return this.health;
     }
 }
