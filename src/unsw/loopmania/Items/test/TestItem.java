@@ -3,6 +3,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.items.Armour;
 import unsw.loopmania.items.*;
 
 /**
@@ -30,7 +31,9 @@ public class TestItem {
         assertEquals(test_gold.getGold(), 100);
 
     }
-     @Test
+
+    // test basic items
+    @Test
     public void testCreate()
     {
         ArrayList<BasicItem> basicItem = new ArrayList<BasicItem>();
@@ -45,6 +48,35 @@ public class TestItem {
         Stake F = new Stake(25,"Stake",600);
         Potion G = new Potion(26,"Potion", 700);
 
+        //check up on everthing !!!!
+        assertEquals(A.getDropRate(), 20);
+        assertEquals(A.getType(),"Armour");
+        assertEquals(A.getpurchasePrice(),100);
+
+        assertEquals(B.getDropRate(), 21);
+        assertEquals(B.getType(),"Shield");
+        assertEquals(B.getpurchasePrice(),200);
+
+        assertEquals(C.getDropRate(), 22);
+        assertEquals(C.getType(),"Helmet");
+        assertEquals(C.getpurchasePrice(),300);
+
+        assertEquals(D.getDropRate(), 23);
+        assertEquals(D.getType(),"Staff");
+        assertEquals(D.getpurchasePrice(),400);
+
+        assertEquals(E.getDropRate(), 24);
+        assertEquals(E.getType(),"Sword");
+        assertEquals(E.getpurchasePrice(),500);
+
+        assertEquals(F.getDropRate(), 25);
+        assertEquals(F.getType(),"Stake");
+        assertEquals(F.getpurchasePrice(),600);
+
+        assertEquals(G.getDropRate(), 26);
+        assertEquals(G.getType(),"Potion");
+        assertEquals(G.getpurchasePrice(),700);
+
         //put everything into an array
         basicItem.add(A);
         basicItem.add(B);
@@ -54,21 +86,24 @@ public class TestItem {
         basicItem.add(F);
         basicItem.add(G);
 
-        //check up on everthing !!!!
-        
+        //check all of the basic items can be put into an basicitem array
+        int init = 50;
+        for(BasicItem item : basicItem)
+        {
+            // check the sell price for item A to item G are from 50 to 350 
+            assertEquals(item.getSellPrice(), init);
+            init += 50;
+        }
 
-
-        
-
-
-
-
-
-
-
-
-
-
-
+        //check the potion is the only applicable item
+        for(BasicItem item : basicItem)
+        {
+            // check the sell price for item A to item G are from 50 to 350
+            if(item.getType().equals("Potion"))
+                assertEquals(item.isApplicable(), true);
+            else
+                assertEquals(item.isApplicable(), false);
+        }
     }
 }
+
