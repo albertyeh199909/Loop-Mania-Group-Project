@@ -52,10 +52,10 @@ public class BasicEnemy extends MovingEntity {
         }
     }
 
-    public void inflictDamage() {
-        if (movingEntity instanceof Character) {
-            ((Character) movingEntity).takeDamage(new DamageClass(this, this.damage, 0));
-        }
+    public void inflictDamage(MovingEntity entity) {
+        
+        entity.takeDamage(new DamageClass(this, this.damage, 0));
+        
 
         // else if for allied soldier using same format
     }
