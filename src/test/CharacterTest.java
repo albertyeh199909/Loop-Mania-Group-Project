@@ -100,25 +100,31 @@ public class CharacterTest {
         Slug slug = new Slug(above);
         Vampire vampire = new Vampire(below);
         //test unarmed damage
-        player.dealDamage(slug);
+        ArrayList<AlliedSoldier> array = new ArrayList<AlliedSoldier>();
+        player.dealDamage(slug,array);
         assertEquals(2, slug.getHealth());
         //test stake damage against basic enemy and against vampire
         BasicItem stake = new Stake(10,"stake",100);
         player.store(stake);
         player.setWeapon(stake);
-        player.dealDamage(slug);
+        player.dealDamage(slug,array);
         assertEquals(-1, slug.getHealth());
-        player.dealDamage(vampire);
+        player.dealDamage(vampire,array);
         assertEquals(4, vampire.getHealth());
         //test sword damage
         vampire.setHealth(10);
         BasicItem sword = new Sword(10, "sword", 200);
         player.store(sword);
         player.setWeapon(sword);
-        player.dealDamage(vampire);
+        player.dealDamage(vampire,array);
         assertEquals(6, vampire.getHealth());
-        
-        
+        array.add(new AlliedSoldier());
+        player.dealDamage(vampire,array);
+        assertEquals(0, vampire.getHealth());
+        array.add(new AlliedSoldier());
+        array.add(new AlliedSoldier());
+        player.dealDamage(vampire,array);
+        assertEquals(-10, vampire.getHealth());
 
     }
     @Test
@@ -147,7 +153,8 @@ public class CharacterTest {
         Helmet helmet = new Helmet(10, "helmet", 100);
         player.store(helmet);
         player.setHelmet(helmet);
-        player.dealDamage(slug);
+        ArrayList<AlliedSoldier> array = new ArrayList<AlliedSoldier>();
+        player.dealDamage(slug,array);
         assertEquals(3, slug.getHealth());
 
         DamageClass damage = new DamageClass(vampire, 10, 0);

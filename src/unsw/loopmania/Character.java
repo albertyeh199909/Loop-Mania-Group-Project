@@ -6,7 +6,7 @@ import java.util.ArrayList;
  */
 public class Character extends MovingEntity {
     // TODO = potentially implement relationships between this class and other classes
-
+    
     private ArrayList<Item> inventory = new ArrayList<Item>();
     private BasicItem weapon;
     private Helmet helmet;
@@ -16,6 +16,7 @@ public class Character extends MovingEntity {
     private Damage damage = new UnarmedStrategy();
     private ArrayList<Defense> defense = new ArrayList<Defense>();
     private ArrayList<MovingEntity> activeEnemies = new ArrayList<MovingEntity>();
+    
     //private boolean vampireCrit = false;
     
     @Override
@@ -46,10 +47,13 @@ public class Character extends MovingEntity {
 
     }
 
-    public void dealDamage(BasicEnemy entity) {
+    public void dealDamage(BasicEnemy entity,ArrayList<AlliedSoldier> array) {
         DamageClass damageclass = damage.dealDamage(this,entity);
         for(int i = 0; i < defense.size(); i++) {
             defense.get(i).specialEffect(damageclass);
+        }
+        for(int i = 0; i < array.size(); i++) {
+            damageclass.setValue(damageclass.getValue()+array.get(i).getBonus());
         }
         entity.takeDamage(damageclass);
 
