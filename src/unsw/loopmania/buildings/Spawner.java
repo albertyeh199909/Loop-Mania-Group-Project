@@ -7,4 +7,8 @@ public abstract class Spawner extends Building {
         super(type, placement);
         this.interval = interval;
     }
+
+    public int getInterval() {
+        return interval;
+    }
 }
