@@ -17,16 +17,16 @@ public class BasicEnemyTest {
     @Test
     public void testEnemyMovement() {
         List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
-        path.add(new Pair(4,3));
-        path.add(new Pair(4,2));
-        path.add(new Pair(3,2));
-        path.add(new Pair(3,1));
-        path.add(new Pair(2,1));
-        path.add(new Pair(1,1));
-        path.add(new Pair(1,2));
-        path.add(new Pair(1,3));
-        path.add(new Pair(2,3));
-        path.add(new Pair(3,3));
+        path.add(new Pair<Integer, Integer>(4,3));
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));
         PathPosition start = new PathPosition(0, path);
         PathPosition start2 = new PathPosition(1, path);
         BasicEnemy enemy = new Slug(start);
@@ -45,16 +45,16 @@ public class BasicEnemyTest {
     @Test
     public void testEnemyBasicDamage() {
         List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
-        path.add(new Pair(4,3));
-        path.add(new Pair(4,2));
-        path.add(new Pair(3,2));
-        path.add(new Pair(3,1));
-        path.add(new Pair(2,1));
-        path.add(new Pair(1,1));
-        path.add(new Pair(1,2));
-        path.add(new Pair(1,3));
-        path.add(new Pair(2,3));
-        path.add(new Pair(3,3));
+        path.add(new Pair<Integer, Integer>(4,3));
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));
         PathPosition start = new PathPosition(0, path);
         PathPosition start2 = new PathPosition(1, path);
         Vampire enemy = new Vampire(start);
