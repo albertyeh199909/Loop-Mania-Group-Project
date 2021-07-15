@@ -1,4 +1,4 @@
-package unsw.loopmania.items;
+package unsw.loopmania;
 
 public class Armour extends BasicItem {
 

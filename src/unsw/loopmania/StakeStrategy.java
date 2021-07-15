@@ -2,10 +2,10 @@ package unsw.loopmania;
 
 public class StakeStrategy implements Damage{
     
-    public DamageClass dealDamage(Character character, Entity entity) {
-        int damage = //placeholder
+    public DamageClass dealDamage(Character character, BasicEnemy entity) {
+        int damage = 3;
         if(entity instanceof Vampire) {
-            damage = //placeholder
+            damage = 6;
         }
         return new DamageClass(character, damage, 0);
     }

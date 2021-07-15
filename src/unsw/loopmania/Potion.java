@@ -1,6 +1,6 @@
-package unsw.loopmania.items;
+package unsw.loopmania;
 
-public class Shield extends BasicItem {
+public class Potion extends BasicItem {
     //Constructor
     /*
       @param dropRate ----> the rate of dropping of an item when an enemy is defeated 
@@ -8,7 +8,7 @@ public class Shield extends BasicItem {
       @param purchasePrice -----> the price for purhcase this item
       note: the sell price for this item will be 1/2 of the pruchase price
     */
-    public Shield(int dropRate, String type, int purchasePrice)
+    public Potion(int dropRate, String type, int purchasePrice)
     {
         super(dropRate,type,purchasePrice);
     }
@@ -23,6 +23,12 @@ public class Shield extends BasicItem {
     @Override
     public Boolean isApplicable()
     {
-        return false;
+        return true;
+    }
+
+    @Override
+    public void useItem(Character c)
+    {
+        //c.setHealth(20);
     }
 }

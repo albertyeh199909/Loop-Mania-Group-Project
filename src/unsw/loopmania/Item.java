@@ -1,4 +1,4 @@
-package unsw.loopmania.items;
+package unsw.loopmania;
 
 public abstract class Item {
     private int dropRate;

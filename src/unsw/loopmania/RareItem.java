@@ -1,4 +1,4 @@
-package unsw.loopmania.items;
+package unsw.loopmania;
 
 public abstract class RareItem extends Item {
     //constructor for inheritance

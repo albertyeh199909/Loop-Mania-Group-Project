@@ -7,16 +7,15 @@ import java.util.ArrayList;
 public class Character extends MovingEntity {
     // TODO = potentially implement relationships between this class and other classes
 
-    private World world;
-    private ArrayList<BasicItem> inventory;
+    private ArrayList<Item> inventory = new ArrayList<Item>();
     private BasicItem weapon;
     private Helmet helmet;
-    private Armor armor;
+    private Armour armor;
     private Shield shield;
     private int gold;
     private Damage damage = new UnarmedStrategy();
     private ArrayList<Defense> defense = new ArrayList<Defense>();
-    private ArrayList<MovingEntity> activeEnemies = new Arraylist<MovingEntity>();
+    private ArrayList<MovingEntity> activeEnemies = new ArrayList<MovingEntity>();
     //private boolean vampireCrit = false;
     
     public DamageClass takeDamage(DamageClass damageclass) {
@@ -30,26 +29,28 @@ public class Character extends MovingEntity {
         setHealth(getHealth() - damageclass.getDamage()); 
         if(getHealth() < 0) {
             for(int i =0; i < inventory.size(); i++) {
-                if(inventory.get(i) instanceof OneRing) {
-                    inventory.get(i).use();
+                if(inventory.get(i) instanceof TheRing) {
+                    inventory.get(i).useItem(this);
                     inventory.remove(i);
                 }
             }
-            else {
-                world.loseGame();
-            }
+  
+        }
+
+        if(getHealth() < 0)  {
+            //world.loseGame();
         }
         return damageclass;
 
 
     }
 
-    public void dealDamage(Entity entity) {
+    public void dealDamage(BasicEnemy entity) {
         DamageClass damageclass = damage.dealDamage(this,entity);
         for(int i = 0; i < defense.size(); i++) {
             defense.get(i).specialEffect(damageclass);
         }
-        entity.takeDamage(damageclass);
+        //entity.takeDamage(damageclass);
 
     }
 
@@ -70,7 +71,7 @@ public class Character extends MovingEntity {
         return this.weapon;
     }
 
-    public Armor getArmor() {
+    public Armour getArmor() {
         return this.armor;
     } 
     
@@ -86,7 +87,7 @@ public class Character extends MovingEntity {
         return this.inventory;
     }
 
-    public setWeapon(BasicItem weapon) {
+    public void setWeapon(BasicItem weapon) {
         if (this.weapon != null) {
             inventory.add(this.weapon);
         }
@@ -108,7 +109,7 @@ public class Character extends MovingEntity {
         
     
 
-    public setShield(Shield shield) {
+    public void setShield(Shield shield) {
         if (this.shield != null) {
             inventory.add(this.shield);
         }
@@ -119,18 +120,24 @@ public class Character extends MovingEntity {
         
     }
 
-    public void setArmor(Armor armor) {
+    public void setArmor(Armour armor) {
         if (this.armor != null) {
             inventory.add(this.armor);
         }
         removeItem(armor);
         this.armor = armor;
-        defense.add(new ArmorStrategy(),0);
+        defense.add(0,new ArmorStrategy());
+    }
+
+    public void store(Item item) {
+        inventory.add(item);
     }
 
     public void useItem(Item item) {
-        item.use();
-        removeItem(item);
+        if(item.isApplicable()) {
+            item.useItem(this);
+            removeItem(item);
+        }
         
     }
         

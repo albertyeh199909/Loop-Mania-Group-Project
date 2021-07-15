@@ -1,6 +1,6 @@
-package unsw.loopmania.items;
+package unsw.loopmania;
 
-public class Sword extends BasicItem {
+public class Stake extends BasicItem {
     //Constructor
     /*
       @param dropRate ----> the rate of dropping of an item when an enemy is defeated 
@@ -8,7 +8,7 @@ public class Sword extends BasicItem {
       @param purchasePrice -----> the price for purhcase this item
       note: the sell price for this item will be 1/2 of the pruchase price
     */
-    public Sword(int dropRate, String type, int purchasePrice)
+    public Stake(int dropRate, String type, int purchasePrice)
     {
         super(dropRate,type,purchasePrice);
     }
@@ -26,3 +26,4 @@ public class Sword extends BasicItem {
         return false;
     }
 }
+

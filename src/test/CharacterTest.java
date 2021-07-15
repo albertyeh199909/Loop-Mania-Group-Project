@@ -1,6 +1,8 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import unsw.loopmania.SwordStrategy;
 import unsw.loopmania.BasicEnemy;
 import unsw.loopmania.Character;
 import unsw.loopmania.DamageClass;
+import unsw.loopmania.*;
 
 import java.util.*;
 import org.javatuples.Pair;
@@ -52,31 +55,24 @@ public class CharacterTest {
     @Test
     public void testInventory() {
         List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
-        path.add(new Pair(4,3);
-        path.add(new Pair(4,2));
-        path.add(new Pair(3,2));
-        path.add(new Pair(3,1));
-        path.add(new Pair(2,1));
-        path.add(new Pair(1,1));
-        path.add(new Pair(1,2));
-        path.add(new Pair(1,3));
-        path.add(new Pair(2,3));
-        path.add(new Pair(3,3));
+        path.add(new Pair(4,3));
+        
 
-        LoopManiaWorld world = new LoopManiaWorld(5,5, path);
-        PathPosition start = new PathPosition(2, path);
+        //LoopManiaWorld world = new LoopManiaWorld(5,5, path);
+        PathPosition start = new PathPosition(0, path);
         Character player = new Character(start);
-        BasicItem sword = new Sword();
+        Sword sword = new Sword(20, "sword", 300);
         player.store(sword);
         assertTrue(player.getInventory().contains(sword));
-        player.equipWeapon(sword);
+        player.setWeapon(sword);
         assertFalse(player.getInventory().contains(sword));
         assertEquals(player.getWeapon(), sword);
         assertTrue(player.getDamage() instanceof SwordStrategy);
-        BasicItem potion = new Potion();
+        Potion potion = new Potion(10, "potion", 10);
         player.store(potion);
-        assertTrue(player.getInventory().contains(sword));
-        player.use(potion);
+        //sword is equipped so it's not in inventory
+        assertFalse(player.getInventory().contains(sword));
+        player.useItem(potion);
         assertFalse(player.getInventory().contains(potion));
 
     }
