@@ -18,7 +18,7 @@ public class Vampire extends BasicEnemy {
     }
 
     @Override
-    public void inflictDamage(movingEntity entity) {
+    public void inflictDamage(MovingEntity entity) {
         int damageValue = this.damage;
         if (isCrit) {
             damageValue = damageValue + new Random().nextInt(3);
