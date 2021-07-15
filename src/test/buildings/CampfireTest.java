@@ -18,6 +18,6 @@ public class CampfireTest {
 
         // Campfire properties
         // - Check its buff radius
-        assertTrue(trap.getBuffRadius() == 1);
+        assertTrue(campfire.getBuffRadius() == 1);
     }
 }
