@@ -2,9 +2,9 @@ package unsw.loopmania;
 
 public class TheRing extends RareItem {
     //Constructor
-    public TheRing(int dropRate, String type)
+    public TheRing(int dropRate, String type,PathPosition position)
     {
-        super(dropRate,type);
+        super(dropRate,type,position);
     }
     /*
         equip and unequip
