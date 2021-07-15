@@ -18,8 +18,14 @@ public class TestItem {
     @Test
     public void testGold()
     {
-        //create a gold class, with init number of 100 peices of gold
-        Gold test_gold = new Gold(100);
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair<Integer, Integer>(4,3));
+        path.add(new Pair<Integer, Integer>(4,7));
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+
+        //create a gold class, with init number of 100 peices of gold, and pos of (4,3)
+        Gold test_gold = new Gold(100,new PathPosition(0, path));
 
         //test the getter is workinh
         assertEquals(test_gold.getGold(),100);
@@ -28,9 +34,16 @@ public class TestItem {
         test_gold.setGold(400);
         assertEquals(test_gold.getGold(), 400);
 
-        //simulating purchase/sell action
-        test_gold.setGold(test_gold.getGold() - 300);
-        assertEquals(test_gold.getGold(), 100);
+        //check the init pos is (4,3)
+        assertEquals(test_gold.getX(), 4);
+        assertEquals(test_gold.getY(), 3);
+
+        //test the pos setter is working
+        test_gold.setPos(new PathPosition(3, path));
+
+        //check the init pos is (3,2)
+        assertEquals(test_gold.getX(), 3);
+        assertEquals(test_gold.getY(), 2);
 
     }
 
