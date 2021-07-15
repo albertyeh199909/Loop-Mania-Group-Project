@@ -16,6 +16,7 @@ public class Gold extends Entity
     public Gold(int initNum, PathPosition position)
     {
         this.number = initNum;
+        this.position = position;
     }
     
     //Getters
@@ -28,6 +29,11 @@ public class Gold extends Entity
     public void setGold(int number)
     {
         this.number = number;
+    }
+
+    public void setPos(PathPosition position)
+    {
+        this.position = position;
     }
 
     // display
