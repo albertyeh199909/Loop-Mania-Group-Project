@@ -75,6 +75,8 @@ public class CharacterTest {
         player.useItem(potion);
         assertFalse(player.getInventory().contains(potion));
 
+
+
     }
 
     @Test
@@ -184,4 +186,24 @@ public class CharacterTest {
 
     }
     
+    @Test
+    public void testInventoryLimit() {
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair(4,3));
+        
+
+        //LoopManiaWorld world = new LoopManiaWorld(5,5, path);
+        PathPosition start = new PathPosition(0, path);
+        Character player = new Character(start);
+        
+        for(int i = 1; i < 17; i++) {
+            player.store(new Sword(20, "sword", i*100));
+        }
+        player.store(new Sword(20, "sword", 1700));
+        //assert player gets experience and gold, and oldest item disappears
+        assertEquals(50, player.getExperience());
+        assertEquals(25, player.getGold());
+        assertEquals(200, player.getInventory().get(0).getpurchasePrice());
+        
+    }
 }

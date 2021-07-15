@@ -12,7 +12,11 @@ public class Character extends MovingEntity {
     private Helmet helmet;
     private Armour armor;
     private Shield shield;
-    private int gold;
+    private Gold gold = new Gold(0);
+    private int experience = 0;
+
+    
+
     private Damage damage = new UnarmedStrategy();
     private ArrayList<Defense> defense = new ArrayList<Defense>();
     private ArrayList<MovingEntity> activeEnemies = new ArrayList<MovingEntity>();
@@ -85,7 +89,11 @@ public class Character extends MovingEntity {
     }
 
     public int getGold() {
-        return this.gold;
+        return this.gold.getGold();
+    }
+
+    public void setGold(int number) {
+        this.gold.setGold(number);
     }
 
     public ArrayList<Item> getInventory() {
@@ -135,6 +143,12 @@ public class Character extends MovingEntity {
     }
 
     public void store(Item item) {
+        if(inventory.size() == 16) {
+            setGold(inventory.get(0).getpurchasePrice()/4);
+            experience += 50;
+            inventory.remove(0);
+            
+        }
         inventory.add(item);
     }
 
@@ -167,6 +181,14 @@ public class Character extends MovingEntity {
                 inventory.remove(i);
             }
         }
+    }
+
+    public int getExperience() {
+        return this.experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 
 
