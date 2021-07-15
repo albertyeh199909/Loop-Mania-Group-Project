@@ -16,21 +16,61 @@ import unsw.loopmania.Character;
 public class BasicEnemyTest {
     @Test
     public void testEnemyMovement() {
-        BasicEnemy enemy = new BasicEnemy(new PathPosition(0, Arrays.asList(new Pair<>(0, 1), new Pair<>(0,2))), 2, 2, 2, 2);
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair(4,3));
+        path.add(new Pair(4,2));
+        path.add(new Pair(3,2));
+        path.add(new Pair(3,1));
+        path.add(new Pair(2,1));
+        path.add(new Pair(1,1));
+        path.add(new Pair(1,2));
+        path.add(new Pair(1,3));
+        path.add(new Pair(2,3));
+        path.add(new Pair(3,3));
+        PathPosition start = new PathPosition(0, path);
+        PathPosition start2 = new PathPosition(1, path);
+        BasicEnemy enemy = new Slug(start);
+        Character player = new Character(start2);
 
-        for (int i = 0; i < 100; i++) {
-            assertNotNull(enemy.getX());
-            assertNotNull(enemy.getY());
-            assertTrue(enemy.getX() <= 32);
-            assertTrue(enemy.getY() <= 32);
-            enemy.move();
-        }
+        
+            
+        //assumes player not moving because this test is designed to test move method in basicenemy
+        //will fail sometimes since movement is random
+            
+        enemy.move(player);
+        assertTrue(enemy.getInBattle());
+        
     }
 
     @Test
     public void testEnemyBasicDamage() {
-        BasicEnemy enemy = new BasicEnemy(new PathPosition(0, Arrays.asList(new Pair<>(0, 1), new Pair<>(0,2))), 2, 2, 2, 2);
-        enemy.takeDamage(new DamageClass(enemy, 1, 0));
-        assertEquals(enemy.getHealth(), 1);
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair(4,3));
+        path.add(new Pair(4,2));
+        path.add(new Pair(3,2));
+        path.add(new Pair(3,1));
+        path.add(new Pair(2,1));
+        path.add(new Pair(1,1));
+        path.add(new Pair(1,2));
+        path.add(new Pair(1,3));
+        path.add(new Pair(2,3));
+        path.add(new Pair(3,3));
+        PathPosition start = new PathPosition(0, path);
+        PathPosition start2 = new PathPosition(1, path);
+        Vampire enemy = new Vampire(start);
+        Character player = new Character(start2);
+
+        
+            
+        //assumes player not moving because this test is designed to test move method in basicenemy
+        //will fail sometimes since movement is random
+        boolean result = false;
+        for(int i = 0; i < 1000; i++) {   
+            enemy.inflictDamage(player);
+            if(enemy.getIsCrit()) {
+                result = true;
+            }
+        }
+        assertTrue(result);
     }
 }

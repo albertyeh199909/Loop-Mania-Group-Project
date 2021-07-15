@@ -8,7 +8,7 @@ import java.lang.Math;
  */
 public class BasicEnemy extends MovingEntity {
     // TODO = modify this, and add additional forms of enemy
-    protected int health;
+    
     private int battleRadius;
     protected int damage;
     private int supportRadius;
@@ -17,9 +17,8 @@ public class BasicEnemy extends MovingEntity {
 
     private boolean inBattle;
 
-    public BasicEnemy(PathPosition position, int health, int battleRadius, int damage, int supportRadius) {
+    public BasicEnemy(PathPosition position, int battleRadius, int damage, int supportRadius) {
         super(position);
-        this.health = health;
         this.battleRadius = battleRadius;
         this.damage = damage;
         this.supportRadius = supportRadius;
@@ -28,11 +27,12 @@ public class BasicEnemy extends MovingEntity {
     /**
      * move the enemy
      */
-    public void move(){
+    public void move(Character character){
         // TODO = modify this, since this implementation doesn't provide the expected enemy behaviour
         // this basic enemy moves in a random direction... 25% chance up or down, 50% chance not at all...
         if (!inBattle) {
-            int directionChoice = (new Random()).nextInt(2);
+            
+            int directionChoice = (new Random()).nextInt(4);
             if (directionChoice == 0) {
                 moveUpPath();
             } else if (directionChoice == 1) {
@@ -47,11 +47,10 @@ public class BasicEnemy extends MovingEntity {
             if (Math.abs(getX() - character.getX()) > 1 || Math.abs(getY() - character.getY()) > 1) {
                 moveUpPath();
             } else {
-                inflictDamage();
+                inflictDamage(character);
             }
         }
     }
-
     public void inflictDamage(MovingEntity entity) {
         
         entity.takeDamage(new DamageClass(this, this.damage, 0));
@@ -60,11 +59,13 @@ public class BasicEnemy extends MovingEntity {
         // else if for allied soldier using same format
     }
 
-    public void takeDamage(DamageClass damage) {
-        this.health -= damage.getDamage();
+    public boolean getInBattle() {
+        return inBattle;
     }
 
-    public int getHealth() {
-        return this.health;
-    }
+    
+
+    
+
+    
 }

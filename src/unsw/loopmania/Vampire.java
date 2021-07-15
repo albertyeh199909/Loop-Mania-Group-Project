@@ -7,15 +7,17 @@ public class Vampire extends BasicEnemy {
     private int criticalChance = 10;    
 
     public Vampire(PathPosition pathPosition) {
-        super(pathPosition, 10, 4, 10, 2);
+        super(pathPosition, 4, 10, 6);
+        setHealth(10);
     }
-
+    
     @Override
-    public void move() {
+    public void move(Character character) {
         //Twice as fast as zombies
-        super.move();
-        super.move();
+        super.move(character);
+        super.move(character);
     }
+    
 
     @Override
     public void inflictDamage(MovingEntity entity) {
@@ -37,13 +39,13 @@ public class Vampire extends BasicEnemy {
         
     }
 
-    @Override
-    public void takeDamage(DamageClass damage) {
-        if (damage.getDamagedealer() instanceof Stake) {
-            // Extra damage by stake
-            this.health -= damage.getDamage() * 2;
-        } else {
-            this.health -= damage.getDamage();
-        }
+    /**
+     * used for testing only
+     * @return whether attack was critical bite
+     */
+    public boolean getIsCrit() {
+        return isCrit;
     }
+
+    
 }

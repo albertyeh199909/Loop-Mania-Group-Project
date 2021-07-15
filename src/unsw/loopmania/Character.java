@@ -18,6 +18,7 @@ public class Character extends MovingEntity {
     private ArrayList<MovingEntity> activeEnemies = new ArrayList<MovingEntity>();
     //private boolean vampireCrit = false;
     
+    @Override
     public DamageClass takeDamage(DamageClass damageclass) {
         for(int i = 0; i < defense.size(); i++) {
             defense.get(i).specialEffect(damageclass);
@@ -50,7 +51,7 @@ public class Character extends MovingEntity {
         for(int i = 0; i < defense.size(); i++) {
             defense.get(i).specialEffect(damageclass);
         }
-        //entity.takeDamage(damageclass);
+        entity.takeDamage(damageclass);
 
     }
 

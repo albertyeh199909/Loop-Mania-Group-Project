@@ -2,13 +2,14 @@ package unsw.loopmania;
 
 public class Slug extends BasicEnemy{
     public Slug(PathPosition pathPosition) {
-        super(pathPosition, 10, 2, 5, 2);
+        super(pathPosition, 1, 3, 1);
+        setHealth(3);
     }
-
+    
     @Override
-    public void move() {
+    public void move(Character character) {
         //Twice as fast as zombies
-        super.move();
-        super.move();
+        super.move(character);
+        super.move(character);
     }
 }

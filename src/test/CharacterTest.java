@@ -79,8 +79,9 @@ public class CharacterTest {
 
     @Test
     public void testDamage() {
+        
         List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
-        path.add(new Pair(4,3);
+        path.add(new Pair(4,3));
         path.add(new Pair(4,2));
         path.add(new Pair(3,2));
         path.add(new Pair(3,1));
@@ -91,29 +92,30 @@ public class CharacterTest {
         path.add(new Pair(2,3));
         path.add(new Pair(3,3));
 
-        LoopManiaWorld world = new LoopManiaWorld(5,5, path);
+        //LoopManiaWorld world = new LoopManiaWorld(5,5, path);
         PathPosition start = new PathPosition(2, path);
         Character player = new Character(start);
         PathPosition above = new PathPosition(3, path);
         PathPosition below = new PathPosition(4, path);
-        Slug slug = new slug(above);
-        Vampire vampire = new vampire(below));
+        Slug slug = new Slug(above);
+        Vampire vampire = new Vampire(below);
         //test unarmed damage
         player.dealDamage(slug);
         assertEquals(2, slug.getHealth());
         //test stake damage against basic enemy and against vampire
-        BasicItem stake = new Stake();
+        BasicItem stake = new Stake(10,"stake",100);
         player.store(stake);
         player.setWeapon(stake);
         player.dealDamage(slug);
-        assertEquals(0, slug.getHealth());
+        assertEquals(-1, slug.getHealth());
         player.dealDamage(vampire);
-        assertEquals(0, vampire.getHealth());
+        assertEquals(4, vampire.getHealth());
         //test sword damage
         vampire.setHealth(10);
-        BasicItem sword = new Sword();
+        BasicItem sword = new Sword(10, "sword", 200);
         player.store(sword);
-        player.dealDamage(vampire));
+        player.setWeapon(sword);
+        player.dealDamage(vampire);
         assertEquals(6, vampire.getHealth());
         
         
@@ -122,7 +124,7 @@ public class CharacterTest {
     @Test
     public void testDefence() {
         List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
-        path.add(new Pair(4,3);
+        path.add(new Pair(4,3));
         path.add(new Pair(4,2));
         path.add(new Pair(3,2));
         path.add(new Pair(3,1));
@@ -133,40 +135,40 @@ public class CharacterTest {
         path.add(new Pair(2,3));
         path.add(new Pair(3,3));
 
-        LoopManiaWorld world = new LoopManiaWorld(5,5, path);
+        //LoopManiaWorld world = new LoopManiaWorld(5,5, path);
         PathPosition start = new PathPosition(2, path);
         Character player = new Character(start);
         PathPosition above = new PathPosition(3, path);
         PathPosition below = new PathPosition(4, path);
-        Slug slug = new slug(above);
-        Vampire vampire = new vampire(below));
+        Slug slug = new Slug(above);
+        Vampire vampire = new Vampire(below);
         
         //test helmet defence and damage reduction
-        Helmet helmet = new helmet();
+        Helmet helmet = new Helmet(10, "helmet", 100);
         player.store(helmet);
         player.setHelmet(helmet);
         player.dealDamage(slug);
         assertEquals(3, slug.getHealth());
 
-        DamageClass damage = new DamageClass(vampire, 6, 0);
+        DamageClass damage = new DamageClass(vampire, 10, 0);
         damage = player.takeDamage(damage);
-        assertEquals(5,damage.getDamage());
+        assertEquals(8,damage.getDamage());
 
         //test armor and armor damage reduction, armor should take priority over helmet for damage calculations
-        Armor armor = new armor();
+        Armour armor = new Armour(10, "Armour", 100);
         player.store(armor);
         player.setArmor(armor);
 
-        damage = new DamageClass(vampire, 6, 0);
+        damage = new DamageClass(vampire, 10, 0);
         damage = player.takeDamage(damage);
-        assertEquals(1,damage.getDamage());
+        assertEquals(3,damage.getDamage());
 
         //test if shield reduces vampire crit chance by 60%
-        Shield shield = new shield();
+        Shield shield = new Shield(10, "Shield", 100);
         player.store(shield);
-        player.setArmor(shield);
+        player.setShield(shield);
 
-        damage = new DamageClass(vampire, 6, 10);
+        damage = new DamageClass(vampire, 10, 10);
         damage = player.takeDamage(damage);
         assertEquals(4,damage.getCriticalChance());
     

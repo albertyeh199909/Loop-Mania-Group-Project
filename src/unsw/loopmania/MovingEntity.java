@@ -59,4 +59,11 @@ public abstract class MovingEntity extends Entity {
     public int getY() {
         return y().get();
     }
+
+    public DamageClass takeDamage(DamageClass damage) {
+        int health = getHealth() - damage.getDamage();
+        setHealth(health);
+        return damage;
+    }
+    
 }
