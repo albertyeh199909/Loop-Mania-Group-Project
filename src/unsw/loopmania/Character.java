@@ -12,7 +12,7 @@ public class Character extends MovingEntity {
     private Helmet helmet;
     private Armour armor;
     private Shield shield;
-    private Gold gold = new Gold(0);
+    private int gold;
     private int experience = 0;
 
     
@@ -89,11 +89,11 @@ public class Character extends MovingEntity {
     }
 
     public int getGold() {
-        return this.gold.getGold();
+        return this.gold;
     }
 
     public void setGold(int number) {
-        this.gold.setGold(number);
+        this.gold = number;
     }
 
     public ArrayList<Item> getInventory() {
