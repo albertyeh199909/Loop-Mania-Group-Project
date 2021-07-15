@@ -7,9 +7,12 @@
 - Maximum of 1 enemy per tile.
 - Users should see character and enemy health display according to their status.
 - Allied soldier turned zombies are able to infect other soldiers too (through critical bite).
+- Critical damage multiplier is applied before any damage reductions from other sources.
+- Increase of critical vamplire damage will be applied to any entities.
 
 **Equipment:**
 - Equipment is vague in its description. Assumption is that (e.g. for armour), "provides defence" equals "halves enemy attack".
+- Assumes armor takes priority before helmet for damage reduction
 
 **Inventory:**
 - Health potion is added to inventory for later consumption instead of automatically being consumed.
