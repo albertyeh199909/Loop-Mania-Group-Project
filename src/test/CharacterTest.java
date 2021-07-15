@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.annotation.Testable;
 
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
@@ -16,6 +17,7 @@ import unsw.loopmania.DamageClass;
 
 import java.util.*;
 import org.javatuples.Pair;
+
 
 public class CharacterTest {
 
@@ -33,10 +35,17 @@ public class CharacterTest {
         path.add(new Pair(2,3));
         path.add(new Pair(3,3));
 
-        LoopManiaWorld world = new LoopManiaWorld(5,5, path);
+        //LoopManiaWorld world = new LoopManiaWorld(5,5, path);
         PathPosition start = new PathPosition(2, path);
         Character player = new Character(start);
         assertEquals(player.getX(), 3);
+        assertEquals(player.getY(), 2);
+        player.move();
+        assertEquals(player.getX(), 3);
+        assertEquals(player.getY(), 1);
+        player.move();
+        player.move();
+        assertEquals(player.getX(), 1);
         assertEquals(player.getY(), 1);
     }
 
