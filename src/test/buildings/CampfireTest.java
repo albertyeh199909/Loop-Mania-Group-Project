@@ -10,7 +10,14 @@ public class CampfireTest {
     public void testConstructor() {
         Campfire campfire = new Campfire();
 
+        // Generic Building properties
+        // - Check if the building is a campfire
+        // - Check where it can be placed
         assertTrue(campfire.getType().equals("Campfire"));
         assertTrue(campfire.getPlacement() == 2);
+
+        // Campfire properties
+        // - Check its buff radius
+        assertTrue(campfire.getBuffRadius() == 1);
     }
 }

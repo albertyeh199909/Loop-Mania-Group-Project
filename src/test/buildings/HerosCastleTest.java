@@ -14,6 +14,9 @@ public class HerosCastleTest {
     public void testConstructor() {
         HerosCastle castle = new HerosCastle();
 
+        // Generic Building properties
+        // - Check if the building is the Hero's Castle
+        // - Check where it can be placed
         assertTrue(castle.getType().equals("Hero's Castle"));
         assertTrue(castle.getPlacement() == 4);
     }
