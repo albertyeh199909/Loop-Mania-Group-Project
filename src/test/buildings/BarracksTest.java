@@ -10,6 +10,9 @@ public class BarracksTest {
     public void testConstructor() {
         Barracks barracks = new Barracks();
 
+        // Generic Building properties
+        // - Check if the building is a barrack
+        // - Check where it can be placed
         assertTrue(barracks.getType().equals("Barracks"));
         assertTrue(barracks.getPlacement() == 1);
     }

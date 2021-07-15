@@ -10,7 +10,14 @@ public class VillageTest {
     public void testConstructor() {
         Village village = new Village();
 
+        // Generic Building properties
+        // - Check if the building is a village
+        // - Check where it can be placed
         assertTrue(village.getType().equals("Village"));
         assertTrue(village.getPlacement() == 1);
+
+        // Village properties
+        // - Check its heal
+        assertTrue(village.getHeal() == 1); 
     }
 }
