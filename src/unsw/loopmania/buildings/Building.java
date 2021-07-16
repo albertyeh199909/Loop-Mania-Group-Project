@@ -1,6 +1,10 @@
 package unsw.loopmania.buildings;
 
-public abstract class Building {
+import unsw.loopmania.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
+public abstract class Building extends StaticEntity {
     private String type;
     private int placement;
     
@@ -13,7 +17,8 @@ public abstract class Building {
      *                  3 - Only on non-path tiles adjacent to the path
      *                  4 - Exists at the starting position of the Character 
      */
-    public Building(String type, int placement) {
+    public Building(SimpleIntegerProperty x, SimpleIntegerProperty y, String type, int placement) {
+        super(x, y);
         this.type = type;
         this.placement = placement;
     }
