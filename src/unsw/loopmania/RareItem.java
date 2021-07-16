@@ -10,10 +10,12 @@ public abstract class RareItem extends Item {
       @param type ----> the type of the item
       @param postion is the postion of the current item
     */
-    public RareItem(int dropRate, String type, PathPosition position)
+    public RareItem(int dropRate, String type, int x, int y)
     {
          setDropRate(dropRate);
          setType(type);
-         setPosition(position);
+         setX(x);
+         setY(y);
     }
  }
+
