@@ -64,7 +64,7 @@ public abstract class MovingEntity extends Entity {
         int health = getHealth() - damage.getDamage();
         setHealth(health);
         if(getHealth() <=0) {
-            //do something
+            
         }
         return damage;
     }

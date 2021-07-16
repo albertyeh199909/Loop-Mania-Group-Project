@@ -3,7 +3,7 @@ package unsw.loopmania;
 import java.util.Random;
 
 public class DamageClass {
-    private MovingEntity damageDealer;
+    private Entity damageDealer;
     private int value;
     private boolean isCritical;    //everytime the vampire finishes attack, check this variable
     private int criticalChance;
@@ -16,17 +16,17 @@ public class DamageClass {
         this.criticalChance = criticalChance;
     }
 
-    public DamageClass(MovingEntity damageDealer, int value, int criticalChance) {
+    public DamageClass(Entity damageDealer, int value, int criticalChance) {
         this.damageDealer = damageDealer;
         this.value = value;
         this.criticalChance =criticalChance;
     }
 
-    public MovingEntity getDamagedealer() {
+    public Entity getDamagedealer() {
         return this.damageDealer;
     }
 
-    public void setDamagedealer(MovingEntity damagedealer) {
+    public void setDamagedealer(Entity damagedealer) {
         this.damageDealer = damagedealer;
     }
 

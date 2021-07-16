@@ -1,6 +1,6 @@
 package unsw.loopmania;
 
-import java.util.Random;
+
 
 public class Zombie extends BasicEnemy {
     int criticalChance = 10;
