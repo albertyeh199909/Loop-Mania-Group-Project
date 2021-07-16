@@ -1,35 +1,17 @@
 package unsw.loopmania;
 
-import javafx.beans.property.SimpleIntegerProperty;
 
 
-public abstract class Item extends Entity{
+
+public abstract class Item extends StaticEntity{
     private int dropRate;
     private String type;
     private int purchasePrice;
     private int sellPrice;     
-    private PathPosition position; 
 
     public Item()
     {
-
-    }
-
-    // implement the abstract functions in entites class
-    public SimpleIntegerProperty x() {
-        return position.getX();
-    }
-
-    public SimpleIntegerProperty y() {
-        return position.getY();
-    }
-
-    public int getX() {
-        return x().get();
-    }
-
-    public int getY() {
-        return y().get();
+        
     }
 
     //    Setters
@@ -56,15 +38,6 @@ public abstract class Item extends Entity{
     {
         this.purchasePrice = purchasePrice;
         this.sellPrice = purchasePrice/2;
-    }
-
-    /**
-    *   @param purchasePrice is the price which an item is sold in 
-    *   hero's castle
-    */
-    public void setPosition(PathPosition position)
-    {
-        this.position = position;
     }
 
     /*
