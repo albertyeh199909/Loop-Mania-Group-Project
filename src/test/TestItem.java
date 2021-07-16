@@ -55,13 +55,13 @@ public class TestItem {
 
         // create instance for Armour, Shield, Helmet, Staff ,Sword, Stake, Potion
         // test wheather these basic items can be added to one BasicItem(abstarct class) array
-        Armour A = new Armour(20, "Armour", 100,null);
-        Shield B = new Shield(21, "Shield", 200,null);
-        Helmet C = new Helmet(22, "Helmet", 300,null);
-        Staff D = new Staff(23,"Staff", 400,null);
-        Sword E = new Sword(24,"Sword", 500,null);
-        Stake F = new Stake(25,"Stake",600,null);
-        Potion G = new Potion(26,"Potion", 700,null);
+        Armour A = new Armour(20, "Armour", 100,-1,-1);
+        Shield B = new Shield(21, "Shield", 200,-1,-1);
+        Helmet C = new Helmet(22, "Helmet", 300,-1,-1);
+        Staff D = new Staff(23,"Staff", 400,-1,-1);
+        Sword E = new Sword(24,"Sword", 500,-1,-1);
+        Stake F = new Stake(25,"Stake",600,-1,-1);
+        Potion G = new Potion(26,"Potion", 700,-1,-1);
 
         //check up on everthing !!!!
         assertEquals(A.getDropRate(), 20);
@@ -126,7 +126,7 @@ public class TestItem {
     public void test_rare()
     {
         //create the item "The Ring"
-        TheRing ring = new TheRing(20,"TheRing",null);
+        TheRing ring = new TheRing(20,"TheRing",-1,-1);
 
         //test wheather one rare item can be put into rare item class
         RareItem contianer = ring;
@@ -144,9 +144,9 @@ public class TestItem {
     public void test_abs()
     {
         ArrayList<Item> array = new ArrayList<Item>();
-        Armour A = new Armour(20, "Armour", 100,null);
-        Shield B = new Shield(21, "Shield", 200,null);
-        TheRing ring = new TheRing(20,"TheRing",null);
+        Armour A = new Armour(20, "Armour", 100,-1,-1);
+        Shield B = new Shield(21, "Shield", 200,-1,-1);
+        TheRing ring = new TheRing(20,"TheRing",-1,-1);
         array.add(A);
         array.add(B);
         array.add(ring);
@@ -160,58 +160,47 @@ public class TestItem {
     @Test
     public void test_pos()
     {
-        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
-        path.add(new Pair<Integer, Integer>(4,3));
-        path.add(new Pair<Integer, Integer>(4,2));
-        path.add(new Pair<Integer, Integer>(3,2));
-        path.add(new Pair<Integer, Integer>(3,1));
-        path.add(new Pair<Integer, Integer>(2,1));
-        path.add(new Pair<Integer, Integer>(1,1));
-        path.add(new Pair<Integer, Integer>(1,2));
-        path.add(new Pair<Integer, Integer>(1,3));
-        path.add(new Pair<Integer, Integer>(2,3));
-        path.add(new Pair<Integer, Integer>(3,3));
 
-        Armour A = new Armour(20, "Armour", 100,new PathPosition(0, path));
-        Shield B = new Shield(21, "Shield", 200,new PathPosition(1, path));
-        Helmet C = new Helmet(22, "Helmet", 300,new PathPosition(2, path));
-        Staff D = new Staff(23,"Staff", 400,new PathPosition(3, path));
-        Sword E = new Sword(24,"Sword", 500,new PathPosition(4, path));
-        Stake F = new Stake(25,"Stake",600,new PathPosition(5, path));
-        Potion G = new Potion(26,"Potion", 700,new PathPosition(6, path));
-        TheRing H = new TheRing(27,"TheRing",new PathPosition(7, path));
+        Armour A = new Armour(20, "Armour", 100,1,1);
+        Shield B = new Shield(21, "Shield", 200,2,2);
+        Helmet C = new Helmet(22, "Helmet", 300,3,3);
+        Staff D = new Staff(23,"Staff", 400,4,4);
+        Sword E = new Sword(24,"Sword", 500,5,5);
+        Stake F = new Stake(25,"Stake",600,6,6);
+        Potion G = new Potion(26,"Potion", 700,7,7);
+        TheRing H = new TheRing(27,"TheRing",8,8);
 
         //A
-        assertEquals(A.getX(), 4);
-        assertEquals(A.getY(), 3);
+        assertEquals(A.getX(), 1);
+        assertEquals(A.getY(), 1);
 
         //B
-        assertEquals(B.getX(), 4);
+        assertEquals(B.getX(), 2);
         assertEquals(B.getY(), 2);
 
         //C
         assertEquals(C.getX(), 3);
-        assertEquals(C.getY(), 2);
+        assertEquals(C.getY(), 3);
 
         //D
-        assertEquals(D.getX(), 3);
-        assertEquals(D.getY(), 1);
+        assertEquals(D.getX(), 4);
+        assertEquals(D.getY(), 4);
 
         //E
-        assertEquals(E.getX(), 2);
-        assertEquals(E.getY(), 1);
+        assertEquals(E.getX(), 5);
+        assertEquals(E.getY(), 5);
 
         //F
-        assertEquals(F.getX(), 1);
-        assertEquals(F.getY(), 1);
+        assertEquals(F.getX(), 6);
+        assertEquals(F.getY(), 6);
 
         //F
-        assertEquals(G.getX(), 1);
-        assertEquals(G.getY(), 2);
+        assertEquals(G.getX(), 7);
+        assertEquals(G.getY(), 7);
 
         //F
-        assertEquals(H.getX(), 1);
-        assertEquals(H.getY(), 3);
+        assertEquals(H.getX(), 8);
+        assertEquals(H.getY(), 8);
     }
 
 }
