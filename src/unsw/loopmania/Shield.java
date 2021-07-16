@@ -9,9 +9,9 @@ public class Shield extends BasicItem {
         @param postion is the postion of the current item
         note: the sell price for this item will be 1/2 of the pruchase price
     */
-    public Shield(int dropRate, String type, int purchasePrice,PathPosition position)
+    public Shield(int dropRate, String type, int purchasePrice,int x, int y)
     {
-        super(dropRate,type, purchasePrice,position);
+        super(dropRate,type, purchasePrice, x, y);
     }
     /*
         equip and unequip
