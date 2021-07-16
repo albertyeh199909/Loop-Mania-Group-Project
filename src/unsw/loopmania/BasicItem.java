@@ -1,4 +1,6 @@
 package unsw.loopmania;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.IntegerProperty;
 
 public abstract class BasicItem extends Item {
    // constructor for heritance
@@ -12,11 +14,12 @@ public abstract class BasicItem extends Item {
       @param postion is the postion of the current item
       note: the sell price for this item will be 1/2 of the pruchase price
    */
-   public BasicItem(int dropRate, String type, int purchasePrice,PathPosition position)
+   public BasicItem(int dropRate, String type, int purchasePrice,int x, int y)
    {
         setDropRate(dropRate);
         setType(type);
         setPurchasePrice(purchasePrice);
-        setPosition(position);
+        setX(x);
+        setY(y);
    }
 }
