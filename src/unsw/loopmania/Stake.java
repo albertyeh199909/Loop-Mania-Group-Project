@@ -2,6 +2,7 @@ package unsw.loopmania;
 
 public class Stake extends BasicItem {
     //Constructor
+   //Constructor
     /*
         @param dropRate ----> the rate of dropping of an item when an enemy is defeated 
         @param type ----> the type of the item
@@ -9,9 +10,9 @@ public class Stake extends BasicItem {
         @param postion is the postion of the current item
         note: the sell price for this item will be 1/2 of the pruchase price
     */
-    public Stake(int dropRate, String type, int purchasePrice,PathPosition position)
+    public Stake(int dropRate, String type, int purchasePrice,int x, int y)
     {
-        super(dropRate,type, purchasePrice,position);
+        super(dropRate,type, purchasePrice, x, y);
     }
     /*
         equip and unequip
