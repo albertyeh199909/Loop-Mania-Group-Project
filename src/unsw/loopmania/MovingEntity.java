@@ -11,6 +11,15 @@ public abstract class MovingEntity extends Entity {
      * object holding position in the path
      */
     private PathPosition position;
+    private int health;
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getHealth() {
+        return this.health;
+    }
 
     /**
      * Create a moving entity which moves up and down the path in position
@@ -50,4 +59,14 @@ public abstract class MovingEntity extends Entity {
     public int getY() {
         return y().get();
     }
+
+    public DamageClass takeDamage(DamageClass damage) {
+        int health = getHealth() - damage.getDamage();
+        setHealth(health);
+        if(getHealth() <=0) {
+            
+        }
+        return damage;
+    }
+    
 }

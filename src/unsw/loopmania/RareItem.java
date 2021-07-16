@@ -1,4 +1,4 @@
-package unsw.loopmania.items;
+package unsw.loopmania;
 
 public abstract class RareItem extends Item {
     //constructor for inheritance
@@ -8,10 +8,14 @@ public abstract class RareItem extends Item {
     /*
       @param dropRate ----> the rate of dropping of an item when an enemy is defeated 
       @param type ----> the type of the item
+      @param postion is the postion of the current item
     */
-    public RareItem(int dropRate, String type)
+    public RareItem(int dropRate, String type, int x, int y)
     {
          setDropRate(dropRate);
          setType(type);
+         setX(x);
+         setY(y);
     }
  }
+
