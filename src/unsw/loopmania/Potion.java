@@ -9,9 +9,9 @@ public class Potion extends BasicItem {
         @param postion is the postion of the current item
         note: the sell price for this item will be 1/2 of the pruchase price
     */
-    public Potion(int dropRate, String type, int purchasePrice,PathPosition position)
+    public Potion(int dropRate, String type, int purchasePrice,int x, int y)
     {
-        super(dropRate,type, purchasePrice,position);
+        super(dropRate,type, purchasePrice, x, y);
     }
     /*
         equip and unequip
