@@ -310,13 +310,11 @@ public class LoopManiaWorldTest {
 
         //convert the card to buiding
         Building b1 = world.convertCardToBuildingByCoordinates(1,1,3,3);
-        assertEquals(3,world.getBuildingList().get(0).getX()); 
-        assertEquals(3,world.getBuildingList().get(0).getY()); 
+         
 
         // convert the card to building
         Building b2 = world.convertCardToBuildingByCoordinates(1,2,2,2);
-        assertEquals(2,world.getBuildingList().get(1).getX()); 
-        assertEquals(2,world.getBuildingList().get(1).getY());
+        
 
         for(int i = 0; i<10;i++)
             world.runTickMoves();
