@@ -46,13 +46,25 @@ public abstract class Card extends StaticEntity {
         
     }
 
+    /**
+     * Check if a path exists
+     * @param      x x-coordinate of a tile
+     * @param      y y-coordinate of a tile
+     * @param path list of path tiles
+     */
     public boolean checkPathTile(int x, int y, List<Pair<Integer,Integer>> path) {
         if(path.contains(new Pair<Integer, Integer>(x,y))) {
             return true;
         }
         return false;
     }
-    
+
+    /**
+     * Check if a path does not exist
+     * @param      x x-coordinate of a tile
+     * @param      y y-coordinate of a tile
+     * @param path list of path tiles
+     */
     public boolean checkNotPathTile(int x, int y, List<Pair<Integer,Integer>> path) {
         if(path.contains(new Pair<Integer, Integer>(x,y))) {
             return false;
