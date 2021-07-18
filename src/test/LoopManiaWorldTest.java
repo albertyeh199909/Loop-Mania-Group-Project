@@ -19,6 +19,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.io.FileNotFoundException;
 
 public class LoopManiaWorldTest {
+    // the rest is by Harrington, Albert and james 
     @Test
     public void SimWorld() {
         // List<Pair<Integer, Integer>> path and its subsequent details are taken from CharacterTest.java
@@ -157,6 +158,62 @@ public class LoopManiaWorldTest {
         assertEquals(world.adjacentTile(zp),-1);
          
     }
+    
+    @Test
+    public void testRunTickMoves() {
+        // Test details are shared with CharacterTest
+        //@ by micheal
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair<Integer, Integer>(4,3));
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));
+
+        LoopManiaWorld world = new LoopManiaWorld(5,5, path);
+
+        PathPosition start = new PathPosition(1, path);
+        Character player = new Character(start);
+
+
+
+        world.setCharacter(player);
+        assertNotNull(world.getCharacter());
+
+        
+        world.runTickMoves();
+
+        assertEquals(player.getX(), 3);
+        assertEquals(player.getY(), 2);
+        
+        assertNotNull(player);
+
+        world.runTickMoves();
+        
+        assertEquals(player.getX(), 3);
+        assertEquals(player.getY(), 1);
+
+        VillageCard villagecard = new VillageCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        villagecard.setType("Village");
+        world.addACard(villagecard);
+
+        
+        world.convertCardToBuildingByCoordinates(1,1,1,1);
+        
+        world.runTickMoves();
+        world.runTickMoves();
+
+        assertEquals(player.getX(), 1);
+        assertEquals(player.getY(), 1);
+
+        assertEquals(player.getHealth(), 20);
+    }
+
 
 
       
