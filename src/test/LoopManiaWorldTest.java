@@ -86,7 +86,7 @@ public class LoopManiaWorldTest {
         assertEquals(2,world.getBuildingList().get(1).getY());
 
         world.runBattles();
-        assertEquals(0, world.getCharacter().getHealth());
+        assertEquals(-10, world.getCharacter().getHealth());
 
     }
         @Test
@@ -212,6 +212,55 @@ public class LoopManiaWorldTest {
         assertEquals(player.getY(), 1);
 
         assertEquals(player.getHealth(), 20);
+    }
+
+    @Test
+    public void addUnequipped() {
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair<Integer, Integer>(4,3));
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));
+
+        LoopManiaWorld world = new LoopManiaWorld(5,5, path);
+        assertTrue(world.addUnequippedBasicItem("Sword") instanceof Sword);
+        assertTrue(world.addUnequippedBasicItem("Staff") instanceof Staff);
+        assertTrue(world.addUnequippedBasicItem("Stake") instanceof Stake);
+        assertTrue(world.addUnequippedBasicItem("Helmet") instanceof Helmet);
+        assertTrue(world.addUnequippedBasicItem("Armour") instanceof Armour);
+        assertTrue(world.addUnequippedBasicItem("Shield") instanceof Shield);
+
+    }
+
+    @Test 
+    public void givenInventory() {
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair<Integer, Integer>(4,3));
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));
+        LoopManiaWorld world = new LoopManiaWorld(5,5, path);
+
+        Sword sword = new Sword(10,"Sword",100,0,0);
+        world.addItem(sword);
+        Sword sword1 = new Sword(10,"Sword",100,0,2);
+        world.addItem(sword1);
+        world.removeUnequippedInventoryItemByCoordinates(0,0);
+        assertTrue(world.getInventory().get(0) == null);
+
+
     }
 
 

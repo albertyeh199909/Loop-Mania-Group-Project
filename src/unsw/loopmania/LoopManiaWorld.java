@@ -92,6 +92,13 @@ public class LoopManiaWorld {
         return this.character;
     }
 
+    public List<Entity> getInventory() {
+        return this.unequippedInventoryItems;
+    }
+
+    public void addItem(BasicItem item) {
+        unequippedInventoryItems.add(item);
+    }
     public int getCycleCounter() {
         return this.cycleCounter;
     }
