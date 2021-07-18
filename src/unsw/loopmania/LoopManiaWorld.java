@@ -160,35 +160,6 @@ public class LoopManiaWorld {
         }
         return -1;
     }
-        // the previous world function
-        /*
-        if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x-1,y));
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y+1))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x-1,y+1));
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y-1))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x-1,y-1)) ;
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x+1,y))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x+1,y)) ;
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x+1,y-1))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x+1,y-1));
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x+1,y+1))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x+1,y+1));
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x,y+1))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x,y+1));
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x,y-1))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x,y-1));
-        }
-        /*
-        return -1;
-    }
 
     /**
      * spawns enemies if the conditions warrant it, adds to world
@@ -232,6 +203,12 @@ public class LoopManiaWorld {
         enemies.remove(enemy);
     }
 
+    /**
+     * Check whether an enemy is in the effect range of a building
+     * @param towerOrFire
+     * @param entity
+     * @return true if the above condition is true, false otherwise
+     */
     public boolean isAEntityInBuildingRange(Building towerOrFire, MovingEntity entity) {
         if(!(towerOrFire instanceof Tower) && !(towerOrFire instanceof Campfire)) {
             return false;
@@ -280,8 +257,14 @@ public class LoopManiaWorld {
         return affectedByCampfire;
     }
 
-    // helper funtion that acutally runs one battle
-    // this function is a helper function which will be called in runbattle function
+    //
+
+    /**
+     * helper funtion that acutally runs one battle
+     * this function is a helper function which will be called in runbattle function
+     * @param enemiesInBattle the list of enemies currently in battle
+     * @param defeatedEnemies the list of defeated enemies by the current battle
+     */
     public void executeBattle(List<BasicEnemy> enemiesInBattle, List<BasicEnemy> defeatedEnemies) {
         while(true) {
                 // first we want to "use" the tower first
@@ -324,48 +307,6 @@ public class LoopManiaWorld {
                             e.inflictDamage(character);
                     }
                 }
-                /*
-                for(AlliedSoldier s: friendlySoldiers) {
-                    if(s.getTurnToZombie()) {
-                        enemiesInBattle.add(new Zombie(s.getPath()));
-                    }
-                }
-
-                /*
-            // check wheather the character is affcected by campfire
-            boolean affectedByCampfire = characterAffectedByCampfire();
-
-            // the main character attack the monster
-            // need to consider the condition of the any enemy being converted to friendly.
-            for(BasicEnemy e : enemiesInBattle)
-            {
-                if(e.getTrance() == -1 && !(defeatedEnemies.contains(e)) && character.getHealth() > 0)
-                {
-                    // we simply let the 
-                    if(affectedByCampfire)
-                    {
-                        character.dealDamage(e, friendlySoldiers);
-                        character.dealDamage(e, friendlySoldiers);
-                    }
-                    else
-                    {
-                        character.dealDamage(e, friendlySoldiers);
-                    }
-                    break;
-                }
-
-            }
-            /*
-            for(BasicEnemy e: enemiesInBattle) {
-                if(e.getTrance() == 3) {
-                    AlliedSoldier s = new AlliedSoldier();
-                    s.setHealth(e.getHealth());
-                    s.setConvertedFrom(e);
-                    friendlySoldiers.add(s);
-                }
-                
-            }
-            */
 
             //determine eheater the battle is over
             if(character.getHealth() <= 0)
@@ -618,34 +559,11 @@ public class LoopManiaWorld {
         // TODO = expand to more types of enemy
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
         List<Building> destroyedBuildings = new ArrayList<Building>();
-        for (BasicEnemy e: enemies){
+        for (BasicEnemy e: enemies) {
             e.move(character);
             int x = e.getX();
             int y = e.getY();
-            /*
-            for(Building b: buildingEntities) {
-                if(b instanceof Trap) {
-                    if(b.getX() == x && b.getY() == y) {
-                        Trap t = (Trap) b;
-                        t.dealDamage(e);
-                        if(e.getHealth() <= 0) {
-                            defeatedEnemies.add(e);
-                        }
-                        destroyedBuildings.add(b);
-                    }
-                }
-            }
-            */
         }
-        /*
-        for(BasicEnemy e: defeatedEnemies) {
-            killEnemy(e);
-        }
-        for(Building b :destroyedBuildings) {   
-            b.destroy();
-            buildingEntities.remove(b);
-        }
-        */
     }
 
     /**
