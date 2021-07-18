@@ -20,14 +20,15 @@ public class victoryFinal {
     public static boolean victory(JSONObject goals, Character c) {
         JSONObject  goal = (JSONObject) goals.get("goal");
 
-        // Recursive part 
+        // Recursive part
+        // This section is skipped if it's a basic goal
         if (goal.equals("AND") || goal.equals("OR")) {
             // Get the JSONArray and subsequently the 2 subgoals
             JSONArray subgoals = (JSONArray) goal.get("subgoals");
             JSONObject firstGoal = new JSONObject(subgoals.getString(0));
             JSONObject secondGoal = new JSONObject(subgoals.getString(1));
 
-            // Recursion to split the problem
+            // Recursion to split the problem into subproblems
             boolean firstGoalAchieved = victory(firstGoal, c);
             boolean secondGoalAchieved = victory(secondGoal, c);
 
@@ -41,16 +42,16 @@ public class victoryFinal {
             }
         }
 
-        // Recursion resulted in splitting the problem into 
+        // Recursion resulted in splitting complex goals into 
         // basic goals
         victory v;
-        if (goals.equals("gold") {
+        if (goals.equals("gold")) {
             v = new victoryGold();
         } 
-        else if (goals.equals("experience") {
+        else if (goals.equals("experience")) {
             v = new victoryExp();
         }
-        else if (goals.equals("cycle") {
+        else if (goals.equals("cycle")) {
             v = new victoryCycle();
         }
         int quantity = (int) goals.get("quantity");
