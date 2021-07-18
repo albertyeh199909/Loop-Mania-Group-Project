@@ -61,7 +61,7 @@ public class LoopManiaWorldTest {
             card = world.Card();
         }
 
-        world.convertCardToBuildingByCoordinates(world.getCardEntities().getSize(), 0, 1, 1);
+        world.convertCardToBuildingByCoordinates(world.getCardEntities().getSize() - 1, 0, 1, 1);
 
         world.runTickMoves();
         world.runTickMoves();
