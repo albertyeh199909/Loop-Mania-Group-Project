@@ -87,6 +87,10 @@ public class LoopManiaWorld {
         return height;
     }
 
+    public void addSoldier() {
+        this.friendlySoldiers.add(new AlliedSoldier());
+    }
+
     public Character getCharacter()
     {
         return this.character;

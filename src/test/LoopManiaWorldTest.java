@@ -85,8 +85,11 @@ public class LoopManiaWorldTest {
         assertEquals(2,world.getBuildingList().get(1).getX()); 
         assertEquals(2,world.getBuildingList().get(1).getY());
 
+        //add two friendly soldiers
+        world.addSoldier();
+        world.addSoldier();
         world.runBattles();
-        assertEquals(-10, world.getCharacter().getHealth());
+        assertEquals(20, world.getCharacter().getHealth());
 
     }
         @Test
