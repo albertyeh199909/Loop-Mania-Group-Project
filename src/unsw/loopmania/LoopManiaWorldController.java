@@ -287,7 +287,7 @@ public class LoopManiaWorldController {
     private void loadSword(){
         // TODO = load more types of weapon
         // start by getting first available coordinates
-        BasicItem sword = world.addUnequippedBasicItem();
+        BasicItem sword = world.addUnequippedBasicItem("Sword");
         onLoad(sword);
     }
 
