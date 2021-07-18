@@ -23,6 +23,10 @@ public class Character extends MovingEntity {
     
     //private boolean vampireCrit = false;
     
+    /** goes through the defensive strategies and set health to reflect damage taken
+     * @param damageclass damageclass that contains all damage info
+     * 
+     */
     @Override
     public DamageClass takeDamage(DamageClass damageclass) {
         for(int i = 0; i < defense.size(); i++) {
@@ -50,7 +54,11 @@ public class Character extends MovingEntity {
 
 
     }
-
+    /**
+     * deal daamge to entity based on allied soldiers and weapon strategy
+     * @param entity
+     * @param array
+     */
     public void dealDamage(BasicEnemy entity,ArrayList<AlliedSoldier> array) {
         DamageClass damageclass = damage.dealDamage(this,entity);
         for(int i = 0; i < defense.size(); i++) {

@@ -39,6 +39,7 @@ public class CharacterTest {
         path.add(new Pair<Integer, Integer>(3,3));
 
         //LoopManiaWorld world = new LoopManiaWorld(5,5, path);
+        //make sure character moves to appropriate tile
         PathPosition start = new PathPosition(2, path);
         Character player = new Character(start);
         assertEquals(player.getX(), 3);
@@ -59,6 +60,7 @@ public class CharacterTest {
         
 
         //LoopManiaWorld world = new LoopManiaWorld(5,5, path);
+        //check if equipment storing and equipping reflects the inventory correctly
         PathPosition start = new PathPosition(0, path);
         Character player = new Character(start);
         Sword sword = new Sword(20, "sword", 300,-1,-1);

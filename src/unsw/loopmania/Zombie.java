@@ -11,6 +11,9 @@ public class Zombie extends BasicEnemy {
         path = pathPosition;
     }
 
+    /** damages entity, if damageClass returns isCritical true then zombie will convert allied soldier to zombie
+     * @param entity entity to attack   
+     */
     @Override
     public void inflictDamage(MovingEntity movingEntity) {
         

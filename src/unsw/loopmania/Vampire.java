@@ -18,7 +18,9 @@ public class Vampire extends BasicEnemy {
         super.move(character);
     }
     
-
+    /** damages entity, if damageClass returns isCritical true then vampire does bonus damage for random amount of times
+     * @param entity entity to attack   
+     */
     @Override
     public void inflictDamage(MovingEntity entity) {
         int damageValue = this.damage;

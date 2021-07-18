@@ -24,8 +24,20 @@ public abstract class Card extends StaticEntity {
     public Card(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
     }
-
+    /**
+     * create building of the card 
+     * @param x position on grid to place building
+     * @param y
+     * @return
+     */
     public abstract Building createBuilding(int x, int y);
+    /**
+     * check if building can be placed on the x and y parameter of the grid
+     * @param x
+     * @param y
+     * @param path orderedPath given by World
+     * @return
+     */
     public abstract boolean checkPlaceable(int x, int y, List<Pair<Integer,Integer>> path);
     public boolean checkAdjacentTile(int x, int y, List<Pair<Integer,Integer>> path) {
         if(path.contains(new Pair<Integer, Integer>(x,y))){
@@ -47,7 +59,7 @@ public abstract class Card extends StaticEntity {
     }
 
     /**
-     * Check if a path exists
+     * Check if building is next to path tile
      * @param      x x-coordinate of a tile
      * @param      y y-coordinate of a tile
      * @param path list of path tiles
@@ -60,7 +72,7 @@ public abstract class Card extends StaticEntity {
     }
 
     /**
-     * Check if a path does not exist
+     * Check if building is not next to path tile
      * @param      x x-coordinate of a tile
      * @param      y y-coordinate of a tile
      * @param path list of path tiles
