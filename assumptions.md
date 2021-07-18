@@ -1,6 +1,8 @@
 **Combat:**
 - ~~Attack order is determined by an attack speed attribute. If two values are equal, randomise attack order.~~
 - Character doesn't need a weapon to fight.
+- Allied Soldier will take damage from monsters before player character does.
+- Critical damage deals 2X damage
 
 **Enemies:**
 - Some users want to see the battle and support radius, more experienced users may not.
@@ -29,3 +31,5 @@
 **Miscellaneous:**
 - Classes and their methods given to us is working as intended
 - Frontend classes along with simple getters and setters are not included for coverage 
+- Campfire has a radius of 1
+- Adjacent tiles include diagonal neighbors
