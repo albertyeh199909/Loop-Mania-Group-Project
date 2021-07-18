@@ -309,7 +309,7 @@ public class LoopManiaWorld {
                 int counter = 0;
                 for(BasicEnemy e: enemiesInBattle) {
                     if(!defeatedEnemies.contains(e) && counter < friendlySoldiers.size() && e.getTrance() == -1) {
-                            
+                            /*
                             AlliedSoldier s = friendlySoldiers.get(counter);
                             if(s.getHealth() > 0 && s.getTurnToZombie() == false &&counter < friendlySoldiers.size()) {
                                 e.inflictDamage(friendlySoldiers.get(counter));
@@ -319,6 +319,7 @@ public class LoopManiaWorld {
                                 counter++;
                                 s.setIsAlive(false);
                             }
+                            */
                     }
                     else if(!defeatedEnemies.contains(e) && counter >= friendlySoldiers.size() && e.getTrance() == -1){
                             e.inflictDamage(character);
