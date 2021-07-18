@@ -1,7 +1,8 @@
 package unsw.loopmania;
 
 
-
+// Abstract class which the different types of
+// buildings can extend from
 public abstract class Building extends StaticEntity {
     private String type;
     private int placement;

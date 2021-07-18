@@ -10,8 +10,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * A backend world.
- *
- * A world can contain many entities, each occupy a square. More than one
+ * can contain many entities, each occupy a square. More than one
  * entity can occupy the same square.
  */
 public class LoopManiaWorld {
@@ -20,6 +19,8 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
 
+    
+    public int cycleCounter = 0;
     /**
      * width of the world in GridPane cells
      */
@@ -49,7 +50,10 @@ public class LoopManiaWorld {
     private List<Entity> unequippedInventoryItems;
 
     // TODO = expand the range of buildings
-    private List<VampireCastleBuilding> buildingEntities;
+    private List<Building> buildingEntities;
+
+    private ArrayList<AlliedSoldier> friendlySoldiers = new ArrayList<AlliedSoldier>();
+    
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -83,6 +87,46 @@ public class LoopManiaWorld {
         return height;
     }
 
+    public void addSoldier() {
+        this.friendlySoldiers.add(new AlliedSoldier());
+    }
+
+    public Character getCharacter()
+    {
+        return this.character;
+    }
+
+    public List<Entity> getInventory() {
+        return this.unequippedInventoryItems;
+    }
+
+    public void addItem(BasicItem item) {
+        unequippedInventoryItems.add(item);
+    }
+    public int getCycleCounter() {
+        return this.cycleCounter;
+    }
+    public void addACard(Card card)
+    {
+        cardEntities.add(card);
+    }
+
+    public void addEnemy(BasicEnemy e)
+    {
+        enemies.add(e);
+    }
+
+    public List<Building> getBuildingList()
+    {
+        return buildingEntities;
+    }
+
+    public List<Card> getCardEntities()
+    {
+        return cardEntities;
+    }
+
+
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
      * @param character the character
@@ -100,6 +144,51 @@ public class LoopManiaWorld {
         // TODO = if more specialised types being added from main menu, add more methods like this with specific input types...
         nonSpecifiedEntities.add(entity);
     }
+    public int adjacentTile(Building building) {
+        int x = building.getX();
+        int y = building.getY();
+
+        for(int i = x-1; i < x+2; i++) {
+            for(int j = y-1; j < y+2;j++) {
+                if(i!=x && j!= y) {
+                    Pair<Integer,Integer> pair = new Pair<Integer, Integer>(i,j);
+                    if(orderedPath.contains(pair)) {
+                        return orderedPath.indexOf(pair);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+        // the previous world function
+        /*
+        if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y))){
+            return orderedPath.indexOf(new Pair<Integer, Integer>(x-1,y));
+        }
+        if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y+1))){
+            return orderedPath.indexOf(new Pair<Integer, Integer>(x-1,y+1));
+        }
+        if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y-1))){
+            return orderedPath.indexOf(new Pair<Integer, Integer>(x-1,y-1)) ;
+        }
+        if(orderedPath.contains(new Pair<Integer, Integer>(x+1,y))){
+            return orderedPath.indexOf(new Pair<Integer, Integer>(x+1,y)) ;
+        }
+        if(orderedPath.contains(new Pair<Integer, Integer>(x+1,y-1))){
+            return orderedPath.indexOf(new Pair<Integer, Integer>(x+1,y-1));
+        }
+        if(orderedPath.contains(new Pair<Integer, Integer>(x+1,y+1))){
+            return orderedPath.indexOf(new Pair<Integer, Integer>(x+1,y+1));
+        }
+        if(orderedPath.contains(new Pair<Integer, Integer>(x,y+1))){
+            return orderedPath.indexOf(new Pair<Integer, Integer>(x,y+1));
+        }
+        if(orderedPath.contains(new Pair<Integer, Integer>(x,y-1))){
+            return orderedPath.indexOf(new Pair<Integer, Integer>(x,y-1));
+        }
+        /*
+        return -1;
+    }
 
     /**
      * spawns enemies if the conditions warrant it, adds to world
@@ -107,11 +196,27 @@ public class LoopManiaWorld {
      */
     public List<BasicEnemy> possiblySpawnEnemies(){
         // TODO = expand this very basic version
-        Pair<Integer, Integer> pos = possiblyGetBasicEnemySpawnPosition();
+        // go through all the building try to to find zombie pit and Vampire catsle
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
+        for(int i =0; i < buildingEntities.size();i++) {
+            if(buildingEntities.get(i) instanceof ZombiePit) {
+                if(adjacentTile(buildingEntities.get(i))!= -1) {
+                    PathPosition pos = new PathPosition(adjacentTile(buildingEntities.get(i)), orderedPath);
+                    spawningEnemies.add(new Zombie(pos));
+                }
+            }
+            else if(buildingEntities.get(i) instanceof VampireCastle && cycleCounter%5 ==0) {
+                if(adjacentTile(buildingEntities.get(i))!= -1) {
+                    PathPosition pos = new PathPosition(adjacentTile(buildingEntities.get(i)), orderedPath);
+                    spawningEnemies.add(new Vampire(pos));
+                }
+            }
+        }
+        Pair<Integer, Integer> pos = possiblyGetBasicEnemySpawnPosition();
+        
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            BasicEnemy enemy = new BasicEnemy(new PathPosition(indexInPath, orderedPath));
+            BasicEnemy enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
@@ -127,21 +232,201 @@ public class LoopManiaWorld {
         enemies.remove(enemy);
     }
 
+    public boolean isAEntityInBuildingRange(Building towerOrFire, MovingEntity entity) {
+        if(!(towerOrFire instanceof Tower) && !(towerOrFire instanceof Campfire)) {
+            return false;
+        }
+        int eX = entity.getX();
+        int eY = entity.getY();
+        int x = towerOrFire.getX();
+        int y = towerOrFire.getY();
+
+        for(int i = x-1; i < x+2; i++) {
+            for(int j = y-1; j < y+2;j++) {
+                if(i!=x && j!= y) {
+                    Pair<Integer,Integer> pair = new Pair<Integer, Integer>(i,j);
+                    if(orderedPath.contains(pair)) {
+                        if(eX == i && eY == j ) { 
+                            return true;
+                        }
+                        
+                    }
+                }
+            }
+        }
+
+       
+        return false;
+    }
+
+    //####################################################################################################################################################################
+    //###################################################################################################################################################################
+
+    // helper function for runbattle
+    // check if a main character is affected by campfire
+    private boolean characterAffectedByCampfire()
+    {
+        // check wheather the character is affcected by campfire
+        boolean affectedByCampfire = false;
+
+        for(Building b: buildingEntities) {
+            if(b instanceof Campfire) {
+                if(isAEntityInBuildingRange(b,character)) {
+                    affectedByCampfire = true;
+                }
+
+            }
+        }
+        return affectedByCampfire;
+    }
+
+    // helper funtion that acutally runs one battle
+    // this function is a helper function which will be called in runbattle function
+    public void executeBattle(List<BasicEnemy> enemiesInBattle, List<BasicEnemy> defeatedEnemies) {
+        while(true) {
+                // first we want to "use" the tower first
+                // every tower will attack any enemy that entered the range
+                for(BasicEnemy e: enemiesInBattle) {
+                    for(Building b: buildingEntities) {
+                        if(b instanceof Tower && e.getHealth() > 0 && (e.getTrance() == -1)) {
+                            if(isAEntityInBuildingRange(b, e)) {
+                                Tower t = (Tower)b;
+                                t.dealDamage(e);
+                            }
+                        }
+                    }   
+                }
+                // update the defeatedEnemies
+                // if these enemies are terminated by the tower
+                for(BasicEnemy e: enemiesInBattle) {
+                    if(e.getHealth() <= 0) {
+                        defeatedEnemies.add(e);
+                    }
+                }
+
+                // the monster attack the main character
+                // we need to consider the probability of allied soidlers being converted to zombie
+                int counter = 0;
+                for(BasicEnemy e: enemiesInBattle) {
+                    if(!defeatedEnemies.contains(e) && counter < friendlySoldiers.size() && e.getTrance() == -1) {
+                            
+                            AlliedSoldier s = friendlySoldiers.get(counter);
+                            if(s.getHealth() > 0 && s.getTurnToZombie() == false &&counter < friendlySoldiers.size()) {
+                                e.inflictDamage(friendlySoldiers.get(counter));
+                                
+                            }
+                            else if (s.getHealth() <=0 || s.getTurnToZombie() == true && counter < friendlySoldiers.size()) {
+                                counter++;
+                                s.setIsAlive(false);
+                            }
+                    }
+                    else if(!defeatedEnemies.contains(e) && counter >= friendlySoldiers.size() && e.getTrance() == -1){
+                            e.inflictDamage(character);
+                    }
+                }
+                /*
+                for(AlliedSoldier s: friendlySoldiers) {
+                    if(s.getTurnToZombie()) {
+                        enemiesInBattle.add(new Zombie(s.getPath()));
+                    }
+                }
+
+                /*
+            // check wheather the character is affcected by campfire
+            boolean affectedByCampfire = characterAffectedByCampfire();
+
+            // the main character attack the monster
+            // need to consider the condition of the any enemy being converted to friendly.
+            for(BasicEnemy e : enemiesInBattle)
+            {
+                if(e.getTrance() == -1 && !(defeatedEnemies.contains(e)) && character.getHealth() > 0)
+                {
+                    // we simply let the 
+                    if(affectedByCampfire)
+                    {
+                        character.dealDamage(e, friendlySoldiers);
+                        character.dealDamage(e, friendlySoldiers);
+                    }
+                    else
+                    {
+                        character.dealDamage(e, friendlySoldiers);
+                    }
+                    break;
+                }
+
+            }
+            /*
+            for(BasicEnemy e: enemiesInBattle) {
+                if(e.getTrance() == 3) {
+                    AlliedSoldier s = new AlliedSoldier();
+                    s.setHealth(e.getHealth());
+                    s.setConvertedFrom(e);
+                    friendlySoldiers.add(s);
+                }
+                
+            }
+            */
+
+            //determine eheater the battle is over
+            if(character.getHealth() <= 0)
+            {
+                break;
+            }
+            // any there is still an undeafted enemy then simply carry on the battle
+            boolean continueBattle = false;
+            for(BasicEnemy e : enemiesInBattle)
+            {
+                if(e.getHealth() > 0 && e.getTrance() == -1)
+                    continueBattle = true;
+            }
+            if(continueBattle == false)
+                break;
+        }
+    }
+
+    //############################################################################################################################################################
+    //############################################################################################################################################################
+
     /**
      * run the expected battles in the world, based on current world state
      * @return list of enemies which have been killed
      */
     public List<BasicEnemy> runBattles() {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
+        //tower monster and players
+        // the tower will attack the adjancent enemies
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
+        List<BasicEnemy> enemiesInBattle = new ArrayList<BasicEnemy>();
+        // check all the in range enemies 
         for (BasicEnemy e: enemies){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
+            //check if character is in battle radius, if so set battle to true
+            //if battle is true, check if character in support radius
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < e.getBattleRadius()){
                 // fight...
-                defeatedEnemies.add(e);
+                
+                enemiesInBattle.add(e);
+                e.setInBattle(true);
+                //defeatedEnemies.add(e);
             }
         }
+        //if main character is in support radius, add enemy to list of combatants
+        for (BasicEnemy e: enemies){
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < e.getSupportRadius()){
+                // fight...
+                // get in battle is simply a boolean
+                if(!e.getInBattle()) {
+                    enemiesInBattle.add(e);
+                    e.setInBattle(true);
+                }
+            }
+        }
+
+        // execute the battle here !!!
+        executeBattle(enemiesInBattle, defeatedEnemies);
+
+        //remove the defated enemy after the battle
         for (BasicEnemy e: defeatedEnemies){
             // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
             // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
@@ -155,15 +440,36 @@ public class LoopManiaWorld {
      * spawn a card in the world and return the card entity
      * @return a card to be spawned in the controller as a JavaFX node
      */
-    public VampireCastleCard loadVampireCard(){
+    public Card Card(){
         // if adding more cards than have, remove the first card...
         if (cardEntities.size() >= getWidth()){
             // TODO = give some cash/experience/item rewards for the discarding of the oldest card
+            character.setExperience(character.getExperience()+100);
+            character.setGold(character.getGold()+100);
             removeCard(0);
         }
-        VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-        cardEntities.add(vampireCastleCard);
-        return vampireCastleCard;
+        Card card = null;
+        Random random = new Random();
+        // the player will be rewarded from these cards
+        // and the droprate of those cards are equally distrubted
+        switch(random.nextInt(7)) {
+            case(0):
+                card = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+            case(1):
+                card = new ZombiePitCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+            case(2):
+                card = new TowerCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+            case(3):
+                card = new BarracksCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+            case(4):
+                card = new VillageCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+            case(5):
+                card = new TrapCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+            case(6):
+                card = new CampfireCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        }
+        cardEntities.add(card);
+        return card;
     }
 
     /**
@@ -182,20 +488,25 @@ public class LoopManiaWorld {
      * spawn a sword in the world and return the sword entity
      * @return a sword to be spawned in the controller as a JavaFX node
      */
-    public Sword addUnequippedSword(){
+    public BasicItem addUnequippedBasicItem(String wantToCreate){
         // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        if (firstAvailableSlot == null){
-            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
-            // TODO = give some cash/experience rewards for the discarding of the oldest sword
-            removeItemByPositionInUnequippedInventoryItems(0);
-            firstAvailableSlot = getFirstAvailableSlotForItem();
+        BasicItem item = null;
+        switch(wantToCreate) {
+            case("Sword"):
+                item = new Sword(20, "Sword",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+            case("Staff"):
+                item = new Staff(20, "Staff",150, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+            case("Stake"):
+                item = new Stake(20, "Stake",250, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+            case("Armour"):
+                item = new Armour(20, "Armour",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+            case("Helmet"):
+                item = new Helmet(20, "Helmet",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+            case("Shield"):
+                item = new Shield(20, "Shield",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
         }
-        
-        // now we insert the new sword, as we know we have at least made a slot available...
-        Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        unequippedInventoryItems.add(sword);
-        return sword;
+        return item;
     }
 
     /**
@@ -212,8 +523,28 @@ public class LoopManiaWorld {
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves(){
+        // we expanded
         character.moveDownPath();
+        int x = character.getX();
+        int y = character.getY();
+        for(Building b : buildingEntities)
+        {
+            if(b.getX() == x && b.getY() == y)
+            {
+                if(b instanceof Village) {
+                    character.setHealth(20);
+                }   
+                else if(b instanceof Barracks) {
+                    friendlySoldiers.add(new AlliedSoldier());
+                }
+            }
+        }
+        // move the old enemies
+        // and generate the new enemies
+        // cycle counter increments by 1
         moveBasicEnemies();
+        possiblySpawnEnemies();
+        cycleCounter += 1;
     }
 
     /**
@@ -285,9 +616,36 @@ public class LoopManiaWorld {
      */
     private void moveBasicEnemies() {
         // TODO = expand to more types of enemy
+        List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
+        List<Building> destroyedBuildings = new ArrayList<Building>();
         for (BasicEnemy e: enemies){
-            e.move();
+            e.move(character);
+            int x = e.getX();
+            int y = e.getY();
+            /*
+            for(Building b: buildingEntities) {
+                if(b instanceof Trap) {
+                    if(b.getX() == x && b.getY() == y) {
+                        Trap t = (Trap) b;
+                        t.dealDamage(e);
+                        if(e.getHealth() <= 0) {
+                            defeatedEnemies.add(e);
+                        }
+                        destroyedBuildings.add(b);
+                    }
+                }
+            }
+            */
         }
+        /*
+        for(BasicEnemy e: defeatedEnemies) {
+            killEnemy(e);
+        }
+        for(Building b :destroyedBuildings) {   
+            b.destroy();
+            buildingEntities.remove(b);
+        }
+        */
     }
 
     /**
@@ -327,18 +685,26 @@ public class LoopManiaWorld {
      * @param buildingNodeX x index from 0 to width-1 of building to be added
      * @param buildingNodeY y index from 0 to height-1 of building to be added
      */
-    public VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+    public Building convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         // start by getting card
         Card card = null;
+        int pos = 0;
         for (Card c: cardEntities){
             if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)){
-                card = c;
+                pos = cardEntities.indexOf(c);
                 break;
             }
         }
-        
+        // card == null here
+        card = cardEntities.get(pos);
+        //need to check if building can be placed at tile
+        if(!card.checkPlaceable(buildingNodeX, buildingNodeY, orderedPath)) {
+            return null;
+        }
+        Building newBuilding = card.createBuilding(buildingNodeX, buildingNodeY);
+
         // now spawn building
-        VampireCastleBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+        
         buildingEntities.add(newBuilding);
 
         // destroy the card

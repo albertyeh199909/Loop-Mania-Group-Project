@@ -20,11 +20,15 @@ public class victoryFinal {
     public victoryFinal(String filename) throws FileNotFoundException {
         json = new JSONObject(new JSONTokener(new FileReader("worlds/" + filename)));
     }
-
-    // Helper function that recursively check goals
-    public boolean victory(JSONObject goal, Character c, LoopManiaWorld w) {
-
     
+    /**
+     * Helper function that recursively check goals
+     * @param goal The goal that the character needs to meet to win the game.
+     *             Uses recursion for complex goals.
+     * @param c    The character that the player controls
+     * @param w    The world that the player plays in
+     */
+    public boolean victory(JSONObject goal, Character c, LoopManiaWorld w) {
         // Recursive part
         // This section is skipped if it's a basic goal
         if (goal.getString("goal").equals("AND") || goal.getString("goal").equals("OR")) {
@@ -67,7 +71,7 @@ public class victoryFinal {
     public boolean victoryAchieved(Character c, LoopManiaWorld w) {
         // Calls helper function to read the JSON file containing the world
         JSONObject goals = new JSONObject();
-        goals = json.getJSONObject("goal-condition");
+        goals = json.getJSONObject("goal");
         // Calls helper function to recursively determine if the goals have been achieved
         return victory(goals, c,w);
     }

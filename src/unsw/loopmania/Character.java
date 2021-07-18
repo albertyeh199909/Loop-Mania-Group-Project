@@ -19,7 +19,7 @@ public class Character extends MovingEntity {
 
     private Damage damage = new UnarmedStrategy();
     private ArrayList<Defense> defense = new ArrayList<Defense>();
-    private ArrayList<MovingEntity> activeEnemies = new ArrayList<MovingEntity>();
+    
     
     //private boolean vampireCrit = false;
     
@@ -100,6 +100,10 @@ public class Character extends MovingEntity {
         return this.inventory;
     }
 
+    /**
+     * Change the wewapon the player character is wearing.
+     * @param weapon The weapon to be equipped
+     */
     public void setWeapon(BasicItem weapon) {
         if (this.weapon != null) {
             inventory.add(this.weapon);
@@ -111,6 +115,10 @@ public class Character extends MovingEntity {
         
     }
 
+    /**
+     * Change the armor the player character is wearing.
+     * @param helmet The helmet to be equipped
+     */
     public void setHelmet(Helmet helmet) {
         if (this.helmet != null) {
             inventory.add(this.helmet);
@@ -121,7 +129,10 @@ public class Character extends MovingEntity {
     }
         
     
-
+    /**
+     * Change the shield the player character is wearing.
+     * @param shield The shield to be equipped
+     */
     public void setShield(Shield shield) {
         if (this.shield != null) {
             inventory.add(this.shield);
@@ -133,6 +144,10 @@ public class Character extends MovingEntity {
         
     }
 
+    /**
+     * Change the armor the player character is wearing.
+     * @param The armor to be equipped
+     */
     public void setArmor(Armour armor) {
         if (this.armor != null) {
             inventory.add(this.armor);
@@ -142,6 +157,10 @@ public class Character extends MovingEntity {
         defense.add(0,new ArmorStrategy());
     }
 
+    /**
+     * Store an item in the player's inventory
+     * @param item The item to be stored
+     */
     public void store(Item item) {
         if(inventory.size() == 16) {
             setGold(inventory.get(0).getpurchasePrice()/4);
@@ -158,12 +177,12 @@ public class Character extends MovingEntity {
             removeItem(item);
         }
         
-    }
+    }      
         
-        
-        
-        
-    
+    /** 
+     * Changes the strategy with the player's weapon accordingly 
+     * @param weapon The weapon that the character is equipped with
+     */
     public void setStrategy(BasicItem weapon) {
         if(weapon instanceof Sword) {
             damage = new SwordStrategy();
@@ -175,6 +194,11 @@ public class Character extends MovingEntity {
             damage = new StakeStrategy();
         } 
     }
+
+    /**
+     * Removes an item from the inventory
+     * @param item The item to be removed
+     */
     public void removeItem(Item item) {
         for(int i = 0; i < inventory.size(); i++) {
             if(inventory.get(i) == item) {
