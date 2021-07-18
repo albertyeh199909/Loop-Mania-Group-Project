@@ -47,6 +47,10 @@ public class DamageClass {
         this.isCritical = isCritical;
     }
 
+    /**
+    *
+    *calculate damage, if critical hit, multiply damage and set isCritical to true
+    **/
     public int getDamage() {
         int a =  new Random().nextInt(100);
         if(a < criticalChance)
