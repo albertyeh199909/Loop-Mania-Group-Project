@@ -108,6 +108,20 @@ public class LoopManiaWorld {
     public int adjacentTile(Building building) {
         int x = building.getX();
         int y = building.getY();
+
+        for(int i = x-1; i < x+2; i++) {
+            for(int j = y-1; j < y+2;j++) {
+                if(i!=x && j!= y) {
+                    Pair<Integer,Integer> pair = new Pair<Integer, Integer>(i,j);
+                    if(orderedPath.contains(pair)) {
+                        return orderedPath.indexOf(pair);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+        /*
         if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y))){
             return orderedPath.indexOf(new Pair<Integer, Integer>(x-1,y));
         }
@@ -132,6 +146,7 @@ public class LoopManiaWorld {
         if(orderedPath.contains(new Pair<Integer, Integer>(x,y-1))){
             return orderedPath.indexOf(new Pair<Integer, Integer>(x,y-1));
         }
+        /*
         return -1;
     }
 
@@ -187,48 +202,21 @@ public class LoopManiaWorld {
         int x = towerOrFire.getX();
         int y = towerOrFire.getY();
 
-        if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y))){
-            if(eX == x - 1 && eY == y ) { 
-                return true;
+        for(int i = x-1; i < x+2; i++) {
+            for(int j = y-1; j < y+2;j++) {
+                if(i!=x && j!= y) {
+                    Pair<Integer,Integer> pair = new Pair<Integer, Integer>(i,j);
+                    if(orderedPath.contains(pair)) {
+                        if(eX == i && eY == j ) { 
+                            return true;
+                        }
+                        
+                    }
+                }
             }
         }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y+1))){
-            if(eX == x - 1 && eY == y +1) { 
-                return true;
-            }
-        }
-        
-        if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y-1))){
-            if(eX == x - 1 && eY == y-1 ) { 
-                return true;
-            }
-        }
-        
-        if(orderedPath.contains(new Pair<Integer, Integer>(x+1,y))){
-            if(eX == x + 1 && eY == y ) { 
-                return true;
-            }
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x+1,y-1))){
-            if(eX == x+1 && eY == y-1 ) { 
-                return true;
-            }
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x+1,y+1))){
-            if(eX == x + 1 && eY == y+1 ) { 
-                return true;
-            }
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x,y+1))){
-            if(eX == x && eY == y+1 ) { 
-                return true;
-            }
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x,y-1))){
-            if(eX == x && eY == y-1 ) { 
-                return true;
-            }
-        }
+
+       
         return false;
     }
 
@@ -402,7 +390,25 @@ public class LoopManiaWorld {
             character.setGold(character.getGold()+100);
             removeCard(0);
         }
-        Card card = new Card(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        Card card = null;
+        Random random = new Random();
+        switch(random.nextInt(7)) {
+            case(0):
+                card = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+            case(1):
+                card = new ZombiePitCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+            case(2):
+                card = new TowerCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+            case(3):
+                card = new BarracksCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+            case(4):
+                card = new VillageCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+            case(5):
+                card = new TrapCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+            case(6):
+                card = new CampfireCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        }
+        
         cardEntities.add(card);
         return card;
     }
@@ -623,23 +629,13 @@ public class LoopManiaWorld {
             }
         }
         //need to check if building can be placed at tile
-        Building newBuilding = null;
-        switch(card.getType()) {
-            case("VampireCastle") : 
-                newBuilding = new VampireCastle(buildingNodeX, buildingNodeY);
-            case("ZombiePit") :
-                newBuilding = new ZombiePit(buildingNodeX, buildingNodeY);
-            case("Tower") :
-                newBuilding = new Tower(buildingNodeX, buildingNodeY);
-            case("HerosCastle") :
-                newBuilding = new HerosCastle(buildingNodeX, buildingNodeY);
-            case("Trap"):
-                newBuilding = new Trap(buildingNodeX, buildingNodeY);
-            case("Campfire"):
-                newBuilding = new Campfire(buildingNodeX, buildingNodeY);
-            case("Village"):
-                newBuilding = new Village(buildingNodeX, buildingNodeY);
+        if(!card.checkPlaceable(buildingNodeX, buildingNodeY, orderedPath)) {
+            return null;
         }
+        Building newBuilding = card.createBuilding(buildingNodeX, buildingNodeY);
+
+        
+        
 
         
         // now spawn building
