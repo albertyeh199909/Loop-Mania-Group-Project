@@ -462,6 +462,10 @@ public class LoopManiaWorld {
         removeUnequippedInventoryItem(item);
     }
 
+    public Character getCharacter() {
+        return this.character;
+    }
+
     /**
      * run moves which occur with every tick without needing to spawn anything immediately
      */

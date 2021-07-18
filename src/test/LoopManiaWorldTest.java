@@ -31,14 +31,13 @@ public class LoopManiaWorldTest {
 
         LoopManiaWorld world = new LoopManiaWorld(5,5, path);
 
-        world.runTickMoves();
-
         PathPosition start = new PathPosition(1, path);
         Character player = new Character(start);
 
-        assertNotNull(player);
 
         world.setCharacter(player);
+
+        assertNotNull(world.getCharacter());
 
         world.runTickMoves();
 
