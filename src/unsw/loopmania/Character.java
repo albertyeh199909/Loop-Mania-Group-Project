@@ -51,6 +51,11 @@ public class Character extends MovingEntity {
 
     }
 
+    /**
+     * calls the take damage method of entity
+     * @param entity the entity currently being attacked
+     * @param array the array of allied soldiers the player current has
+     */
     public void dealDamage(BasicEnemy entity,ArrayList<AlliedSoldier> array) {
         DamageClass damageclass = damage.dealDamage(this,entity);
         for(int i = 0; i < defense.size(); i++) {
@@ -171,6 +176,10 @@ public class Character extends MovingEntity {
         inventory.add(item);
     }
 
+    /**
+     * Check if item is applicable, if yes calls the used method of the item
+     * @param item the item to be used
+     */
     public void useItem(Item item) {
         if(item.isApplicable()) {
             item.useItem(this);
