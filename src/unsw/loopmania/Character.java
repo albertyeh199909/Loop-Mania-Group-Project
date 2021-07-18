@@ -19,7 +19,7 @@ public class Character extends MovingEntity {
 
     private Damage damage = new UnarmedStrategy();
     private ArrayList<Defense> defense = new ArrayList<Defense>();
-    private ArrayList<MovingEntity> activeEnemies = new ArrayList<MovingEntity>();
+    
     
     //private boolean vampireCrit = false;
     

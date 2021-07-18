@@ -92,6 +92,9 @@ public class LoopManiaWorld {
         return this.character;
     }
 
+    public int getCycleCounter() {
+        return this.cycleCounter;
+    }
     public void addACard(Card card)
     {
         cardEntities.add(card);
