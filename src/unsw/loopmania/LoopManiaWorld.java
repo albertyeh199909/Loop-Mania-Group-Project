@@ -185,7 +185,7 @@ public class LoopManiaWorld {
      */
     public List<BasicEnemy> possiblySpawnEnemies(){
         // TODO = expand this very basic version
-        // go through all the buidling try to to find zombie pit and Vampire catsle
+        // go through all the building try to to find zombie pit and Vampire catsle
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         for(int i =0; i < buildingEntities.size();i++) {
             if(buildingEntities.get(i) instanceof ZombiePit) {
@@ -222,7 +222,7 @@ public class LoopManiaWorld {
     }
 
     public boolean isAEntityInBuildingRange(Building towerOrFire, MovingEntity entity) {
-        if(!(towerOrFire instanceof Tower) || !(towerOrFire instanceof Campfire)) {
+        if(!(towerOrFire instanceof Tower) && !(towerOrFire instanceof Campfire)) {
             return false;
         }
         int eX = entity.getX();
