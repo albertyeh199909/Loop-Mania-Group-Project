@@ -265,6 +265,62 @@ public class LoopManiaWorldTest {
 
 
     }
+    @Test
+    public void testSpawnZombieAndVampire() {
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair<Integer, Integer>(4,3));
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));
+        LoopManiaWorld world = new LoopManiaWorld(5,5, path);
+
+        assertEquals(5, world.getWidth());
+        assertEquals(5, world.getHeight());
+
+        // simply try to call all the functions in world
+        // and try to simulate a game
+
+        // init a charcter fisrt, 
+        PathPosition position = new PathPosition(2, path);
+        Character c = new Character(position);
+        world.setCharacter(c);
+        
+
+        //check the character is set in this position
+        assertEquals(3,c.getX());
+        assertEquals(2,c.getY());
+
+        
+        //create spawning card
+        ZombiePitCard zombiecard = new ZombiePitCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        zombiecard.setType("zombie");
+        world.addACard(zombiecard);
+
+        VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
+        vampireCastleCard.setType("Tower");
+        world.addACard(vampireCastleCard);
+        
+       
+
+        //convert the card to buiding
+        Building b1 = world.convertCardToBuildingByCoordinates(1,1,3,3);
+        assertEquals(3,world.getBuildingList().get(0).getX()); 
+        assertEquals(3,world.getBuildingList().get(0).getY()); 
+
+        // convert the card to building
+        Building b2 = world.convertCardToBuildingByCoordinates(1,2,2,2);
+        assertEquals(2,world.getBuildingList().get(1).getX()); 
+        assertEquals(2,world.getBuildingList().get(1).getY());
+
+        for(int i = 0; i<10;i++)
+            world.runTickMoves();
+    }
 
 
 

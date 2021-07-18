@@ -324,13 +324,14 @@ public class LoopManiaWorld {
                             e.inflictDamage(character);
                     }
                 }
+                /*
                 for(AlliedSoldier s: friendlySoldiers) {
                     if(s.getTurnToZombie()) {
                         enemiesInBattle.add(new Zombie(s.getPath()));
                     }
                 }
 
-            
+                /*
             // check wheather the character is affcected by campfire
             boolean affectedByCampfire = characterAffectedByCampfire();
 
@@ -621,6 +622,7 @@ public class LoopManiaWorld {
             e.move(character);
             int x = e.getX();
             int y = e.getY();
+            /*
             for(Building b: buildingEntities) {
                 if(b instanceof Trap) {
                     if(b.getX() == x && b.getY() == y) {
@@ -633,7 +635,9 @@ public class LoopManiaWorld {
                     }
                 }
             }
+            */
         }
+        /*
         for(BasicEnemy e: defeatedEnemies) {
             killEnemy(e);
         }
@@ -641,6 +645,7 @@ public class LoopManiaWorld {
             b.destroy();
             buildingEntities.remove(b);
         }
+        */
     }
 
     /**
