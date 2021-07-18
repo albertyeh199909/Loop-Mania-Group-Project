@@ -6,12 +6,45 @@ import java.lang.Math;
 /**
  * a basic form of enemy in the world
  */
-public class BasicEnemy extends MovingEntity {
+public abstract class BasicEnemy extends MovingEntity {
     // TODO = modify this, and add additional forms of enemy
     
     private int battleRadius;
     protected int damage;
     private int supportRadius;
+    private int trance = -1;
+
+    public void setTrance(int trance) {
+        this.trance = trance;
+    }
+
+    public int getTrance() {
+        return this.trance;
+    }
+
+    public int getBattleRadius() {
+        return this.battleRadius;
+    }
+
+    public void setBattleRadius(int battleRadius) {
+        this.battleRadius = battleRadius;
+    }
+
+    public int getDamage() {
+        return this.damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public int getSupportRadius() {
+        return this.supportRadius;
+    }
+
+    public void setSupportRadius(int supportRadius) {
+        this.supportRadius = supportRadius;
+    }
 
     protected MovingEntity movingEntity;
 
@@ -47,7 +80,7 @@ public class BasicEnemy extends MovingEntity {
             if (Math.abs(getX() - character.getX()) > 1 || Math.abs(getY() - character.getY()) > 1) {
                 moveUpPath();
             } else {
-                inflictDamage(character);
+                //inflictDamage(character);
             }
         }
     }
@@ -61,6 +94,10 @@ public class BasicEnemy extends MovingEntity {
 
     public boolean getInBattle() {
         return inBattle;
+    }
+
+    public void setInBattle(boolean inBattle) {
+        this.inBattle = inBattle;
     }
 
     
