@@ -1,5 +1,5 @@
 **Combat:**
-- Attack order is determined by an attack speed attribute. If two values are equal, randomise attack order.
+- ~~Attack order is determined by an attack speed attribute. If two values are equal, randomise attack order.~~
 - Character doesn't need a weapon to fight.
 
 **Enemies:**
@@ -26,3 +26,6 @@
 - All basic items have a similar drop rate when card is destroyed.
 - All card types have a similar chance of dropping.
 
+**Miscellaneous:**
+- Classes and their methods given to us is working as intended
+- Frontend classes along with simple getters and setters are not included for coverage 
