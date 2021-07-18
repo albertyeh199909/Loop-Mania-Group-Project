@@ -1,8 +1,8 @@
 package unsw.loopmania;
 import java.io.FileNotFoundException;
 
-public class whatever extends LoopManiaWorldLoader {
-    public whatever() throws FileNotFoundException
+public class worldLoader extends LoopManiaWorldLoader {
+    public worldLoader() throws FileNotFoundException
     {
         super("world_with_twists_and_turns.json");
     }
@@ -16,9 +16,9 @@ public class whatever extends LoopManiaWorldLoader {
     }
     public static void main(String[] Args)
     {
-        whatever w = null;
+        worldLoader w = null;
         try{
-            w = new whatever();
+            w = new worldLoader();
         }
         catch(FileNotFoundException e){
             System.out.println("error");
