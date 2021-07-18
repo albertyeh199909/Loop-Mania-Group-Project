@@ -108,12 +108,17 @@ public class LoopManiaWorldTest {
         Character player = new Character(start);
         world.setCharacter(player);
 
+        //randomly generates 5 cards
         for(int i = 0; i < 5; i++) {
             world.Card();
         }
+        // get the fisrt one
         Card card = world.getCardEntities().get(0);
+
+        // get the last one
         Card card1 = world.getCardEntities().get(4);
         
+        // just make sure the sequence is not changing
         world.Card();
         assertFalse(world.getCardEntities().get(0) == card);
         assertFalse(world.getCardEntities().get(4) == card1);
@@ -121,12 +126,14 @@ public class LoopManiaWorldTest {
         card1 = world.getCardEntities().get(4);
         assertTrue(world.getCardEntities().get(0) == card);
 
+        // make sure the player is rewarded if the guy
         assertEquals(player.getExperience(), 100);
         assertEquals(player.getGold(),100);
         world.Card();
         assertFalse(world.getCardEntities().get(0) == card);
         assertFalse(world.getCardEntities().get(4) == card1);
 
+        // make another new card is added so the player is rewarded more based on that
         assertEquals(player.getExperience(), 200);
         assertEquals(player.getGold(),200);
 
