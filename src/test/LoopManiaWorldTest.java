@@ -57,11 +57,11 @@ public class LoopManiaWorldTest {
 
         Card card = null;
 
-        while (card instanceof VillageCard) {
+        while (!(card instanceof VillageCard)) {
             card = world.Card();
         }
 
-        world.convertCardToBuildingByCoordinates(0, 0, 1, 1);
+        world.convertCardToBuildingByCoordinates(world.getCardEntities().getSize(), 0, 1, 1);
 
         world.runTickMoves();
         world.runTickMoves();
