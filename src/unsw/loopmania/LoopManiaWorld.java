@@ -378,6 +378,8 @@ public class LoopManiaWorld {
         return defeatedEnemies;
     }
 
+    public Character getCharacter() {return this.character;}
+
     /**
      * spawn a card in the world and return the card entity
      * @return a card to be spawned in the controller as a JavaFX node
