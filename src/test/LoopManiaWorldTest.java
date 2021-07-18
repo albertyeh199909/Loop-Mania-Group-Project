@@ -35,6 +35,7 @@ public class LoopManiaWorldTest {
         Character player = new Character(start);
 
 
+
         world.setCharacter(player);
 
         assertNotNull(world.getCharacter());
@@ -51,11 +52,24 @@ public class LoopManiaWorldTest {
         assertEquals(player.getX(), 3);
         assertEquals(player.getY(), 1);
 
+
+
+
+        Card card = null;
+
+        while (card instanceof VillageCard) {
+            card = world.Card();
+        }
+
+        world.convertCardToBuildingByCoordinates(0, 0, 1, 1);
+
         world.runTickMoves();
         world.runTickMoves();
 
         assertEquals(player.getX(), 1);
         assertEquals(player.getY(), 1);
+
+        assertEquals(player.getHealth(), 20);
 
 
 
