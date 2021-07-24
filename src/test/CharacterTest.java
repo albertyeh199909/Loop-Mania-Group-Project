@@ -53,33 +53,8 @@ public class CharacterTest {
         assertEquals(player.getY(), 1);
     }
 
-    @Test
-    public void testInventory() {
-        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
-        path.add(new Pair<Integer, Integer>(4,3));
-        
-
-        //LoopManiaWorld world = new LoopManiaWorld(5,5, path);
-        //check if equipment storing and equipping reflects the inventory correctly
-        PathPosition start = new PathPosition(0, path);
-        Character player = new Character(start);
-        Sword sword = new Sword(20, "sword", 300,-1,-1);
-        player.store(sword);
-        assertTrue(player.getInventory().contains(sword));
-        player.setWeapon(sword);
-        assertFalse(player.getInventory().contains(sword));
-        assertEquals(player.getWeapon(), sword);
-        assertTrue(player.getDamage() instanceof SwordStrategy);
-        Potion potion = new Potion(10, "potion", 10,-1,-1);
-        player.store(potion);
-        //sword is equipped so it's not in inventory
-        assertFalse(player.getInventory().contains(sword));
-        player.useItem(potion);
-        assertFalse(player.getInventory().contains(potion));
-
-
-
-    }
+   
+    
 
     @Test
     public void testDamage() {
@@ -109,7 +84,7 @@ public class CharacterTest {
         assertEquals(2, slug.getHealth());
         //test stake damage against basic enemy and against vampire
         BasicItem stake = new Stake(10,"stake",100,-1,-1);
-        player.store(stake);
+        
         player.setWeapon(stake);
         player.dealDamage(slug,array);
         assertEquals(-1, slug.getHealth());
@@ -118,7 +93,7 @@ public class CharacterTest {
         //test sword damage
         vampire.setHealth(10);
         BasicItem sword = new Sword(10, "sword", 200,-1,-1);
-        player.store(sword);
+        
         player.setWeapon(sword);
         player.dealDamage(vampire,array);
         assertEquals(6, vampire.getHealth());
@@ -155,7 +130,7 @@ public class CharacterTest {
         
         //test helmet defence and damage reduction
         Helmet helmet = new Helmet(10, "helmet", 100,-1,-1);
-        player.store(helmet);
+        
         player.setHelmet(helmet);
         ArrayList<AlliedSoldier> array = new ArrayList<AlliedSoldier>();
         player.dealDamage(slug,array);
@@ -167,7 +142,7 @@ public class CharacterTest {
 
         //test armor and armor damage reduction, armor should take priority over helmet for damage calculations
         Armour armor = new Armour(10, "Armour", 100,-1,-1);
-        player.store(armor);
+        
         player.setArmor(armor);
 
         damage = new DamageClass(vampire, 10, 0);
@@ -176,7 +151,7 @@ public class CharacterTest {
 
         //test if shield reduces vampire crit chance by 60%
         Shield shield = new Shield(10, "Shield", 100,-1,-1);
-        player.store(shield);
+        
         player.setShield(shield);
 
         damage = new DamageClass(vampire, 10, 10);
@@ -188,24 +163,5 @@ public class CharacterTest {
 
     }
     
-    @Test
-    public void testInventoryLimit() {
-        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
-        path.add(new Pair<Integer, Integer>(4,3));
-        
-
-        //LoopManiaWorld world = new LoopManiaWorld(5,5, path);
-        PathPosition start = new PathPosition(0, path);
-        Character player = new Character(start);
-        
-        for(int i = 1; i < 17; i++) {
-            player.store(new Sword(20, "sword", i*100,-1,-1));
-        }
-        player.store(new Sword(20, "sword", 1700,-1,-1));
-        //assert player gets experience and gold, and oldest item disappears
-        assertEquals(50, player.getExperience());
-        assertEquals(25, player.getGold());
-        assertEquals(200, player.getInventory().get(0).getpurchasePrice());
-        
-    }
+    
 }

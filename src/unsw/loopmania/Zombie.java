@@ -21,9 +21,12 @@ public class Zombie extends BasicEnemy {
         
         if (movingEntity instanceof AlliedSoldier && damageClass.getIsCritical()) {
                 // Turn alliedSoldier to zombie
+            
             AlliedSoldier s = (AlliedSoldier)movingEntity;
-            s.setTurnToZombie(true);    
-            s.setPath(path);
+            if(s.getConvertedFrom() == null) {
+                s.setTurnToZombie(true);    
+                s.setPath(path);
+            }
         }
         
     }

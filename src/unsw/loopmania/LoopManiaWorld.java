@@ -324,63 +324,92 @@ public class LoopManiaWorld {
                             e.inflictDamage(character);
                     }
                 }
-                /*
-                for(AlliedSoldier s: friendlySoldiers) {
+                
+                //if an allied soilder is turned to a zombie
+                ArrayList<AlliedSoldier> RemoveAlliedSoldierL = new ArrayList<AlliedSoldier>();
+                // get the list of friendly soliders to be removed 
+                for(AlliedSoldier s: friendlySoldiers) 
+                {
                     if(s.getTurnToZombie()) {
+                        RemoveAlliedSoldierL.add(s);
                         enemiesInBattle.add(new Zombie(s.getPath()));
                     }
                 }
-
-                /*
-            // check wheather the character is affcected by campfire
-            boolean affectedByCampfire = characterAffectedByCampfire();
-
-            // the main character attack the monster
-            // need to consider the condition of the any enemy being converted to friendly.
-            for(BasicEnemy e : enemiesInBattle)
-            {
-                if(e.getTrance() == -1 && !(defeatedEnemies.contains(e)) && character.getHealth() > 0)
+                //remove the allied soilder that turned into a zombie
+                for(AlliedSoldier a: RemoveAlliedSoldierL)
                 {
-                    // we simply let the 
-                    if(affectedByCampfire)
-                    {
-                        character.dealDamage(e, friendlySoldiers);
-                        character.dealDamage(e, friendlySoldiers);
-                    }
-                    else
-                    {
-                        character.dealDamage(e, friendlySoldiers);
-                    }
-                    break;
-                }
-
-            }
-            /*
-            for(BasicEnemy e: enemiesInBattle) {
-                if(e.getTrance() == 3) {
-                    AlliedSoldier s = new AlliedSoldier();
-                    s.setHealth(e.getHealth());
-                    s.setConvertedFrom(e);
-                    friendlySoldiers.add(s);
+                    if(friendlySoldiers.contains(a))
+                        friendlySoldiers.remove(a);     
                 }
                 
-            }
-            */
+                
+                // check wheather the character is affcected by campfire
+                boolean affectedByCampfire = characterAffectedByCampfire();
 
-            //determine eheater the battle is over
-            if(character.getHealth() <= 0)
-            {
-                break;
-            }
-            // any there is still an undeafted enemy then simply carry on the battle
-            boolean continueBattle = false;
-            for(BasicEnemy e : enemiesInBattle)
-            {
-                if(e.getHealth() > 0 && e.getTrance() == -1)
-                    continueBattle = true;
-            }
-            if(continueBattle == false)
-                break;
+                // the main character attack the monster
+                // need to consider the condition of the any enemy being converted to friendly.
+                for(BasicEnemy e : enemiesInBattle)
+                {
+                    if(e.getTrance() == -1 && !(defeatedEnemies.contains(e)) && character.getHealth() > 0)
+                    {
+                        // we simply let the 
+                        if(affectedByCampfire)
+                        {
+                            character.dealDamage(e, friendlySoldiers);
+                            character.dealDamage(e, friendlySoldiers);
+                        }
+                        else
+                        {
+                            character.dealDamage(e, friendlySoldiers);
+                        }
+                        break;
+                    }
+
+                }
+                
+                for(BasicEnemy e: enemiesInBattle) {
+                    if(e.getTrance() == 3) {
+                        AlliedSoldier s = new AlliedSoldier();
+                        s.setHealth(e.getHealth());
+                        s.setConvertedFrom(e);
+                        friendlySoldiers.add(s);
+                    }
+                    
+                }
+                
+                //for every enemed tranced, decrement time left of trance
+                for(BasicEnemy e: enemiesInBattle) 
+                    if(e.getTrance() != -1) 
+                        e.setTrance(e.getTrance() - 1);
+                    
+                    if(e.getTrance() == 0) {
+                        e.setTrance(-1);
+                        for()
+                    }
+
+                
+
+                    
+                    
+                
+                
+
+                // we need function to indicate the character has lost the battle
+
+                //determine eheater the battle is over
+                if(character.getHealth() <= 0)
+                {
+                    break;
+                }
+                // any there is still an undeafted enemy then simply carry on the battle
+                boolean continueBattle = false;
+                for(BasicEnemy e : enemiesInBattle)
+                {
+                    if(e.getHealth() > 0 && e.getTrance() == -1)
+                        continueBattle = true;
+                }
+                if(continueBattle == false)
+                    break;
         }
     }
 
