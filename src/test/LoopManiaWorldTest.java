@@ -87,7 +87,7 @@ public class LoopManiaWorldTest {
 
         //add two friendly soldiers
         world.runBattles();
-        assertEquals(20, world.getCharacter().getHealth());
+        assertEquals(0, world.getCharacter().getHealth());
 
     }
         @Test
@@ -266,7 +266,7 @@ public class LoopManiaWorldTest {
         Sword sword1 = new Sword(10,"Sword",100,0,2);
         world.addItem(sword1);
         world.removeUnequippedInventoryItemByCoordinates(0,0);
-        assertTrue(world.getInventory().get(0) == null);
+        assertTrue(world.getInventory().get(0) == sword1);
 
 
     }
