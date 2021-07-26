@@ -49,12 +49,15 @@ public class LoopManiaWorld {
     // TODO = expand the range of items
     private List<Entity> unequippedInventoryItems;
 
+    // The lisr of equippedItems
+    private List<Entity> equippedInventoryItems;
+
+
     // TODO = expand the range of buildings
     private List<Building> buildingEntities;
 
     private ArrayList<AlliedSoldier> friendlySoldiers = new ArrayList<AlliedSoldier>();
     
-
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
      */
@@ -158,35 +161,6 @@ public class LoopManiaWorld {
                 }
             }
         }
-        return -1;
-    }
-        // the previous world function
-        /*
-        if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x-1,y));
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y+1))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x-1,y+1));
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x-1,y-1))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x-1,y-1)) ;
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x+1,y))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x+1,y)) ;
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x+1,y-1))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x+1,y-1));
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x+1,y+1))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x+1,y+1));
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x,y+1))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x,y+1));
-        }
-        if(orderedPath.contains(new Pair<Integer, Integer>(x,y-1))){
-            return orderedPath.indexOf(new Pair<Integer, Integer>(x,y-1));
-        }
-        /*
         return -1;
     }
 
@@ -376,27 +350,35 @@ public class LoopManiaWorld {
                     }
                     
                 }
+
+                // if an alliedSoilder is converted back to enemy, then remove the allied soilder
+                ArrayList<AlliedSoldier> RemoveAlliedSoldierL1  = new ArrayList<AlliedSoldier>();
                 
                 //for every enemed tranced, decrement time left of trance
-                for(BasicEnemy e: enemiesInBattle) 
+                for(BasicEnemy e: enemiesInBattle) {
                     if(e.getTrance() != -1) 
                         e.setTrance(e.getTrance() - 1);
                     
-                    if(e.getTrance() == 0) {
+                    if(e.getTrance() == 0)
+                    {
                         e.setTrance(-1);
-                        for()
+                        for(AlliedSoldier s: friendlySoldiers) 
+                        {
+                            if(s.getConvertedFrom() != null && s.getConvertedFrom() == e) {
+                                RemoveAlliedSoldierL1.add(s); 
+                            }
+                        } 
                     }
-
+                }
                 
+                //remove the allied soilder that turned into a zombie
+                for(AlliedSoldier a: RemoveAlliedSoldierL1)
+                {
+                    if(friendlySoldiers.contains(a))
+                        friendlySoldiers.remove(a);     
+                }
 
-                    
-                    
-                
-                
-
-                // we need function to indicate the character has lost the battle
-
-                //determine eheater the battle is over
+                //determine whether the battle is over
                 if(character.getHealth() <= 0)
                 {
                     break;
@@ -437,6 +419,7 @@ public class LoopManiaWorld {
                 
                 enemiesInBattle.add(e);
                 e.setInBattle(true);
+                System.out.println(e.getHealth());
                 //defeatedEnemies.add(e);
             }
         }
@@ -455,11 +438,14 @@ public class LoopManiaWorld {
         // execute the battle here !!!
         executeBattle(enemiesInBattle, defeatedEnemies);
 
+        // we need function to indicate the character has lost the battle
+
         //remove the defated enemy after the battle
         for (BasicEnemy e: defeatedEnemies){
             // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
             // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
+            System.out.println("KILLL");
             killEnemy(e);
         }
         return defeatedEnemies;
@@ -535,6 +521,7 @@ public class LoopManiaWorld {
             case("Shield"):
                 item = new Shield(20, "Shield",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
         }
+        unequippedInventoryItems.add(item);
         return item;
     }
 
@@ -571,6 +558,7 @@ public class LoopManiaWorld {
         // move the old enemies
         // and generate the new enemies
         // cycle counter increments by 1
+        runBattles();
         moveBasicEnemies();
         possiblySpawnEnemies();
         cycleCounter += 1;
@@ -743,4 +731,67 @@ public class LoopManiaWorld {
 
         return newBuilding;
     }
+
+
+// how do we interchange equipments
+// assume the player can only grag items from unequipped inventory to equipped inventory 
+
+
+
+    public void equip(Item e)
+    {
+        
+        if(checkEquip(e.getType())!=null) {
+            Item item = checkEquip(e.getType());
+            equippedInventoryItems.remove(item);
+            Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+            unequippedInventoryItems.add(item);
+            item.setX(firstAvailableSlot.getValue0());
+            item.setY(firstAvailableSlot.getValue1());
+        } 
+        equippedInventoryItems.add(e);
+        switch(e.getType()) {
+            
+            case("Shield"):            
+                character.setShield((Shield)e);
+                e.setX(3);
+                e.setY(0);
+            case("Sword"):
+                character.setWeapon((Sword)e);
+                e.setX(0);
+                e.setY(0);
+            case("Helmet"):
+                character.setHelmet((Helmet)e);
+                e.setX(1);
+                e.setY(0);
+            case("Armour"):
+                character.setArmor((Armour)e);
+                e.setX(2);
+                e.setY(0);
+            case("Staff"):
+                character.setWeapon((Staff)e);
+                e.setX(0);
+                e.setY(0);
+            case("Stake"):
+                character.setWeapon((Stake)e);
+                e.setX(0);
+                e.setY(0);
+        }
+            
+    }
+    
+
+        private Item checkEquip(String type) {
+            for(Entity e: equippedInventoryItems) {
+                Item i = (Item)e;
+                if(type == i.getType()) {
+                    return i;
+                }
+            }
+            return null;
+        }
+    
+
+
 }
+

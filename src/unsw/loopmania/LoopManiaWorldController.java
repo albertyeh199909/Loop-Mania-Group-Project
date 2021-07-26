@@ -402,6 +402,11 @@ public class LoopManiaWorldController {
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
                                 removeItemByCoordinates(nodeX, nodeY);
+                                /*
+                                if(targetGridPane.getRowIndex()) {
+                                    world.equip
+                                }
+                                */
                                 targetGridPane.add(image, x, y, 1, 1);
                                 break;
                             default:
