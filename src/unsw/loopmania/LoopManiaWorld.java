@@ -180,6 +180,7 @@ public class LoopManiaWorld {
                 }
             }
             else if(buildingEntities.get(i) instanceof VampireCastle && cycleCounter%5 ==0) {
+                
                 if(adjacentTile(buildingEntities.get(i))!= -1) {
                     PathPosition pos = new PathPosition(adjacentTile(buildingEntities.get(i)), orderedPath);
                     spawningEnemies.add(new Vampire(pos));
@@ -467,22 +468,28 @@ public class LoopManiaWorld {
         Random random = new Random();
         // the player will be rewarded from these cards
         // and the droprate of those cards are equally distrubted
-        switch(random.nextInt(7)) {
-            case(0):
-                card = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-            case(1):
-                card = new ZombiePitCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-            case(2):
-                card = new TowerCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-            case(3):
-                card = new BarracksCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-            case(4):
-                card = new VillageCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-            case(5):
-                card = new TrapCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-            case(6):
-                card = new CampfireCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-        }
+        // 
+
+        int value = random.nextInt(7);
+
+        if(value == 0)
+            card = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        else if(value == 1)
+            card = new ZombiePitCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        else if(value == 2)
+            card = new TowerCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        else if(value == 3)
+            card = new BarracksCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        else if(value == 4)
+            card = new VillageCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        else if(value == 5)
+            card = new TrapCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        else if(value == 6)
+            card = new CampfireCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        else
+            System.out.println("EXCEPTION erros at line around 490 filename: World");
+        
+        System.out.println("value " + value);
         cardEntities.add(card);
         return card;
     }
@@ -510,16 +517,22 @@ public class LoopManiaWorld {
         switch(wantToCreate) {
             case("Sword"):
                 item = new Sword(20, "Sword",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
             case("Staff"):
                 item = new Staff(20, "Staff",150, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
             case("Stake"):
                 item = new Stake(20, "Stake",250, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
             case("Armour"):
                 item = new Armour(20, "Armour",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
             case("Helmet"):
                 item = new Helmet(20, "Helmet",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
             case("Shield"):
                 item = new Shield(20, "Shield",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
         }
         unequippedInventoryItems.add(item);
         return item;
@@ -543,8 +556,12 @@ public class LoopManiaWorld {
         character.moveDownPath();
         int x = character.getX();
         int y = character.getY();
+
+    
+
         for(Building b : buildingEntities)
         {
+            
             if(b.getX() == x && b.getY() == y)
             {
                 if(b instanceof Village) {
@@ -558,6 +575,7 @@ public class LoopManiaWorld {
         // move the old enemies
         // and generate the new enemies
         // cycle counter increments by 1
+
         runBattles();
         moveBasicEnemies();
         possiblySpawnEnemies();
@@ -751,31 +769,36 @@ public class LoopManiaWorld {
         } 
         equippedInventoryItems.add(e);
         switch(e.getType()) {
-            
             case("Shield"):            
                 character.setShield((Shield)e);
                 e.setX(3);
                 e.setY(0);
+                break;
             case("Sword"):
                 character.setWeapon((Sword)e);
                 e.setX(0);
                 e.setY(0);
+                break;
             case("Helmet"):
                 character.setHelmet((Helmet)e);
                 e.setX(1);
                 e.setY(0);
+                break;
             case("Armour"):
                 character.setArmor((Armour)e);
                 e.setX(2);
                 e.setY(0);
+                break;
             case("Staff"):
                 character.setWeapon((Staff)e);
                 e.setX(0);
                 e.setY(0);
+                break;
             case("Stake"):
                 character.setWeapon((Stake)e);
                 e.setX(0);
                 e.setY(0);
+                break;
         }
             
     }
