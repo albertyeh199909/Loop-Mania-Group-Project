@@ -116,6 +116,8 @@ public class LoopManiaWorldController {
 
     private Image vampireCastleCardImage;
     private Image basicEnemyImage;
+    private Image vampireImage;
+    private Image zombieImage;
     private Image swordImage;
     private Image basicBuildingImage;
 
@@ -166,6 +168,8 @@ public class LoopManiaWorldController {
         entityImages = new ArrayList<>(initialEntities);
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
         basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
+        vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
+        zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
         basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
         currentlyDraggedImage = null;
@@ -338,7 +342,11 @@ public class LoopManiaWorldController {
      * @param enemy
      */
     private void onLoad(BasicEnemy enemy) {
-        ImageView view = new ImageView(basicEnemyImage);
+        ImageView view = null;
+        if (enemy instanceof Slug) view = new ImageView(basicEnemyImage);
+        if (enemy instanceof Vampire) view = new ImageView(vampireImage);
+        if (enemy instanceof Zombie) view = new ImageView(zombieImage);
+
         addEntity(enemy, view);
         squares.getChildren().add(view);
     }
