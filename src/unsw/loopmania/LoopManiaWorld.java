@@ -20,7 +20,7 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryHeight = 4;
 
     
-    public int cycleCounter = 0;
+    public int cycleCounter = 1;
     /**
      * width of the world in GridPane cells
      */
@@ -30,7 +30,14 @@ public class LoopManiaWorld {
      * height of the world in GridPane cells
      */
     private int height;
-
+    
+    /*
+    *
+    */
+    private int initMainCharacterPosX;
+    private int initMainCharacterPosY;
+    private int VampireSpawnChecker = 0;
+    private int ZombieSpawnChecker = 0;
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
@@ -136,6 +143,9 @@ public class LoopManiaWorld {
      */
     public void setCharacter(Character character) {
         this.character = character;
+        // retrive the pos of the character
+        this.initMainCharacterPosX = character.getX();
+        this.initMainCharacterPosY = character.getY();
     }
 
     /**
@@ -171,19 +181,33 @@ public class LoopManiaWorld {
     public List<BasicEnemy> possiblySpawnEnemies(){
         // TODO = expand this very basic version
         // go through all the building try to to find zombie pit and Vampire catsle
+
+        
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         for(int i =0; i < buildingEntities.size();i++) {
             if(buildingEntities.get(i) instanceof ZombiePit) {
                 if(adjacentTile(buildingEntities.get(i))!= -1) {
                     PathPosition pos = new PathPosition(adjacentTile(buildingEntities.get(i)), orderedPath);
-                    spawningEnemies.add(new Zombie(pos));
+                    if(cycleCounter != ZombieSpawnChecker)
+                    {
+                        Zombie zombie = new Zombie(pos);
+                        spawningEnemies.add(zombie);
+                        enemies.add(zombie);
+                        ZombieSpawnChecker = cycleCounter;
+                    }
                 }
             }
             else if(buildingEntities.get(i) instanceof VampireCastle && cycleCounter%5 ==0) {
                 
                 if(adjacentTile(buildingEntities.get(i))!= -1) {
                     PathPosition pos = new PathPosition(adjacentTile(buildingEntities.get(i)), orderedPath);
-                    spawningEnemies.add(new Vampire(pos));
+                    if(cycleCounter != VampireSpawnChecker)
+                    {
+                        Vampire v = new Vampire(pos);
+                        spawningEnemies.add(v);
+                        enemies.add(v);
+                        VampireSpawnChecker = cycleCounter;
+                    }
                 }
             }
         }
@@ -415,12 +439,11 @@ public class LoopManiaWorld {
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
             //check if character is in battle radius, if so set battle to true
             //if battle is true, check if character in support radius
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < e.getBattleRadius()){
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <=  Math.pow(e.getBattleRadius(),2)){
                 // fight...
-                
-                enemiesInBattle.add(e);
                 e.setInBattle(true);
-                System.out.println(e.getHealth());
+                enemiesInBattle.add(e);
+                System.out.println(e.getClass());
                 //defeatedEnemies.add(e);
             }
         }
@@ -430,12 +453,13 @@ public class LoopManiaWorld {
                 // fight...
                 // get in battle is simply a boolean
                 if(!e.getInBattle()) {
-                    enemiesInBattle.add(e);
                     e.setInBattle(true);
+                    enemiesInBattle.add(e);
                 }
             }
         }
 
+        System.out.println(character.getHealth());
         // execute the battle here !!!
         executeBattle(enemiesInBattle, defeatedEnemies);
 
@@ -470,26 +494,24 @@ public class LoopManiaWorld {
         // and the droprate of those cards are equally distrubted
         // 
 
-        int value = random.nextInt(7);
+        int value = random.nextInt(1);
 
-        if(value == 0)
+        if(value == -1)
             card = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-        else if(value == 1)
+        else if(value == -1)
             card = new ZombiePitCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-        else if(value == 2)
+        else if(value == -1)
             card = new TowerCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-        else if(value == 3)
+        else if(value == -1)
             card = new BarracksCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-        else if(value == 4)
+        else if(value == 0)
             card = new VillageCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-        else if(value == 5)
+        else if(value == -1)
             card = new TrapCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-        else if(value == 6)
+        else if(value == -1)
             card = new CampfireCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
         else
             System.out.println("EXCEPTION erros at line around 490 filename: World");
-        
-        System.out.println("value " + value);
         cardEntities.add(card);
         return card;
     }
@@ -557,8 +579,6 @@ public class LoopManiaWorld {
         int x = character.getX();
         int y = character.getY();
 
-    
-
         for(Building b : buildingEntities)
         {
             
@@ -578,8 +598,13 @@ public class LoopManiaWorld {
 
         runBattles();
         moveBasicEnemies();
-        possiblySpawnEnemies();
-        cycleCounter += 1;
+        incrementCycleCounter(x,y);
+    }
+
+    public void incrementCycleCounter(int x, int y)
+    {
+        if(x == this.initMainCharacterPosX && y == this.initMainCharacterPosY)
+            this.cycleCounter += 1;
     }
 
     /**
@@ -753,7 +778,6 @@ public class LoopManiaWorld {
 
 // how do we interchange equipments
 // assume the player can only grag items from unequipped inventory to equipped inventory 
-
 
 
     public void equip(Item e)

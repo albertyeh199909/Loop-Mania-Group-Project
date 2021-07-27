@@ -39,9 +39,7 @@ public class Character extends MovingEntity {
         setHealth(getHealth() - damageclass.getDamage()); 
        
 
-        if(getHealth() < 0)  {
-            //world.loseGame();
-        }
+        
         return damageclass;
 
 

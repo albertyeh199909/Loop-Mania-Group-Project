@@ -40,7 +40,6 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
         entities = new ArrayList<>();
         characterImage = new Image((new File("src/images/human_new.png")).toURI().toString());
         pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
-        
         iZombie = new Image((new File("src/images/zombie.png")).toURI().toString());
     }
 
