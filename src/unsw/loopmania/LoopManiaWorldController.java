@@ -139,7 +139,7 @@ public class LoopManiaWorldController {
     private Image stakeImage;
     //armours
     private Image shieldImage;
-    private Image amourImage;
+    private Image armourImage;
     private Image helmetImage;
     //potions
     private Image potionImage;
@@ -197,6 +197,7 @@ public class LoopManiaWorldController {
     public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities) {
         this.world = world;
         entityImages = new ArrayList<>(initialEntities);
+        // pics of cards
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
         towerCardImage = new Image((new File("src/images/tower_card.png")).toURI().toString());
         trapCardImage = new Image((new File("src/images/trap_card.png")).toURI().toString());
@@ -205,16 +206,36 @@ public class LoopManiaWorldController {
         villageCardImage = new Image((new File("src/images/village_card.png")).toURI().toString());
         barrackCardImage = new Image((new File("src/images/barracks_card.png")).toURI().toString());
 
-
-        
-        slugImage = new Image((new File("src/images/slug.png")).toURI().toString());
-        swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
+        // pics for buildings
         vampireCastleImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        towerImage = new Image((new File("src/images/tower.png")).toURI().toString());
+        zombiePitImage = new Image((new File("src/images/zombie_pit.png")).toURI().toString());
+        trapImage = new Image((new File("src/images/trap.png")).toURI().toString());
+        campFireImage = new Image((new File("src/images/campfire.png")).toURI().toString());
+        villageImage = new Image((new File("src/images/village.png")).toURI().toString());
+        barrackImage = new Image((new File("src/images/barracks.png")).toURI().toString());
+
+        // pics for enemies
+        vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
+        zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());        
+        slugImage = new Image((new File("src/images/slug.png")).toURI().toString());
+        
+        //equipments
+        //weapons
+        helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
+        armourImage = new Image((new File("src/images/armour.png")).toURI().toString());
+        shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
+        // armours
+        swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
+        staffImage = new Image((new File("src/images/staff.png")).toURI().toString());
+        stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
+        //potions
+        potionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+        //The Ring
+        theRingImage = new Image((new File("src/images/the_one_ring.png")).toURI().toString());
+        
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
-        vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
-        zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());
-
 
         // initialize them all...
         gridPaneSetOnDragDropped = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
@@ -276,7 +297,7 @@ public class LoopManiaWorldController {
         System.out.println("starting timer");
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
-        timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
             world.runTickMoves();
             List<BasicEnemy> defeatedEnemies = world.runBattles();
             for (BasicEnemy e: defeatedEnemies){
@@ -333,8 +354,8 @@ public class LoopManiaWorldController {
     private void loadSword(){
         // TODO = load more types of weapon
         // start by getting first available coordinates
-        BasicItem sword = world.addUnequippedBasicItem("Sword");
-        onLoad(sword);
+        BasicItem item = world.addUnequippedBasicItem();
+        onLoad(item);
     }
 
     /**
@@ -363,8 +384,8 @@ public class LoopManiaWorldController {
             view = new ImageView(towerCardImage);
         else if (card instanceof ZombiePitCard) 
             view = new ImageView(zombiePitCardImage);
-        else if (card instanceof TowerCard) 
-            view = new ImageView(towerCardImage);
+        else if (card instanceof TrapCard) 
+            view = new ImageView(trapCardImage);
         else if (card instanceof BarracksCard) 
             view = new ImageView(barrackCardImage);
         else if (card instanceof VillageCard) 
@@ -372,7 +393,7 @@ public class LoopManiaWorldController {
         else if (card instanceof CampfireCard)
             view = new ImageView(campFireCardImage);
         else
-            System.out.println("error at around line 370 file controller");
+            System.out.println("error at around line 380 file controller");
             
 
         // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
@@ -389,10 +410,27 @@ public class LoopManiaWorldController {
      * and load the image into the unequippedInventory GridPane.
      * @param sword
      */
-    private void onLoad(BasicItem sword) {
-        ImageView view = new ImageView(swordImage);
+    private void onLoad(BasicItem basicitem) {
+        ImageView view = null;
+        if (basicitem instanceof Sword) 
+            view = new ImageView(swordImage);
+        else if (basicitem instanceof Staff) 
+            view = new ImageView(staffImage);
+        else if (basicitem instanceof Stake) 
+            view = new ImageView(stakeImage);
+        else if (basicitem instanceof Armour) 
+            view = new ImageView(armourImage);
+        else if (basicitem instanceof Helmet) 
+            view = new ImageView(helmetImage);
+        else if (basicitem instanceof Shield) 
+            view = new ImageView(shieldImage);
+        else if (basicitem instanceof Potion)
+            view = new ImageView(potionImage);
+        else
+            System.out.println("error at around line 380 file controller");
+        
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
-        addEntity(sword, view);
+        addEntity(basicitem, view);
         unequippedInventory.getChildren().add(view);
     }
 
@@ -422,8 +460,8 @@ public class LoopManiaWorldController {
             view = new ImageView(towerImage);
         else if (building instanceof ZombiePit) 
             view = new ImageView(zombiePitImage);
-        else if (building instanceof Tower) 
-            view = new ImageView(towerImage);
+        else if (building instanceof Trap) 
+            view = new ImageView(trapImage);
         else if (building instanceof Barracks) 
             view = new ImageView(barrackImage);
         else if (building instanceof Village) 
