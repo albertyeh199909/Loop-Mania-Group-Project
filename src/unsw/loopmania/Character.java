@@ -63,7 +63,7 @@ public class Character extends MovingEntity {
 
     public Character(PathPosition position) {
         super(position);
-        setHealth(20);
+        setHealth(10000);
     }
 
     public Damage getDamage() {

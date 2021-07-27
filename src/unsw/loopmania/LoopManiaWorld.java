@@ -534,6 +534,13 @@ public class LoopManiaWorld {
      */
     public BasicItem addUnequippedBasicItem(){
         // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
+        if(unequippedInventoryItems.size() >= (unequippedInventoryWidth * unequippedInventoryHeight))
+        {
+            removeItemByPositionInUnequippedInventoryItems(0);
+            
+            character.setGold(100);
+            character.setExperience(100);
+        }
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         BasicItem item = null;
 
@@ -555,6 +562,9 @@ public class LoopManiaWorld {
         else
             System.out.println("EXCEPTION erros at line around 550 filename: World");
 
+        //check if inventory is full, then remove the first item
+        
+    
         unequippedInventoryItems.add(item);
         return item;
     }
