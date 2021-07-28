@@ -15,6 +15,7 @@
 **Equipment:**
 - Equipment is vague in its description. Assumption is that (e.g. for armour), "provides defence" equals "halves enemy attack".
 - Assumes armor takes priority before helmet for damage reduction
+- Assumes tree stump is also has the same function as basic shield
 
 **Inventory:**
 - Health potion is added to inventory for later consumption instead of automatically being consumed.
