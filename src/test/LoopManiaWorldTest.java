@@ -18,7 +18,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 import java.io.FileNotFoundException;
 
-/*
+
 
 public class LoopManiaWorldTest {
     // the rest is by Harrington, Albert and james 
@@ -243,13 +243,6 @@ public class LoopManiaWorldTest {
         path.add(new Pair<Integer, Integer>(3,3));
 
         LoopManiaWorld world = new LoopManiaWorld(5,5, path);
-        assertTrue(world.addUnequippedBasicItem("Sword") instanceof Sword);
-        assertTrue(world.addUnequippedBasicItem("Staff") instanceof Staff);
-        assertTrue(world.addUnequippedBasicItem("Stake") instanceof Stake);
-        assertTrue(world.addUnequippedBasicItem("Helmet") instanceof Helmet);
-        assertTrue(world.addUnequippedBasicItem("Armour") instanceof Armour);
-        assertTrue(world.addUnequippedBasicItem("Shield") instanceof Shield);
-
     }
 
     @Test 
@@ -335,7 +328,7 @@ public class LoopManiaWorldTest {
 
       
 }
-*/
+
 
 
 

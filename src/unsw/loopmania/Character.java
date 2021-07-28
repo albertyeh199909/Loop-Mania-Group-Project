@@ -14,11 +14,13 @@ public class Character extends MovingEntity {
     private Shield shield;
     private int gold;
     private int experience = 0;
-
     
 
     private Damage damage = new UnarmedStrategy();
     private ArrayList<Defense> defense = new ArrayList<Defense>();
+
+    // the Stuned 
+    private boolean isStuned = false;
     
     
     //private boolean vampireCrit = false;
@@ -94,6 +96,16 @@ public class Character extends MovingEntity {
         this.gold = number;
     }
 
+    public void setStun(boolean b)
+    {
+        this.isStuned = b;
+    }
+
+    public boolean getStun()
+    {
+        return isStuned;
+    }
+
     
 
     /**
@@ -116,6 +128,13 @@ public class Character extends MovingEntity {
     public void setHelmet(Helmet helmet) {
         
         this.helmet = helmet;
+        for(Defense def: defense) {
+            if(def instanceof HelmetStrategy) {
+                int index = defense.indexOf(def);
+                defense.remove(index);
+                
+            }    
+        }
         defense.add(new HelmetStrategy());
     }
         
@@ -127,9 +146,18 @@ public class Character extends MovingEntity {
     public void setShield(Shield shield) {
         
         this.shield = shield;
-        defense.add(new ShieldStrategy());
-        
-        
+        if(shield instanceof TreeStump) {
+            for(Defense def: defense) {
+                if(def instanceof ShieldStrategy || def instanceof TreeStumpStrategy) {
+                    int index = defense.indexOf(def);
+                    defense.remove(index);
+                    defense.add(index, new TreeStumpStrategy());
+                }    
+            }
+        }
+        else {
+            defense.add(new ShieldStrategy());
+        }
     }
 
     /**
@@ -139,7 +167,15 @@ public class Character extends MovingEntity {
     public void setArmor(Armour armor) {
         
         this.armor = armor;
+        for(Defense def: defense) {
+            if(def instanceof HelmetStrategy) {
+                int index = defense.indexOf(def);
+                defense.remove(index);
+                
+            }    
+        }
         defense.add(0,new ArmorStrategy());
+        
     }
 
     
@@ -157,9 +193,13 @@ public class Character extends MovingEntity {
      * @param weapon The weapon that the character is equipped with
      */
     public void setStrategy(BasicItem weapon) {
+        
         if(weapon instanceof Sword) {
             damage = new SwordStrategy();
         } 
+        else if (weapon instanceof Anduril) {
+            damage = new AndurilStrategy();
+        }
         else if(weapon instanceof Staff) {
             damage = new StaffStrategy();
         } 

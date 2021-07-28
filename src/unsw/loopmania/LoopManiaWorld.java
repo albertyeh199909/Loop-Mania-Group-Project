@@ -70,6 +70,8 @@ public class LoopManiaWorld {
      */
     private List<Pair<Integer, Integer>> orderedPath;
 
+    private DoggieCoin doggieCoin = new DoggieCoin();
+
     /**
      * create the world (constructor)
      * 
@@ -621,8 +623,17 @@ public class LoopManiaWorld {
 
     public void incrementCycleCounter(int x, int y)
     {
-        if(x == this.initMainCharacterPosX && y == this.initMainCharacterPosY)
+        if(x == this.initMainCharacterPosX && y == this.initMainCharacterPosY) {
             this.cycleCounter += 1;
+            int random = new Random().nextInt(2);
+            if(random == 0) {
+                doggieCoin.inflation();
+            }
+            else {
+                doggieCoin.deflation();
+            }
+        }
+
     }
 
     /**
