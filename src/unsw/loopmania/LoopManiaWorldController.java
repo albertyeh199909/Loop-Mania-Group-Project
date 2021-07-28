@@ -517,7 +517,11 @@ public class LoopManiaWorldController {
                                 Building newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
                                 if(newBuilding == null) {
                                     System.out.println("INVALID POSITION");
+                                    draggedEntity.setVisible(true);
                                     break;
+                                }
+                                else {
+                                    draggedEntity.setVisible(false);
                                 }
                                 onLoad(newBuilding);
                                 break;
@@ -531,12 +535,13 @@ public class LoopManiaWorldController {
                                 }
                                 */
                                 targetGridPane.add(image, x, y, 1, 1);
+                                draggedEntity.setVisible(false);
                                 break;
                             default:
                                 break;
                         }
                         
-                        draggedEntity.setVisible(false);
+                        
                         draggedEntity.setMouseTransparent(false);
                         // remove drag event handlers before setting currently dragged image to null
                         currentlyDraggedImage = null;
@@ -652,6 +657,8 @@ public class LoopManiaWorldController {
                     default:
                         break;
                 }
+
+                
                 
                 draggedEntity.setVisible(true);
                 draggedEntity.setMouseTransparent(true);

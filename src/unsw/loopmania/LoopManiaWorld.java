@@ -307,21 +307,25 @@ public class LoopManiaWorld {
                 // we need to consider the probability of allied soidlers being converted to zombie
                 int counter = 0;
                 for(BasicEnemy e: enemiesInBattle) {
-                    if(!defeatedEnemies.contains(e) && counter < friendlySoldiers.size() && e.getTrance() == -1) {
-                            
+                    if(!defeatedEnemies.contains(e) && e.getTrance() == -1) {
+                        while(counter < friendlySoldiers.size()) 
+                        {
                             AlliedSoldier s = friendlySoldiers.get(counter);
                             if(s.getHealth() > 0 && s.getTurnToZombie() == false &&counter < friendlySoldiers.size()) {
                                 e.inflictDamage(friendlySoldiers.get(counter));
+                                break;
                                 
                             }
-                            else if (s.getHealth() <=0 || s.getTurnToZombie() == true && counter < friendlySoldiers.size()) {
+                            else if ((s.getHealth() <=0 || s.getTurnToZombie() == true) && counter < friendlySoldiers.size()) {
                                 counter++;
                                 s.setIsAlive(false);
                             }
-                    }
-                    else if(!defeatedEnemies.contains(e) && counter >= friendlySoldiers.size() && e.getTrance() == -1){
+                        }  
+                        if(!defeatedEnemies.contains(e) && counter >= friendlySoldiers.size() && e.getTrance() == -1){
                             e.inflictDamage(character);
+                        } 
                     }
+                    
                 }
                 
                 //if an allied soilder is turned to a zombie
@@ -488,14 +492,13 @@ public class LoopManiaWorld {
             character.setGold(character.getGold()+100);
             removeCard(0);
         }
-        Card card = null;
+        Card card = new BarracksCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
         Random random = new Random();
         // the player will be rewarded from these cards
         // and the droprate of those cards are equally distrubted
-        // 
 
         int value = random.nextInt(7);
-
+        /*
         if(value == 0)
             card = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
         else if(value == 1)
@@ -512,6 +515,7 @@ public class LoopManiaWorld {
             card = new CampfireCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
         else
             System.out.println("EXCEPTION erros at line around 490 filename: World");
+        */
         cardEntities.add(card);
         return card;
     }
@@ -584,6 +588,11 @@ public class LoopManiaWorld {
      */
     public void runTickMoves(){
         // we expanded
+        for(AlliedSoldier s: friendlySoldiers)
+        {
+            System.out.print(s.getHealth() + " ");
+        }
+        System.out.println();
         character.moveDownPath();
         int x = character.getX();
         int y = character.getY();
@@ -777,9 +786,11 @@ public class LoopManiaWorld {
         buildingEntities.add(newBuilding);
 
         // destroy the card
+        
         card.destroy();
         cardEntities.remove(card);
         shiftCardsDownFromXCoordinate(cardNodeX);
+        
 
         return newBuilding;
     }

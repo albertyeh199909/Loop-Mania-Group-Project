@@ -18,6 +18,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 import java.io.FileNotFoundException;
 
+/*
+
 public class LoopManiaWorldTest {
     // the rest is by Harrington, Albert and james 
     @Test
@@ -333,7 +335,7 @@ public class LoopManiaWorldTest {
 
       
 }
-
+*/
 
 
 
