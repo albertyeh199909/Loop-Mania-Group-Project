@@ -114,10 +114,29 @@ public class LoopManiaWorldController {
      */
     private Timeline timeline;
 
-    private Image vampireCastleCardImage;
     private Image basicEnemyImage;
     private Image swordImage;
     private Image basicBuildingImage;
+
+    // Images for buildings
+    private Image vampireCastleImage;
+    private Image zombiePitImage;
+    private Image towerImage;
+    private Image villageImage;
+    private Image barracksImage;
+    private Image trapImage;
+    private Image campfireImage;
+    private Image herosCastleImage;
+
+    // Images for cards
+    private Image vampireCastleCardImage;
+    private Image zombiePitCardImage;
+    private Image towerCardImage;
+    private Image villageCardImage;
+    private Image barracksCardImage;
+    private Image trapCardImage;
+    private Image campfireCardImage;
+    private Image herosCastleCardImage;
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -170,6 +189,28 @@ public class LoopManiaWorldController {
         basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
+
+        // Images for buildings
+        vampireCastleImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        zombiePitImage = new Image((new File("src/images/zombie_pit.png")).toURI().toString());
+        towerImage = new Image((new File("src/images/tower.png")).toURI().toString()); 
+        villageImage = new Image((new File("src/images/village.png")).toURI().toString());
+        barracksImage = new Image((new File("src/images/barracks.png")).toURI().toString());
+        trapImage = new Image((new File("src/images/trap.png")).toURI().toString());
+        campfireImage = new Image((new File("src/images/campfire.png")).toURI().toString());
+        herosCastleImage = new Image((new File("src/images/herosCastle.png")).toURI().toString());
+    
+        // Images for cards
+        vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
+        zombiePitCardImage = new Image((new File("src/images/zombie_pit_card.png")).toURI().toString());
+        towerCardImage = new Image((new File("src/images/tower_card.png")).toURI().toString()); 
+        villageCardImage = new Image((new File("src/images/village_card.png")).toURI().toString());
+        barracksCardImage = new Image((new File("src/images/barracks_card.png")).toURI().toString());
+        trapCardImage = new Image((new File("src/images/trap_card.png")).toURI().toString());
+        campfireCardImage = new Image((new File("src/images/campfire_card.png")).toURI().toString());
+
+    
+
 
         // initialize them all...
         gridPaneSetOnDragDropped = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
@@ -310,7 +351,22 @@ public class LoopManiaWorldController {
      * @param vampireCastleCard
      */
     private void onLoad(Card card) {
-        ImageView view = new ImageView(vampireCastleCardImage);
+        ImageView view = null;
+        if (card instanceof VampireCastleCard) {
+            view = new ImageView(vampireCastleCardImage);
+        } else if (card instanceof ZombiePitCard) {
+            view = new ImageView(zombiePitCardImage);
+        } else if (card instanceof TowerCard) {
+            view = new ImageView(towerCardImage);
+        } else if (card instanceof VillageCard) {
+            view = new ImageView(villageCardImage);
+        } else if (card instanceof BarracksCard) {
+            view = new ImageView(barracksCardImage);
+        } else if (card instanceof TrapCard) {
+            view = new ImageView(trapCardImage);
+        } else if (card instanceof CampfireCard) {
+            view = new ImageView(campfireCardImage);
+        }
 
         // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
@@ -348,7 +404,24 @@ public class LoopManiaWorldController {
      * @param building
      */
     private void onLoad(Building building){
-        ImageView view = new ImageView(basicBuildingImage);
+        ImageView view = null;
+        if (building instanceof VampireCastle) {
+            view = new ImageView(vampireCastleImage);
+        } else if (building instanceof ZombiePit) {
+            view = new ImageView(zombiePitImage);
+        } else if (building instanceof Tower) {
+            view = new ImageView(towerImage);
+        } else if (building instanceof Village) {
+            view = new ImageView(villageImage);
+        } else if (building instanceof Barracks) {
+            view = new ImageView(barracksImage);
+        } else if (building instanceof Trap) {
+            view = new ImageView(trapImage);
+        } else if (building instanceof Campfire) {
+            view = new ImageView(campfireImage);
+        } else if (building instanceof HerosCastle) {
+            view = new ImageView(herosCastleImage);
+        }
         addEntity(building, view);
         squares.getChildren().add(view);
     }
