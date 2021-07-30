@@ -48,6 +48,12 @@ public class LoopManiaApplication extends Application {
         loseScreenLoader.setController(loseScreenController);
         Parent loseScreenLoot = menuLoader.load();
 
+        // load the win menu
+        WinScreenController winScreenController = new WinScreenController();
+        FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("winScreen.fxml"));
+        loseScreenLoader.setController(winScreenController);
+        Parent winScreenLoot = menuLoader.load();
+
 
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
