@@ -63,6 +63,9 @@ public class victoryFinal {
         else if (goal.getString("goal").equals("cycle")) {
             v = new victoryCycleStrategy();
         }
+        else if (goal.getString("goal").equals("boss")) {
+            v = new victoryBossStrategy();
+        }
         int quantity = (int) goal.get("quantity");
         return v.checkVictoryCondition(w,c,quantity);
     }
