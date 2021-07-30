@@ -1,22 +1,17 @@
 package unsw.loopmania;
 
-public class Shield extends BasicItem {
-   //Constructor
+public class Anduril extends BasicItem {
+    //Constructor
     /*
         @param dropRate ----> the rate of dropping of an item when an enemy is defeated 
         @param type ----> the type of the item
         @param purchasePrice -----> the price for purhcase this item
-        @param postion is the postion of the current item
+        @param x,y is the postion of the current item
         note: the sell price for this item will be 1/2 of the pruchase price
     */
-    public Shield(int dropRate, String type, int purchasePrice,int x, int y)
+    public Anduril(int dropRate, String type, int purchasePrice,int x, int y)
     {
         super(dropRate,type, purchasePrice, x, y);
-    }
-    // for super class
-    public Shield()
-    {
-        
     }
     /*
         equip and unequip
@@ -31,4 +26,5 @@ public class Shield extends BasicItem {
     {
         return false;
     }
+
 }

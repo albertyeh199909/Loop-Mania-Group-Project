@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.control.Button;
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
 
@@ -98,6 +99,9 @@ public class LoopManiaWorldController {
     @FXML
     private GridPane unequippedInventory;
 
+    @FXML
+    private Button exitToMainMenuButton;
+
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
 
@@ -114,10 +118,43 @@ public class LoopManiaWorldController {
      */
     private Timeline timeline;
 
+    //Cards
     private Image vampireCastleCardImage;
-    private Image basicEnemyImage;
+    private Image towerCardImage;
+    private Image trapCardImage;
+    private Image campFireCardImage;
+    private Image zombiePitCardImage;
+    private Image villageCardImage;
+    private Image barrackCardImage;
+
+    //Buildings
+    private Image vampireCastleImage;
+    private Image towerImage;
+    private Image trapImage;
+    private Image campFireImage;
+    private Image zombiePitImage;
+    private Image villageImage;
+    private Image barrackImage;    
+    
+    // Items
+    //weapons
     private Image swordImage;
-    private Image basicBuildingImage;
+    private Image staffImage;
+    private Image stakeImage;
+    //armours
+    private Image shieldImage;
+    private Image armourImage;
+    private Image helmetImage;
+    //potions
+    private Image potionImage;
+    //The Ring
+    private Image theRingImage;
+    
+    //enemies
+    private Image slugImage; //Slug
+    private Image vampireImage;
+    private Image zombieImage;
+
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -164,10 +201,43 @@ public class LoopManiaWorldController {
     public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities) {
         this.world = world;
         entityImages = new ArrayList<>(initialEntities);
+        // pics of cards
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
-        basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
+        towerCardImage = new Image((new File("src/images/tower_card.png")).toURI().toString());
+        trapCardImage = new Image((new File("src/images/trap_card.png")).toURI().toString());
+        campFireCardImage = new Image((new File("src/images/campfire_card.png")).toURI().toString());
+        zombiePitCardImage = new Image((new File("src/images/zombie_pit_card.png")).toURI().toString());
+        villageCardImage = new Image((new File("src/images/village_card.png")).toURI().toString());
+        barrackCardImage = new Image((new File("src/images/barracks_card.png")).toURI().toString());
+
+        // pics for buildings
+        vampireCastleImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        towerImage = new Image((new File("src/images/tower.png")).toURI().toString());
+        zombiePitImage = new Image((new File("src/images/zombie_pit.png")).toURI().toString());
+        trapImage = new Image((new File("src/images/trap.png")).toURI().toString());
+        campFireImage = new Image((new File("src/images/campfire.png")).toURI().toString());
+        villageImage = new Image((new File("src/images/village.png")).toURI().toString());
+        barrackImage = new Image((new File("src/images/barracks.png")).toURI().toString());
+
+        // pics for enemies
+        vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
+        zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());        
+        slugImage = new Image((new File("src/images/slug.png")).toURI().toString());
+        
+        //equipments
+        //weapons
+        helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
+        armourImage = new Image((new File("src/images/armour.png")).toURI().toString());
+        shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
+        // armours
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
-        basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        staffImage = new Image((new File("src/images/staff.png")).toURI().toString());
+        stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
+        //potions
+        potionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+        //The Ring
+        theRingImage = new Image((new File("src/images/the_one_ring.png")).toURI().toString());
+        
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
 
@@ -231,7 +301,7 @@ public class LoopManiaWorldController {
         System.out.println("starting timer");
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
-        timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
             world.runTickMoves();
             List<BasicEnemy> defeatedEnemies = world.runBattles();
             for (BasicEnemy e: defeatedEnemies){
@@ -241,7 +311,8 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
-            printThreadingNotes("HANDLED TIMER");
+            //printThreadingNotes("HANDLED TIMER");
+            
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -287,8 +358,8 @@ public class LoopManiaWorldController {
     private void loadSword(){
         // TODO = load more types of weapon
         // start by getting first available coordinates
-        BasicItem sword = world.addUnequippedBasicItem("Sword");
-        onLoad(sword);
+        BasicItem item = world.addUnequippedBasicItem();
+        onLoad(item);
     }
 
     /**
@@ -310,7 +381,24 @@ public class LoopManiaWorldController {
      * @param vampireCastleCard
      */
     private void onLoad(Card card) {
-        ImageView view = new ImageView(vampireCastleCardImage);
+        ImageView view = null;
+        if (card instanceof VampireCastleCard) 
+            view = new ImageView(vampireCastleImage);
+        else if (card instanceof TowerCard) 
+            view = new ImageView(towerCardImage);
+        else if (card instanceof ZombiePitCard) 
+            view = new ImageView(zombiePitCardImage);
+        else if (card instanceof TrapCard) 
+            view = new ImageView(trapCardImage);
+        else if (card instanceof BarracksCard) 
+            view = new ImageView(barrackCardImage);
+        else if (card instanceof VillageCard) 
+            view = new ImageView(villageCardImage);
+        else if (card instanceof CampfireCard)
+            view = new ImageView(campFireCardImage);
+        else
+            System.out.println("error at around line 380 file controller");
+            
 
         // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
@@ -326,10 +414,27 @@ public class LoopManiaWorldController {
      * and load the image into the unequippedInventory GridPane.
      * @param sword
      */
-    private void onLoad(BasicItem sword) {
-        ImageView view = new ImageView(swordImage);
+    private void onLoad(BasicItem basicitem) {
+        ImageView view = null;
+        if (basicitem instanceof Sword) 
+            view = new ImageView(swordImage);
+        else if (basicitem instanceof Staff) 
+            view = new ImageView(staffImage);
+        else if (basicitem instanceof Stake) 
+            view = new ImageView(stakeImage);
+        else if (basicitem instanceof Armour) 
+            view = new ImageView(armourImage);
+        else if (basicitem instanceof Helmet) 
+            view = new ImageView(helmetImage);
+        else if (basicitem instanceof Shield) 
+            view = new ImageView(shieldImage);
+        else if (basicitem instanceof Potion)
+            view = new ImageView(potionImage);
+        else
+            System.out.println("error at around line 380 file controller");
+        
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
-        addEntity(sword, view);
+        addEntity(basicitem, view);
         unequippedInventory.getChildren().add(view);
     }
 
@@ -338,7 +443,11 @@ public class LoopManiaWorldController {
      * @param enemy
      */
     private void onLoad(BasicEnemy enemy) {
-        ImageView view = new ImageView(basicEnemyImage);
+        ImageView view = null;
+        if (enemy instanceof Slug) view = new ImageView(slugImage);
+        if (enemy instanceof Vampire) view = new ImageView(vampireImage);
+        if (enemy instanceof Zombie) view = new ImageView(zombieImage);
+
         addEntity(enemy, view);
         squares.getChildren().add(view);
     }
@@ -348,7 +457,21 @@ public class LoopManiaWorldController {
      * @param building
      */
     private void onLoad(Building building){
-        ImageView view = new ImageView(basicBuildingImage);
+        ImageView view = null;
+        if (building instanceof VampireCastle) 
+            view = new ImageView(vampireCastleImage);
+        else if (building instanceof Tower) 
+            view = new ImageView(towerImage);
+        else if (building instanceof ZombiePit) 
+            view = new ImageView(zombiePitImage);
+        else if (building instanceof Trap) 
+            view = new ImageView(trapImage);
+        else if (building instanceof Barracks) 
+            view = new ImageView(barrackImage);
+        else if (building instanceof Village) 
+            view = new ImageView(villageImage);
+        else if (building instanceof Campfire)
+            view = new ImageView(campFireImage);
         addEntity(building, view);
         squares.getChildren().add(view);
     }
@@ -396,19 +519,33 @@ public class LoopManiaWorldController {
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
                                 Building newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                if(newBuilding == null) {
+                                    System.out.println("INVALID POSITION");
+                                    draggedEntity.setVisible(true);
+                                    break;
+                                }
+                                else {
+                                    draggedEntity.setVisible(false);
+                                }
                                 onLoad(newBuilding);
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
                                 removeItemByCoordinates(nodeX, nodeY);
+                                /*
+                                if(targetGridPane.getRowIndex()) {
+                                    world.equip
+                                }
+                                */
                                 targetGridPane.add(image, x, y, 1, 1);
+                                draggedEntity.setVisible(false);
                                 break;
                             default:
                                 break;
                         }
                         
-                        draggedEntity.setVisible(false);
+                        
                         draggedEntity.setMouseTransparent(false);
                         // remove drag event handlers before setting currently dragged image to null
                         currentlyDraggedImage = null;
@@ -524,6 +661,8 @@ public class LoopManiaWorldController {
                     default:
                         break;
                 }
+
+                
                 
                 draggedEntity.setVisible(true);
                 draggedEntity.setMouseTransparent(true);

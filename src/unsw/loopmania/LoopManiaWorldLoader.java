@@ -76,6 +76,23 @@ public abstract class LoopManiaWorldLoader {
             break;
         case "path_tile":
             throw new RuntimeException("path_tile's aren't valid entities, define the path externally.");
+        /*
+        case "Slug":
+            Slug slug = new Slug(new PathPosition(indexInPath, orderedPath));
+            world.addEnemy(slug);
+            onLoad(slug);
+        case "Zombie":
+            Zombie zombie = new Zombie(new PathPosition(indexInPath, orderedPath));
+            world.addEnemy(zombie);
+            onLoad(zombie);
+        case "Vampire":
+            Vampire vampire = new Vampire(new PathPosition(indexInPath, orderedPath));
+            world.addEnemy(vampire);
+            onLoad(vampire);
+            */
+        
+            
+
         // TODO Handle other possible entities
         }
         world.addEntity(entity);
@@ -146,6 +163,7 @@ public abstract class LoopManiaWorldLoader {
 
     public abstract void onLoad(Character character);
     public abstract void onLoad(PathTile pathTile, PathTile.Direction into, PathTile.Direction out);
+    //public abstract void onLoad(BasicEnemy e);
 
     // TODO Create additional abstract methods for the other entities
 

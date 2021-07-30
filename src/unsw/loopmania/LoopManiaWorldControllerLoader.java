@@ -29,6 +29,8 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
     //Images
     private Image characterImage;
     private Image pathTilesImage;
+    private Image heroCastleImage;
+    
 
     public LoopManiaWorldControllerLoader(String filename)
             throws FileNotFoundException {
@@ -36,7 +38,7 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
         entities = new ArrayList<>();
         characterImage = new Image((new File("src/images/human_new.png")).toURI().toString());
         pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
-        
+        heroCastleImage = new Image((new File("src/images/heros_castle.png")).toURI().toString());
     }
 
     // TODO = load more entity types from the file
@@ -46,6 +48,9 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
         addEntity(character, view);
     }
 
+    
+
+     
     /**
      * load path tile ImageView based on configuration in file.
      * Note how src/images/32x32GrassAndDirtPath.png has 8 images within it

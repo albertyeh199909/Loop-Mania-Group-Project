@@ -7,18 +7,20 @@ import java.util.ArrayList;
 public class Character extends MovingEntity {
     // TODO = potentially implement relationships between this class and other classes
     
-    private ArrayList<Item> inventory = new ArrayList<Item>();
+
     private BasicItem weapon;
     private Helmet helmet;
     private Armour armor;
     private Shield shield;
     private int gold;
     private int experience = 0;
-
     
 
     private Damage damage = new UnarmedStrategy();
     private ArrayList<Defense> defense = new ArrayList<Defense>();
+
+    // the Stuned 
+    private boolean isStuned = false;
     
     
     //private boolean vampireCrit = false;
@@ -37,19 +39,9 @@ public class Character extends MovingEntity {
            defense.get(i).defense(damageclass);
         }
         setHealth(getHealth() - damageclass.getDamage()); 
-        if(getHealth() < 0) {
-            for(int i =0; i < inventory.size(); i++) {
-                if(inventory.get(i) instanceof TheRing) {
-                    inventory.get(i).useItem(this);
-                    inventory.remove(i);
-                }
-            }
-  
-        }
+       
 
-        if(getHealth() < 0)  {
-            //world.loseGame();
-        }
+        
         return damageclass;
 
 
@@ -73,7 +65,7 @@ public class Character extends MovingEntity {
 
     public Character(PathPosition position) {
         super(position);
-        setHealth(20);
+        setHealth(10000);
     }
 
     public Damage getDamage() {
@@ -104,19 +96,25 @@ public class Character extends MovingEntity {
         this.gold = number;
     }
 
-    public ArrayList<Item> getInventory() {
-        return this.inventory;
+    public void setStun(boolean b)
+    {
+        this.isStuned = b;
     }
+
+    public boolean getStun()
+    {
+        return isStuned;
+    }
+
+    
 
     /**
      * Change the wewapon the player character is wearing.
      * @param weapon The weapon to be equipped
      */
     public void setWeapon(BasicItem weapon) {
-        if (this.weapon != null) {
-            inventory.add(this.weapon);
-        }
-        removeItem(weapon);
+        
+        
         this.weapon = weapon;
         setStrategy(weapon);
         
@@ -128,11 +126,15 @@ public class Character extends MovingEntity {
      * @param helmet The helmet to be equipped
      */
     public void setHelmet(Helmet helmet) {
-        if (this.helmet != null) {
-            inventory.add(this.helmet);
-        }
-        removeItem(shield);
+        
         this.helmet = helmet;
+        for(Defense def: defense) {
+            if(def instanceof HelmetStrategy) {
+                int index = defense.indexOf(def);
+                defense.remove(index);
+                
+            }    
+        }
         defense.add(new HelmetStrategy());
     }
         
@@ -142,14 +144,20 @@ public class Character extends MovingEntity {
      * @param shield The shield to be equipped
      */
     public void setShield(Shield shield) {
-        if (this.shield != null) {
-            inventory.add(this.shield);
-        }
-        removeItem(shield);
+        
         this.shield = shield;
-        defense.add(new ShieldStrategy());
-        
-        
+        if(shield instanceof TreeStump) {
+            for(Defense def: defense) {
+                if(def instanceof ShieldStrategy || def instanceof TreeStumpStrategy) {
+                    int index = defense.indexOf(def);
+                    defense.remove(index);
+                    defense.add(index, new TreeStumpStrategy());
+                }    
+            }
+        }
+        else {
+            defense.add(new ShieldStrategy());
+        }
     }
 
     /**
@@ -157,32 +165,25 @@ public class Character extends MovingEntity {
      * @param The armor to be equipped
      */
     public void setArmor(Armour armor) {
-        if (this.armor != null) {
-            inventory.add(this.armor);
-        }
-        removeItem(armor);
+        
         this.armor = armor;
+        for(Defense def: defense) {
+            if(def instanceof HelmetStrategy) {
+                int index = defense.indexOf(def);
+                defense.remove(index);
+                
+            }    
+        }
         defense.add(0,new ArmorStrategy());
+        
     }
 
-    /**
-     * Store an item in the player's inventory
-     * @param item The item to be stored
-     */
-    public void store(Item item) {
-        if(inventory.size() == 16) {
-            setGold(inventory.get(0).getpurchasePrice()/4);
-            experience += 50;
-            inventory.remove(0);
-            
-        }
-        inventory.add(item);
-    }
+    
 
     public void useItem(Item item) {
         if(item.isApplicable()) {
             item.useItem(this);
-            removeItem(item);
+            
         }
         
     }      
@@ -192,27 +193,19 @@ public class Character extends MovingEntity {
      * @param weapon The weapon that the character is equipped with
      */
     public void setStrategy(BasicItem weapon) {
+        
         if(weapon instanceof Sword) {
             damage = new SwordStrategy();
         } 
+        else if (weapon instanceof Anduril) {
+            damage = new AndurilStrategy();
+        }
         else if(weapon instanceof Staff) {
             damage = new StaffStrategy();
         } 
         else if(weapon instanceof Stake) {
             damage = new StakeStrategy();
         } 
-    }
-
-    /**
-     * Removes an item from the inventory
-     * @param item The item to be removed
-     */
-    public void removeItem(Item item) {
-        for(int i = 0; i < inventory.size(); i++) {
-            if(inventory.get(i) == item) {
-                inventory.remove(i);
-            }
-        }
     }
 
     public int getExperience() {
