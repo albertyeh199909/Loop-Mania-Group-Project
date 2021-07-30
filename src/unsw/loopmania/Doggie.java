@@ -10,7 +10,8 @@ public class Doggie extends BasicEnemy{
 
     public Doggie(PathPosition pathPosition) {
         super(pathPosition, 1, 5, 1);
-        setHealth(70);
+        setMaximumHealth(70);
+        setHealth(getMaximumHealth());
     }
     
    /**  the doggie has a chance to stun the main character
