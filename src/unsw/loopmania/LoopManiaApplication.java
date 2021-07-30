@@ -43,6 +43,10 @@ public class LoopManiaApplication extends Application {
         Parent mainMenuRoot = menuLoader.load();
 
         // load the lose menu
+        LoseScreenController loseScreenController = new LoseScreenController();
+        FXMLLoader loseScreenLoader = new FXMLLoader(getClass().getResource("loseScreen.fxml"));
+        loseScreenLoader.setController(loseScreenController);
+        Parent loseScreenLoot = menuLoader.load();
 
 
         // create new scene with the main menu (so we start with the main menu)
