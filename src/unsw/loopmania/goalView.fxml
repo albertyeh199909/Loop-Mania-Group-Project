@@ -5,7 +5,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="227.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Goal" textAlignment="CENTER" wrappingWidth="145.60870361328125">
@@ -14,5 +13,10 @@
          </font>
       </Text>
       <Button fx:id="returnButton" layoutX="222.0" layoutY="341.0" mnemonicParsing="false" onAction="#returnToGame" prefHeight="25.0" prefWidth="156.0" text="Return" />
+      <Text fx:id="displayWindow" layoutX="13.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="574.1366577148438">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Text>
    </children>
 </Pane>
