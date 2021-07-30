@@ -51,6 +51,12 @@ public class LoopManiaApplication extends Application {
 
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
+
+        loseScreenController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+            }, () -> {switchToRoot(scene, mainMenuRoot, primaryStage);
+        });
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
