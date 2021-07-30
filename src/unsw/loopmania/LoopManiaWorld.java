@@ -56,8 +56,10 @@ public class LoopManiaWorld {
     // TODO = expand the range of items
     private List<Entity> unequippedInventoryItems;
 
-    // The lisr of equippedItems
+    // The list of equippedItems
     private List<Entity> equippedInventoryItems;
+
+    //
 
 
     // TODO = expand the range of buildings
@@ -220,6 +222,20 @@ public class LoopManiaWorld {
             BasicEnemy enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
+        }
+        pos = possiblyGetBasicEnemySpawnPosition();
+        if (pos != null && cycleCounter % 40 == 0 && character.getExperience() == 10000) {
+            int indexInPath = orderedPath.indexOf(pos);
+            ElanMuske elan = new ElanMuske(new PathPosition(indexInPath, orderedPath));
+            enemies.add(elan);
+            spawningEnemies.add(elan);
+        }
+        pos = possiblyGetBasicEnemySpawnPosition();
+        if (pos != null && cycleCounter % 20 == 0 ) {
+            int indexInPath = orderedPath.indexOf(pos);
+            Doggie doggie = new Doggie(new PathPosition(indexInPath, orderedPath));
+            enemies.add(doggie);
+            spawningEnemies.add(doggie);
         }
         return spawningEnemies;
     }
@@ -605,7 +621,7 @@ public class LoopManiaWorld {
             if(b.getX() == x && b.getY() == y)
             {
                 if(b instanceof Village) {
-                    character.setHealth(20);
+                    character.setHealth(character.getMaximumHealth());
                 }   
                 else if(b instanceof Barracks) {
                     friendlySoldiers.add(new AlliedSoldier());

@@ -11,7 +11,8 @@ public class ElanMuske extends BasicEnemy{
      */
     public ElanMuske(PathPosition pathPosition) {  
         super(pathPosition, 1, 20, 1);
-        setHealth(50);
+        setMaximumHealth(50);
+        setHealth(getMaximumHealth());
     }
 
     /**

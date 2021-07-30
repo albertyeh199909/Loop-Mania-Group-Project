@@ -15,6 +15,7 @@ public class Character extends MovingEntity {
     private int gold;
     private int experience = 0;
     
+    
 
     private Damage damage = new UnarmedStrategy();
     private ArrayList<Defense> defense = new ArrayList<Defense>();
@@ -65,7 +66,8 @@ public class Character extends MovingEntity {
 
     public Character(PathPosition position) {
         super(position);
-        setHealth(10000);
+        setMaximumHealth(100);
+        setHealth(getMaximumHealth());
     }
 
     public Damage getDamage() {
