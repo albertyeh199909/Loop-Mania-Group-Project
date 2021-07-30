@@ -42,6 +42,9 @@ public class LoopManiaApplication extends Application {
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
 
+        // load the lose menu
+
+
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
         
