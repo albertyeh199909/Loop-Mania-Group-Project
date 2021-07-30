@@ -11,8 +11,11 @@ public class LoseScreenController {
      */
     private MenuSwitcher gameSwitcher;
 
-    public void setGameSwitcher(MenuSwitcher gameSwitcher){
+    private MenuSwitcher menuSwitcher;
+
+    public void setGameSwitcher(MenuSwitcher gameSwitcher, MenuSwitcher menuSwitcher){
         this.gameSwitcher = gameSwitcher;
+        this.menuSwitcher = menuSwitcher;
     }
 
     /**
@@ -22,5 +25,10 @@ public class LoseScreenController {
     @FXML
     private void switchToGame() throws IOException {
         gameSwitcher.switchMenu();
+    }
+
+    @FXML
+    private void switchToMainMenu() throws IOException {
+        menuSwitcher.switchMenu();
     }
 }
