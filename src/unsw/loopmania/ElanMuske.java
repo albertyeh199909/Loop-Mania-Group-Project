@@ -38,10 +38,13 @@ public class ElanMuske extends BasicEnemy{
         }
     }
 
-    public void heal(BasicEnemy b) 
+    public boolean heal(BasicEnemy b) 
     {
         if(b.getHealth() > 0 && b.getHealth() < b.getMaximumHealth() && b.getTrance() == -1)
-                b.setHealth(b.getHealth() + 1);
-        
+        {
+            b.setHealth(b.getHealth() + 1);
+            return true;
+        }
+        return false;
     }
 }

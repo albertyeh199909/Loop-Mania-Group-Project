@@ -29,6 +29,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import java.util.EnumMap;
+import javafx.scene.control.Label;
+import javafx.beans.binding.Bindings;
 
 import java.io.File;
 import java.io.IOException;
@@ -97,6 +99,9 @@ public class LoopManiaWorldController {
 
     @FXML
     private GridPane unequippedInventory;
+
+    @FXML
+    private Label healthNumber;
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -281,6 +286,9 @@ public class LoopManiaWorldController {
                 unequippedInventory.add(emptySlotView, x, y);
             }
         }
+
+        healthNumber = new Label();
+        healthNumber.textProperty().bind(world.getCharacter().getIntegerProperty().asString());
 
         // create the draggable icon
         draggedEntity = new DragIcon();

@@ -32,12 +32,16 @@ public class LoopManiaWorld {
     private int height;
     
     /*
-    *
+    * the pos of the main character
+    * the checker that checks the monster has already been spawned.
     */
     private int initMainCharacterPosX;
     private int initMainCharacterPosY;
     private int VampireSpawnChecker = 0;
     private int ZombieSpawnChecker = 0;
+
+
+
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
@@ -59,7 +63,8 @@ public class LoopManiaWorld {
     // The list of equippedItems
     private List<Entity> equippedInventoryItems;
 
-    //
+    // create a marketplace class
+    private MarketHandler markethandler;
 
 
     // TODO = expand the range of buildings
@@ -91,6 +96,7 @@ public class LoopManiaWorld {
         unequippedInventoryItems = new ArrayList<>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
+        markethandler = new MarketHandler();
     }
 
     public int getWidth() {
@@ -300,6 +306,7 @@ public class LoopManiaWorld {
     // helper funtion that acutally runs one battle
     // this function is a helper function which will be called in runbattle function
     public void executeBattle(List<BasicEnemy> enemiesInBattle, List<BasicEnemy> defeatedEnemies) {
+        character.setStun(false );
         while(true) {
                 // first we want to "use" the tower first
                 // every tower will attack any enemy that entered the range
@@ -325,6 +332,16 @@ public class LoopManiaWorld {
                 // we need to consider the probability of allied soidlers being converted to zombie
                 int counter = 0;
                 for(BasicEnemy e: enemiesInBattle) {
+                    if(e instanceof ElanMuske) {
+                        // if the enemy is elan muske
+                        ElanMuske elan = (ElanMuske) e;
+                        for(BasicEnemy other : enemiesInBattle) {
+                            if(other != elan && elan.heal(other))
+                                // elan muske only heals one enemy at ont time
+                                break;
+                        }
+                        
+                    }
                     if(!defeatedEnemies.contains(e) && e.getTrance() == -1) {
                         while(counter < friendlySoldiers.size()) 
                         {
@@ -371,7 +388,7 @@ public class LoopManiaWorld {
                 // need to consider the condition of the any enemy being converted to friendly.
                 for(BasicEnemy e : enemiesInBattle)
                 {
-                    if(e.getTrance() == -1 && !(defeatedEnemies.contains(e)) && character.getHealth() > 0)
+                    if(e.getTrance() == -1 && !(defeatedEnemies.contains(e)) && character.getHealth() > 0 && !character.getStun())
                     {
                         // we simply let the 
                         if(affectedByCampfire)
@@ -510,13 +527,13 @@ public class LoopManiaWorld {
             character.setGold(character.getGold()+100);
             removeCard(0);
         }
-        Card card = new BarracksCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        Card card = null;
         Random random = new Random();
         // the player will be rewarded from these cards
         // and the droprate of those cards are equally distrubted
 
         int value = random.nextInt(7);
-        /*
+        //using switch breaks the random
         if(value == 0)
             card = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
         else if(value == 1)
@@ -533,7 +550,7 @@ public class LoopManiaWorld {
             card = new CampfireCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
         else
             System.out.println("EXCEPTION erros at line around 490 filename: World");
-        */
+        
         cardEntities.add(card);
         return card;
     }
@@ -564,8 +581,9 @@ public class LoopManiaWorld {
             character.setExperience(100);
         }
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        BasicItem item = null;
 
+        /*
+        BasicItem item = null;
         int value = new Random().nextInt(7);
         if(value == 0)
             item = new Sword(20, "Sword",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
@@ -585,7 +603,26 @@ public class LoopManiaWorld {
             System.out.println("EXCEPTION erros at line around 550 filename: World");
 
         //check if inventory is full, then remove the first item
-        
+        */
+
+        int value = new Random().nextInt(7);
+        BasicItem item = null;
+        if(value == 0)
+            item = MarketItemFactory.generateItems("Sword",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if(value == 1)
+            item = MarketItemFactory.generateItems("Staff",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if(value == 2)
+            item = MarketItemFactory.generateItems("Stake",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if(value == 3)
+            item = MarketItemFactory.generateItems("Armour",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if (value ==4)
+            item = MarketItemFactory.generateItems("Helmet",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if(value == 5)
+            item = MarketItemFactory.generateItems("Shield",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if(value == 6)
+            item = MarketItemFactory.generateItems("Potion",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else
+            System.out.println("EXCEPTION erros at line around 66 MarketHandler.java");
     
         unequippedInventoryItems.add(item);
         return item;
@@ -648,6 +685,8 @@ public class LoopManiaWorld {
             else {
                 doggieCoin.deflation();
             }
+            // everytime the player finished a cycle, new items will be generated
+            this.markethandler.generateMarketList();
         }
 
     }
@@ -727,7 +766,7 @@ public class LoopManiaWorld {
             e.move(character);
             int x = e.getX();
             int y = e.getY();
-            /*
+            
             for(Building b: buildingEntities) {
                 if(b instanceof Trap) {
                     if(b.getX() == x && b.getY() == y) {
@@ -740,9 +779,9 @@ public class LoopManiaWorld {
                     }
                 }
             }
-            */
+            
         }
-        /*
+        
         for(BasicEnemy e: defeatedEnemies) {
             killEnemy(e);
         }
@@ -750,7 +789,6 @@ public class LoopManiaWorld {
             b.destroy();
             buildingEntities.remove(b);
         }
-        */
     }
 
     /**
@@ -874,18 +912,69 @@ public class LoopManiaWorld {
             
     }
     
-
-        private Item checkEquip(String type) {
-            for(Entity e: equippedInventoryItems) {
-                Item i = (Item)e;
-                if(type == i.getType()) {
-                    return i;
-                }
+    // check if a equipment is equpped in the equipped inventory
+    private Item checkEquip(String type) {
+        for(Entity e: equippedInventoryItems) {
+            Item i = (Item)e;
+            if(type == i.getType()) {
+                return i;
             }
-            return null;
         }
-    
+        return null;
+    }
 
+    // create sell function so the player can sell items in the marketplace
+    public void sellToMarketPlace(int x, int y)
+    {
+        Entity find = null;
+        for(Entity e: unequippedInventoryItems)
+        {
+            if(e.getX() == x && e.getY() == y)
+                find = e;
+        }
+        if(find != null)
+        {
+            BasicItem item = (BasicItem) find;
+            character.setGold(character.getGold()+item.getSellPrice());
+            removeUnequippedInventoryItemByCoordinates(x, y);
+        }
+        else
+            System.out.println("around line 943 world, can not find the item in the  unequippedInventoryItems ");
+    }
 
+    // create purchase function so the player can sell items in the marketplace
+    public void purchaseHandler(int x, int y)
+    {
+        if(this.markethandler.getDifficulties() == 0)
+            purchaseFromMarketPlace(-1, -1,x,y);
+        else if(this.markethandler.getDifficulties() == 1)
+            purchaseFromMarketPlace(-1, 1,x,y);
+        else if(this.markethandler.getDifficulties() == 2)
+            purchaseFromMarketPlace(1, -1,x,y);
+        else
+            System.out.println("Error,the difficuites is not 1,2 or 3, line 950 World");
+    }
+
+    //actuall purchase function
+    public void purchaseFromMarketPlace(int amourLimit, int potionLimit, int x, int y)
+    {
+        Entity find = null;
+        for(Entity e: markethandler.getShopItemList())
+        {
+            if(e.getX() == x && e.getY() == y)
+                find = e;
+        }
+        if(find != null)
+        {
+            BasicItem item = (BasicItem) find;
+            if(character.getGold() >= item.getpurchasePrice()) 
+            {
+                character.setGold(character.getGold() - item.getpurchasePrice());  
+                 
+            }
+        }
+        else
+            System.out.println("around line 943 world, can not find the item in the  unequippedInventoryItems ");
+    }
 }
 

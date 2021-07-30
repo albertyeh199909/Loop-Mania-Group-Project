@@ -1,6 +1,9 @@
 package unsw.loopmania;
 import java.util.ArrayList;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.IntegerProperty;
+
 /**
  * represents the main character in the backend of the game world
  */
@@ -19,6 +22,7 @@ public class Character extends MovingEntity {
 
     private Damage damage = new UnarmedStrategy();
     private ArrayList<Defense> defense = new ArrayList<Defense>();
+    private IntegerProperty healthDisplay;
 
     // the Stuned 
     private boolean isStuned = false;
@@ -67,7 +71,20 @@ public class Character extends MovingEntity {
     public Character(PathPosition position) {
         super(position);
         setMaximumHealth(100);
+        this.healthDisplay= new SimpleIntegerProperty(getMaximumHealth());
         setHealth(getMaximumHealth());
+        
+    }
+
+    @Override
+    public void setHealth(int health) {
+        super.setHealth(health);
+        this.healthDisplay.set(health);
+
+    }
+
+    public IntegerProperty getIntegerProperty(){
+        return this.healthDisplay;
     }
 
     public Damage getDamage() {
