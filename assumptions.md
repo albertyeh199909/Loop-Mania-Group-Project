@@ -12,6 +12,7 @@
 - Critical damage multiplier is applied before any damage reductions from other sources.
 - Increase of critical vamplire damage will be applied to any entities.
 - If player does not have enough experience after the first 40 cycles, and gains enough experience afterwards, Elan will spawn after another set of 40 cycles
+- Elan Muske only heals one enemy a turn
 
 **Equipment:**
 - Equipment is vague in its description. Assumption is that (e.g. for armour), "provides defence" equals "halves enemy attack".
