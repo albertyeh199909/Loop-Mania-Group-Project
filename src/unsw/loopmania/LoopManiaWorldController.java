@@ -802,24 +802,6 @@ public class LoopManiaWorldController {
     public void handleKeyPress(KeyEvent event) throws IOException {
         // TODO = handle additional key presses, e.g. for consuming a health potion
         switch (event.getCode()) {
-<<<<<<< src/unsw/loopmania/LoopManiaWorldController.java
-            case G:
-                switchToGoalMenu();
-                break;
-            case SPACE:
-                if (isPaused){
-                    startTimer();
-                }
-                else{
-                    pause();
-                }
-                break;
-            case ENTER:
-                world.usePotion();
-                break;
-            default:
-                break;
-=======
         case SPACE:
             if (isPaused){
                 startTimer();
@@ -832,7 +814,6 @@ public class LoopManiaWorldController {
             world.usePotion();
         default:
             break;
->>>>>>> src/unsw/loopmania/LoopManiaWorldController.java
         }
     }
 
