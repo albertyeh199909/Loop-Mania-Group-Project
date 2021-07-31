@@ -18,8 +18,8 @@ public class GoalMenuController {
 
     private MenuSwitcher gameSwitcher;
 
-    public GoalMenuController() throws FileNotFoundException {
-        goalFile = new JSONObject(new JSONTokener(new FileReader("worlds/basic_world_with_player.json")));
+    public GoalMenuController(String file) throws FileNotFoundException {
+        goalFile = new JSONObject(new JSONTokener(new FileReader("worlds/" + file)));
     }
 
     public void displayGoal() {

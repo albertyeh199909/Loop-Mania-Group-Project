@@ -56,7 +56,7 @@ public class LoopManiaApplication extends Application {
         Parent winScreenRoot = menuLoader.load();
 
         //load the goal menu
-        GoalMenuController goalMenuController = new GoalMenuController();
+        GoalMenuController goalMenuController = new GoalMenuController("world_with_twists_and_turns.json");
         FXMLLoader goalMenuLoader = new FXMLLoader(getClass().getResource("goalView.fxml"));
         goalMenuLoader.setController(goalMenuController);
         Parent goalMenuRoot = menuLoader.load();
