@@ -38,4 +38,12 @@ public class MainMenuController {
     private void switchToGame() throws IOException {
         gameSwitcher.switchMenu();
     }
+
+    @FXML
+    public void initialize() {
+        LoopManiaWorld.standardMode.bindBidirectional(standardModeCheckBox.selectedProperty());
+        LoopManiaWorld.survivalMode.bindBidirectional(survivalModeCheckBox.selectedProperty());
+        LoopManiaWorld.berserkerMode.bindBidirectional(berserkerModeCheckBox.selectedProperty());
+        LoopManiaWorld.confusingMode.bindBidirectional(confusingModeCheckBox.selectedProperty());
+    }
 }
