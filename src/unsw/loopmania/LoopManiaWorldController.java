@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
 
@@ -194,6 +195,10 @@ public class LoopManiaWorldController {
      */
     private MenuSwitcher mainMenuSwitcher;
 
+    private MenuSwitcher loseScreenSwitcher;
+
+    private MenuSwitcher winScreenSwitcher;
+
     /**
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
@@ -306,6 +311,7 @@ public class LoopManiaWorldController {
             List<BasicEnemy> defeatedEnemies = world.runBattles();
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
+
             }
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
             for (BasicEnemy newEnemy: newEnemies){
@@ -752,9 +758,13 @@ public class LoopManiaWorldController {
         }
     }
 
-    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher){
+    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher, MenuSwitcher loseScreenSwitcher, MenuSwitcher winScreenSwitcher){
         // TODO = possibly set other menu switchers
         this.mainMenuSwitcher = mainMenuSwitcher;
+
+        this.loseScreenSwitcher = loseScreenSwitcher;
+
+        this.winScreenSwitcher = winScreenSwitcher;
     }
 
     /**
