@@ -33,6 +33,7 @@ import javafx.util.Duration;
 import java.util.EnumMap;
 import javafx.scene.control.Label;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.StringProperty;
 
 import java.io.File;
 import java.io.IOException;
@@ -116,6 +117,12 @@ public class LoopManiaWorldController {
 
     @FXML
     private Label soldierCount;
+
+    @FXML
+    private Label doggiecoinAmount;
+
+    @FXML
+    private Label doggiecoinValue;
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -323,6 +330,9 @@ public class LoopManiaWorldController {
         gold.textProperty().bind(world.getGoldCount().asString());
         xp.textProperty().bind(world.getXpCount().asString());
         soldierCount.textProperty().bind(world.getSoldierCount().asString());
+        
+        doggiecoinAmount.textProperty().bind(world.getDoggieCoinAmount());
+        doggiecoinValue.textProperty().bind(world.getDoggieCoinValue());
 
         // create the draggable icon
         draggedEntity = new DragIcon();

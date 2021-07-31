@@ -1,9 +1,34 @@
 package unsw.loopmania;
 import java.util.*;
 
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.SimpleStringProperty;
+
+
 public class DoggieCoin {
     private int amount = 0;
     private int sellValue = 0;
+
+    private StringProperty amountDisplay = new SimpleStringProperty();
+    private StringProperty sellValueDisplay = new SimpleStringProperty();
+
+    public StringProperty getAmountDisplay() {
+        return this.amountDisplay;
+    }
+
+ 
+    public StringProperty getSellValueDisplay() {
+        return this.sellValueDisplay;
+    }
+
+    public DoggieCoin() {
+        setAmount(0);
+        setSellValue(0);
+    }
+
+
+
+
 
     
     public int getAmount() {
@@ -12,6 +37,8 @@ public class DoggieCoin {
 
     public void setAmount(int amount) {
         this.amount = amount;
+        this.amountDisplay.set("Amount:"+String.valueOf(amount));
+
     }
 
     public int getSellValue() {
@@ -21,6 +48,7 @@ public class DoggieCoin {
     public void setSellValue(int sellValue) 
     {
         this.sellValue = sellValue;
+        this.sellValueDisplay.set("Value:"+String.valueOf(sellValue));
     }
 
     /**

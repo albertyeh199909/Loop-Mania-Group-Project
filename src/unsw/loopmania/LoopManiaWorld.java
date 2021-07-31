@@ -9,6 +9,7 @@ import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * A backend world.
@@ -1056,5 +1057,14 @@ public class LoopManiaWorld {
             removeUnequippedInventoryItemByCoordinates(x, y);
 
     }
+
+    public StringProperty getDoggieCoinValue() {
+        return doggieCoin.getSellValueDisplay();
+    }
+    public StringProperty getDoggieCoinAmount() {
+        return doggieCoin.getAmountDisplay();
+    }
+
+
 }
 
