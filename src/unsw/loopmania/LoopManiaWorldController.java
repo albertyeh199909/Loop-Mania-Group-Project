@@ -199,6 +199,8 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher winScreenSwitcher;
 
+    private MenuSwitcher goalMenuSwitcher;
+
     /**
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
@@ -758,13 +760,16 @@ public class LoopManiaWorldController {
         }
     }
 
-    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher, MenuSwitcher loseScreenSwitcher, MenuSwitcher winScreenSwitcher){
+    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher, MenuSwitcher loseScreenSwitcher, MenuSwitcher winScreenSwitcher, MenuSwitcher goalMenuSwitcher){
         // TODO = possibly set other menu switchers
         this.mainMenuSwitcher = mainMenuSwitcher;
 
         this.loseScreenSwitcher = loseScreenSwitcher;
 
         this.winScreenSwitcher = winScreenSwitcher;
+
+        this.goalMenuSwitcher = goalMenuSwitcher;
+
     }
 
     /**
@@ -786,6 +791,11 @@ public class LoopManiaWorldController {
     private void switchToWinScreen() throws IOException {
         pause();
         winScreenSwitcher.switchMenu();
+    }
+
+    private void switchToGoalMenu() throws IOException {
+        pause();
+        goalMenuSwitcher.switchMenu();
     }
 
     /**
