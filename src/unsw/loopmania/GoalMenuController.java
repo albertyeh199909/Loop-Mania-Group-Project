@@ -15,9 +15,6 @@ public class GoalMenuController {
     @FXML
     private Text displayWindow;
 
-    @FXML
-    private Label displayLabel;
-
     private JSONObject goalFile;
 
     private MenuSwitcher gameSwitcher;
