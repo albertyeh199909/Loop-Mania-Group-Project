@@ -103,9 +103,8 @@ public class LoopManiaWorldController {
     private GridPane unequippedInventory;
 
     @FXML
-<<<<<<< src/unsw/loopmania/LoopManiaWorldController.java
     private Button exitToMainMenuButton;
-=======
+
     private Label healthNumber;
 
     @FXML
@@ -116,7 +115,6 @@ public class LoopManiaWorldController {
 
     @FXML
     private Label soldierCount;
->>>>>>> src/unsw/loopmania/LoopManiaWorldController.java
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -802,15 +800,13 @@ public class LoopManiaWorldController {
     public void handleKeyPress(KeyEvent event) throws IOException {
         // TODO = handle additional key presses, e.g. for consuming a health potion
         switch (event.getCode()) {
-<<<<<<< src/unsw/loopmania/LoopManiaWorldController.java
             case G:
                 switchToGoalMenu();
                 break;
             case SPACE:
-                if (isPaused){
+                if (isPaused) {
                     startTimer();
-                }
-                else{
+                } else {
                     pause();
                 }
                 break;
@@ -819,20 +815,6 @@ public class LoopManiaWorldController {
                 break;
             default:
                 break;
-=======
-        case SPACE:
-            if (isPaused){
-                startTimer();
-            }
-            else{
-                pause();
-            }
-            break;
-        case ENTER:
-            world.usePotion();
-        default:
-            break;
->>>>>>> src/unsw/loopmania/LoopManiaWorldController.java
         }
     }
 
