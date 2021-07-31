@@ -23,6 +23,8 @@ public class Character extends MovingEntity {
     private Damage damage = new UnarmedStrategy();
     private ArrayList<Defense> defense = new ArrayList<Defense>();
     private IntegerProperty healthDisplay;
+    private IntegerProperty goldDisplay;
+    private IntegerProperty xpDisplay;
 
     // the Stuned 
     private boolean isStuned = false;
@@ -52,7 +54,7 @@ public class Character extends MovingEntity {
 
     }
     /**
-     * deal daamge to entity based on allied soldiers and weapon strategy
+     * deal damage to entity based on allied soldiers and weapon strategy
      * @param entity
      * @param array
      */
@@ -73,6 +75,8 @@ public class Character extends MovingEntity {
         setMaximumHealth(100);
         this.healthDisplay= new SimpleIntegerProperty(getMaximumHealth());
         setHealth(getMaximumHealth());
+        this.goldDisplay= new SimpleIntegerProperty(0);
+        this.xpDisplay= new SimpleIntegerProperty(0);
         
     }
 
@@ -83,8 +87,16 @@ public class Character extends MovingEntity {
 
     }
 
-    public IntegerProperty getIntegerProperty(){
+    public IntegerProperty getHealthIntegerProperty(){
         return this.healthDisplay;
+    }
+
+    public IntegerProperty getGoldIntegerProperty() {
+        return this.goldDisplay;
+    }
+
+    public IntegerProperty getXPIntegerProperty() {
+        return this.xpDisplay;
     }
 
     public Damage getDamage() {
@@ -113,6 +125,7 @@ public class Character extends MovingEntity {
 
     public void setGold(int number) {
         this.gold = number;
+        this.goldDisplay.set(number);
     }
 
     public void setStun(boolean b)
@@ -233,6 +246,7 @@ public class Character extends MovingEntity {
 
     public void setExperience(int experience) {
         this.experience = experience;
+        this.xpDisplay.set(experience);
     }
 
 

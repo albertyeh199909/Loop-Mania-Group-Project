@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import org.javatuples.Pair;
-
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class MarketHandler
@@ -43,23 +42,23 @@ public class MarketHandler
         for(int i = 0; i < 10; i++)
         {
             int value = new Random().nextInt(7);
-            Entity item = null;
+            BasicItem item = null;
             if(value == 0)
-                item = MarketItemFactory.generateItems("Sword",0,i);
+                item = ItemFactory.generateBasicItems(eItems.Sword,0,i);
             else if(value == 1)
-                item = MarketItemFactory.generateItems("Staff",0,i);
+                item = ItemFactory.generateBasicItems(eItems.Staff,0,i);
             else if(value == 2)
-                item = MarketItemFactory.generateItems("Stake",0,i);
+                item = ItemFactory.generateBasicItems(eItems.Stake,0,i);
             else if(value == 3)
-                item = MarketItemFactory.generateItems("Armour",0,i);
+                item = ItemFactory.generateBasicItems(eItems.Armour,0,i);
             else if (value ==4)
-                item = MarketItemFactory.generateItems("Helmet",0,i);
+                item = ItemFactory.generateBasicItems(eItems.Helmet,0,i);
             else if(value == 5)
-                item = MarketItemFactory.generateItems("Shield",0,i);
+                item = ItemFactory.generateBasicItems(eItems.Shield,0,i);
             else if(value == 6)
-                item = MarketItemFactory.generateItems("Potion",0,i);
+                item = ItemFactory.generateBasicItems(eItems.Potion,0,i);
             else
-                System.out.println("EXCEPTION erros at line around 66 MarketHandler.java");
+                System.out.println("EXCEPTION erros at line around 626 world.java");
             if( item != null)
                 marketItems.add(item);
         }

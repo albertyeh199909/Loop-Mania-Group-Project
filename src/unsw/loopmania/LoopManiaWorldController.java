@@ -103,6 +103,15 @@ public class LoopManiaWorldController {
     @FXML
     private Label healthNumber;
 
+    @FXML
+    private Label gold;
+
+    @FXML
+    private Label xp;
+
+    @FXML
+    private Label soldierCount;
+
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
 
@@ -287,8 +296,11 @@ public class LoopManiaWorldController {
             }
         }
 
-        healthNumber = new Label();
-        healthNumber.textProperty().bind(world.getCharacter().getIntegerProperty().asString());
+        //healthNumber = new Label();
+        healthNumber.textProperty().bind(world.getCharacter().getHealthIntegerProperty().asString());
+        gold.textProperty().bind(world.getCharacter().getGoldIntegerProperty().asString());
+        xp.textProperty().bind(world.getCharacter().getXPIntegerProperty().asString());
+        soldierCount.textProperty().bind(world.getSoldierCount().asString());
 
         // create the draggable icon
         draggedEntity = new DragIcon();
@@ -374,8 +386,35 @@ public class LoopManiaWorldController {
         // react to character defeating an enemy
         // in starter code, spawning extra card/weapon...
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
-        loadSword();
-        loadCard();
+        if(enemy instanceof Slug) {
+            world.rewardExp(10);
+            world.rewardGold(50);
+            loadSword();
+            loadCard();
+        }
+        if(enemy instanceof Zombie) {
+            world.rewardExp(50);
+            loadSword();
+        }
+        if(enemy instanceof Vampire) {
+            world.rewardExp(150);
+            world.rewardGold(200);
+            loadSword();
+            loadCard();
+        }
+
+        if(enemy instanceof ElanMuske || enemy instanceof Doggie) {
+            world.rewardExp(1000);
+            world.rewardGold(1000);
+            loadSword();
+            loadCard();
+        }
+
+
+        
+
+        
+        
     }
 
     /**
@@ -525,24 +564,31 @@ public class LoopManiaWorldController {
                                 Building newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
                                 if(newBuilding == null) {
                                     System.out.println("INVALID POSITION");
-                                    draggedEntity.setVisible(true);
+                                    draggedEntity.setVisible(false);
+                                    // set the location the card
+                                    
+
                                     break;
                                 }
                                 else {
                                     draggedEntity.setVisible(false);
+                                    onLoad(newBuilding);
                                 }
-                                onLoad(newBuilding);
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
-                                removeItemByCoordinates(nodeX, nodeY);
-                                /*
-                                if(targetGridPane.getRowIndex()) {
-                                    world.equip
+                                
+                                if(targetGridPane == equippedItems) {
+                                    System.out.println("grid");
+                                    world.equip(nodeX,nodeY);
                                 }
-                                */
+                                else {
+                                    removeItemByCoordinates(nodeX, nodeY);
+                                }
+                                
                                 targetGridPane.add(image, x, y, 1, 1);
+                                //
                                 draggedEntity.setVisible(false);
                                 break;
                             default:
@@ -751,6 +797,8 @@ public class LoopManiaWorldController {
                 pause();
             }
             break;
+        case ENTER:
+            world.usePotion();
         default:
             break;
         }

@@ -7,6 +7,7 @@ import java.util.Random;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.IntegerProperty;
 
 /**
  * A backend world.
@@ -39,6 +40,9 @@ public class LoopManiaWorld {
     private int initMainCharacterPosY;
     private int VampireSpawnChecker = 0;
     private int ZombieSpawnChecker = 0;
+
+    // integer proprty that returns the number of valid alliedsoilders
+    private IntegerProperty soldierCount = new SimpleIntegerProperty(0);
 
 
 
@@ -97,6 +101,7 @@ public class LoopManiaWorld {
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
         markethandler = new MarketHandler();
+        equippedInventoryItems = new ArrayList<>();
     }
 
     public int getWidth() {
@@ -502,6 +507,15 @@ public class LoopManiaWorld {
         // execute the battle here !!!
         executeBattle(enemiesInBattle, defeatedEnemies);
 
+        int counterAS = 0;
+        // check for valid allied soilders
+        for(AlliedSoldier a : friendlySoldiers)
+        {
+            if(a.getIsAlive())
+                counterAS += 1;
+        }
+        soldierCount.set(counterAS);
+
         // we need function to indicate the character has lost the battle
 
         //remove the defated enemy after the battle
@@ -568,8 +582,8 @@ public class LoopManiaWorld {
     }
 
     /**
-     * spawn a sword in the world and return the sword entity
-     * @return a sword to be spawned in the controller as a JavaFX node
+     * spawn a basicitem in the world and return the basicitem entity
+     * @return a basicitem to be spawned in the controller as a JavaFX node
      */
     public BasicItem addUnequippedBasicItem(){
         // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
@@ -582,47 +596,56 @@ public class LoopManiaWorld {
         }
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
 
-        /*
+        int value = new Random().nextInt(16);
         BasicItem item = null;
-        int value = new Random().nextInt(7);
-        if(value == 0)
-            item = new Sword(20, "Sword",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
-        else if(value == 1)
-            item = new Staff(20, "Staff",150, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
-        else if(value == 2)
-            item = new Stake(20, "Stake",250, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
-        else if(value == 3)
-            item = new Armour(20, "Armour",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
-        else if (value ==4)
-            item = new Helmet(20, "Helmet",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
-        else if(value == 5)
-            item = new Shield(20, "Shield",300, firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
-        else if(value == 6)
-            item = new Potion(20, "Potion",200,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        if(value == 0 || value == 1)
+            item = ItemFactory.generateBasicItems(eItems.Sword,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if(value == 2 || value == 3)
+            item = ItemFactory.generateBasicItems(eItems.Staff,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if(value == 4 || value == 5)
+            item = ItemFactory.generateBasicItems(eItems.Stake,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if(value == 6 || value == 7)
+            item = ItemFactory.generateBasicItems(eItems.Armour,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if (value == 8 || value == 9)
+            item = ItemFactory.generateBasicItems(eItems.Helmet,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if(value == 10 || value == 11)
+            item = ItemFactory.generateBasicItems(eItems.Shield,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if(value == 12 || value == 13)
+            item = ItemFactory.generateBasicItems(eItems.Potion,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+         else if(value == 14)
+            item = ItemFactory.generateBasicItems(eItems.TreeStump,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+        else if(value == 15)
+            item = ItemFactory.generateBasicItems(eItems.TheRing,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
         else
-            System.out.println("EXCEPTION erros at line around 550 filename: World");
+            System.out.println("EXCEPTION erros at line around 626 world.java");
+        if(item == null)
+            System.out.println("item is null line 645");
+        unequippedInventoryItems.add(item);
+        return item;
+    }
 
-        //check if inventory is full, then remove the first item
-        */
 
-        int value = new Random().nextInt(7);
-        BasicItem item = null;
+    /**
+     * spawn a basicitem in the world and return the basicitem entity
+     * @return a basicitem to be spawned in the controller as a JavaFX node
+     */
+    public RareItem addUnequippedRareItem(){
+        // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
+        if(unequippedInventoryItems.size() >= (unequippedInventoryWidth * unequippedInventoryHeight))
+        {
+            removeItemByPositionInUnequippedInventoryItems(0);
+            
+            character.setGold(100);
+            character.setExperience(100);
+        }
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+
+        int value = new Random().nextInt(3);
+        RareItem item = null;
         if(value == 0)
-            item = MarketItemFactory.generateItems("Sword",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
-        else if(value == 1)
-            item = MarketItemFactory.generateItems("Staff",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
-        else if(value == 2)
-            item = MarketItemFactory.generateItems("Stake",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
-        else if(value == 3)
-            item = MarketItemFactory.generateItems("Armour",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
-        else if (value ==4)
-            item = MarketItemFactory.generateItems("Helmet",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
-        else if(value == 5)
-            item = MarketItemFactory.generateItems("Shield",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
-        else if(value == 6)
-            item = MarketItemFactory.generateItems("Potion",firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+            item = ItemFactory.generateRareItems(eItems.TheRing,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
         else
-            System.out.println("EXCEPTION erros at line around 66 MarketHandler.java");
+            System.out.println("EXCEPTION erros at line around 657 world.java");
     
         unequippedInventoryItems.add(item);
         return item;
@@ -662,6 +685,7 @@ public class LoopManiaWorld {
                 }   
                 else if(b instanceof Barracks) {
                     friendlySoldiers.add(new AlliedSoldier());
+                    soldierCount.set(friendlySoldiers.size());
                 }
             }
         }
@@ -674,6 +698,7 @@ public class LoopManiaWorld {
         incrementCycleCounter(x,y);
     }
 
+    // if the character returns back to the hero's castle, then increment the Cycle counter 
     public void incrementCycleCounter(int x, int y)
     {
         if(x == this.initMainCharacterPosX && y == this.initMainCharacterPosY) {
@@ -861,29 +886,33 @@ public class LoopManiaWorld {
     }
 
 
-// how do we interchange equipments
-// assume the player can only grag items from unequipped inventory to equipped inventory 
-
-
-    public void equip(Item e)
+    // how do we interchange equipments
+    // assume the player can only grag items from unequipped inventory to equipped inventory 
+    public void equip(int x, int y)
     {
+        Item e = (Item)getUnequippedInventoryItemEntityByCoordinates(x, y);
         
         if(checkEquip(e.getType())!=null) {
             Item item = checkEquip(e.getType());
             equippedInventoryItems.remove(item);
             Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-            unequippedInventoryItems.add(item);
-            item.setX(firstAvailableSlot.getValue0());
-            item.setY(firstAvailableSlot.getValue1());
+            if(firstAvailableSlot != null) {
+                unequippedInventoryItems.add(item);
+                item.setX(firstAvailableSlot.getValue0());
+                item.setY(firstAvailableSlot.getValue1());
+            }
         } 
         equippedInventoryItems.add(e);
+        removeUnequippedInventoryItemByCoordinates(x, y);
         switch(e.getType()) {
-            case("Shield"):            
+            case("Shield"):  
+                System.out.println("shield");         
                 character.setShield((Shield)e);
                 e.setX(3);
                 e.setY(0);
                 break;
             case("Sword"):
+            System.out.println("sword"); 
                 character.setWeapon((Sword)e);
                 e.setX(0);
                 e.setY(0);
@@ -975,6 +1004,38 @@ public class LoopManiaWorld {
         }
         else
             System.out.println("around line 943 world, can not find the item in the  unequippedInventoryItems ");
+    }
+
+    // the character is rewarded with gold
+    public void rewardGold(int amount) {
+        character.setGold(character.getGold() + amount);
+    }
+
+    // the character is rewarded with EXP(experience points)
+    public void rewardExp(int amount) {
+        character.setExperience(character.getExperience() + amount);
+    }
+
+    // returns the number of alive soilders
+    public IntegerProperty getSoldierCount() {
+        return this.soldierCount;
+    }
+
+    public void usePotion() {
+        int x = -1;
+        int y = -1;
+        for(Entity e: unequippedInventoryItems) {
+            if(e instanceof Potion) {
+                Item item = (Item) e;
+                item.useItem(character);
+                x = item.getX();
+                y = item.getY();
+
+            }
+        }
+        if(x!=-1 && y!= -1)
+            removeUnequippedInventoryItemByCoordinates(x, y);
+
     }
 }
 
