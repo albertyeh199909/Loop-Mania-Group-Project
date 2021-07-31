@@ -3,6 +3,8 @@ package unsw.loopmania;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
 
@@ -101,6 +103,9 @@ public class LoopManiaWorldController {
     private GridPane unequippedInventory;
 
     @FXML
+<<<<<<< src/unsw/loopmania/LoopManiaWorldController.java
+    private Button exitToMainMenuButton;
+=======
     private Label healthNumber;
 
     @FXML
@@ -111,6 +116,7 @@ public class LoopManiaWorldController {
 
     @FXML
     private Label soldierCount;
+>>>>>>> src/unsw/loopmania/LoopManiaWorldController.java
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -203,6 +209,12 @@ public class LoopManiaWorldController {
      * object handling switching to the main menu
      */
     private MenuSwitcher mainMenuSwitcher;
+
+    private MenuSwitcher loseScreenSwitcher;
+
+    private MenuSwitcher winScreenSwitcher;
+
+    private MenuSwitcher goalMenuSwitcher;
 
     /**
      * @param world world object loaded from file
@@ -322,6 +334,7 @@ public class LoopManiaWorldController {
             List<BasicEnemy> defeatedEnemies = world.runBattles();
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
+
             }
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
             for (BasicEnemy newEnemy: newEnemies){
@@ -786,9 +799,27 @@ public class LoopManiaWorldController {
      * @param event some keyboard key press
      */
     @FXML
-    public void handleKeyPress(KeyEvent event) {
+    public void handleKeyPress(KeyEvent event) throws IOException {
         // TODO = handle additional key presses, e.g. for consuming a health potion
         switch (event.getCode()) {
+<<<<<<< src/unsw/loopmania/LoopManiaWorldController.java
+            case G:
+                switchToGoalMenu();
+                break;
+            case SPACE:
+                if (isPaused){
+                    startTimer();
+                }
+                else{
+                    pause();
+                }
+                break;
+            case ENTER:
+                world.usePotion();
+                break;
+            default:
+                break;
+=======
         case SPACE:
             if (isPaused){
                 startTimer();
@@ -801,12 +832,20 @@ public class LoopManiaWorldController {
             world.usePotion();
         default:
             break;
+>>>>>>> src/unsw/loopmania/LoopManiaWorldController.java
         }
     }
 
-    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher){
+    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher, MenuSwitcher loseScreenSwitcher, MenuSwitcher winScreenSwitcher, MenuSwitcher goalMenuSwitcher){
         // TODO = possibly set other menu switchers
         this.mainMenuSwitcher = mainMenuSwitcher;
+
+        this.loseScreenSwitcher = loseScreenSwitcher;
+
+        this.winScreenSwitcher = winScreenSwitcher;
+
+        this.goalMenuSwitcher = goalMenuSwitcher;
+
     }
 
     /**
@@ -818,6 +857,21 @@ public class LoopManiaWorldController {
         // TODO = possibly set other menu switchers
         pause();
         mainMenuSwitcher.switchMenu();
+    }
+
+    private void switchToLoseScreen() throws IOException {
+        pause();
+        loseScreenSwitcher.switchMenu();
+    }
+
+    private void switchToWinScreen() throws IOException {
+        pause();
+        winScreenSwitcher.switchMenu();
+    }
+
+    private void switchToGoalMenu() throws IOException {
+        pause();
+        goalMenuSwitcher.switchMenu();
     }
 
     /**

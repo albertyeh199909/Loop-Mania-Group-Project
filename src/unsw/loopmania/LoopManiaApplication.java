@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -46,12 +47,47 @@ public class LoopManiaApplication extends Application {
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
 
+        // load the lose menu
+        LoseScreenController loseScreenController = new LoseScreenController();
+        FXMLLoader loseScreenLoader = new FXMLLoader(getClass().getResource("loseScreen.fxml"));
+        loseScreenLoader.setController(loseScreenController);
+        Parent loseScreenRoot = loseScreenLoader.load();
+
+        // load the win menu
+        WinScreenController winScreenController = new WinScreenController();
+        FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("winScreen.fxml"));
+        winScreenLoader.setController(winScreenController);
+        Parent winScreenRoot = winScreenLoader.load();
+
+        //load the goal menu
+        GoalMenuController goalMenuController = new GoalMenuController("world_with_twists_and_turns.json");
+        FXMLLoader goalMenuLoader = new FXMLLoader(getClass().getResource("goalView.fxml"));
+        goalMenuLoader.setController(goalMenuController);
+        Parent goalMenuRoot = goalMenuLoader.load();
+
+
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
+
+        loseScreenController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+            }, () -> {switchToRoot(scene, mainMenuRoot, primaryStage);
+        });
+
+        winScreenController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+        }, () -> {switchToRoot(scene, mainMenuRoot, primaryStage);
+        });
+
+        goalMenuController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+        });
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
-        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
+        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);}, () -> {switchToRoot(scene, loseScreenRoot, primaryStage);}, () -> {switchToRoot(scene, winScreenRoot, primaryStage);}, () -> {switchToRoot(scene, goalMenuRoot, primaryStage);});
         mainMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
