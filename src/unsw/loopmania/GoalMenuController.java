@@ -18,13 +18,16 @@ public class GoalMenuController {
 
     private MenuSwitcher gameSwitcher;
 
-    public GoalMenuController(MenuSwitcher gameSwitcher) throws FileNotFoundException {
+    public GoalMenuController() throws FileNotFoundException {
         goalFile = new JSONObject(new JSONTokener(new FileReader("worlds/basic_world_with_player.json")));
-        this.gameSwitcher = gameSwitcher;
     }
 
     public void displayGoal() {
         displayWindow.setText(goalFile.getString("goal-condition"));
+    }
+
+    public void setGameSwitcher(MenuSwitcher gameSwitcher) {
+        this.gameSwitcher = gameSwitcher;
     }
 
     @FXML
