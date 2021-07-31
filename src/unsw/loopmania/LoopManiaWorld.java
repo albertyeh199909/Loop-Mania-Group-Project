@@ -1065,6 +1065,21 @@ public class LoopManiaWorld {
         return doggieCoin.getAmountDisplay();
     }
 
+    public void addHealth(int health) {
+        if(character.getHealth() + health > character.getMaximumHealth())
+            character.setHealth(character.getMaximumHealth());
+        else
+            character.setHealth(character.getHealth()+health);
+    }
+
+    public void addGold(int gold) {
+        character.setGold(character.getGold()+ gold);
+    }
+
+    public void addExp(int exp) {
+        character.setExperience(character.getExperience()+ exp);
+    }
+
 
 }
 

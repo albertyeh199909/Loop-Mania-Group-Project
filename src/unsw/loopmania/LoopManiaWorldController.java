@@ -32,8 +32,8 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import java.util.EnumMap;
 import javafx.scene.control.Label;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.StringProperty;
+
+import javafx.scene.control.TextField;
 
 import java.io.File;
 import java.io.IOException;
@@ -107,6 +107,10 @@ public class LoopManiaWorldController {
     private Button exitToMainMenuButton;
 
     @FXML
+    private Button add;
+
+
+    @FXML
     private Label healthNumber;
 
     @FXML
@@ -124,6 +128,15 @@ public class LoopManiaWorldController {
     @FXML
     private Label doggiecoinValue;
 
+    @FXML
+    private TextField healthCheat;
+
+    @FXML 
+    private TextField goldCheat;
+    
+    @FXML
+    private TextField expCheat;
+
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
 
@@ -134,6 +147,10 @@ public class LoopManiaWorldController {
 
     private boolean isPaused;
     private LoopManiaWorld world;
+
+    public LoopManiaWorld getWorld() {
+        return world;
+    }
 
     /**
      * runs the periodic game logic - second-by-second moving of character through maze, as well as enemies, and running of battles
@@ -227,6 +244,9 @@ public class LoopManiaWorldController {
     private MenuSwitcher winScreenSwitcher;
 
     private MenuSwitcher goalMenuSwitcher;
+
+    private MenuSwitcher cheatMenuSwitcher;
+
 
     /**
      * @param world world object loaded from file
@@ -855,6 +875,9 @@ public class LoopManiaWorldController {
                     pause();
                 }
                 break;
+            case C:
+                cheat();
+                break;
             case ENTER:
                 world.useItem(Potion.class);
                 break;
@@ -863,7 +886,7 @@ public class LoopManiaWorldController {
         }
     }
 
-    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher, MenuSwitcher loseScreenSwitcher, MenuSwitcher winScreenSwitcher, MenuSwitcher goalMenuSwitcher){
+    public void setMainMenuSwitcher(MenuSwitcher cheatMenuSwitcher,MenuSwitcher mainMenuSwitcher, MenuSwitcher loseScreenSwitcher, MenuSwitcher winScreenSwitcher, MenuSwitcher goalMenuSwitcher ){
         // TODO = possibly set other menu switchers
         this.mainMenuSwitcher = mainMenuSwitcher;
 
@@ -872,6 +895,8 @@ public class LoopManiaWorldController {
         this.winScreenSwitcher = winScreenSwitcher;
 
         this.goalMenuSwitcher = goalMenuSwitcher;
+
+        this.cheatMenuSwitcher = cheatMenuSwitcher;
 
     }
 
@@ -885,6 +910,17 @@ public class LoopManiaWorldController {
         pause();
         mainMenuSwitcher.switchMenu();
     }
+
+    
+
+    
+    private void cheat() throws IOException {
+        // TODO = possibly set other menu switchers
+        pause();
+        cheatMenuSwitcher.switchMenu();
+    }
+
+    
 
     private void switchToLoseScreen() throws IOException {
         pause();

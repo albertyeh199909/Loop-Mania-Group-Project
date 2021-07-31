@@ -65,6 +65,13 @@ public class LoopManiaApplication extends Application {
         goalMenuLoader.setController(goalMenuController);
         Parent goalMenuRoot = goalMenuLoader.load();
 
+        //load the cheat menu
+        CheatScreenController cheatMenuController = new CheatScreenController(mainController.getWorld());
+        FXMLLoader cheatMenuLoader = new FXMLLoader(getClass().getResource("CheatScreen.fxml"));
+        cheatMenuLoader.setController(cheatMenuController);
+        Parent cheatMenuRoot = cheatMenuLoader.load();
+
+
 
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
@@ -91,13 +98,24 @@ public class LoopManiaApplication extends Application {
         }, () -> {switchToRoot(scene, mainMenuRoot, primaryStage);
         });
 
+        cheatMenuController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            try {
+                mainController.startTimer();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }, () -> {switchToRoot(scene, mainMenuRoot, primaryStage);
+        });
+
         goalMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
         });
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
-        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);}, () -> {switchToRoot(scene, loseScreenRoot, primaryStage);}, () -> {switchToRoot(scene, winScreenRoot, primaryStage);}, () -> {switchToRoot(scene, goalMenuRoot, primaryStage);});
+        mainController.setMainMenuSwitcher( () -> {switchToRoot(scene, cheatMenuRoot, primaryStage);},() -> {switchToRoot(scene, mainMenuRoot, primaryStage);}, () -> {switchToRoot(scene, loseScreenRoot, primaryStage);}, () -> {switchToRoot(scene, winScreenRoot, primaryStage);}, () -> {switchToRoot(scene, goalMenuRoot, primaryStage);});
         mainMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             try {
