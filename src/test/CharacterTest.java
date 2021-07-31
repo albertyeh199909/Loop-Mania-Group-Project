@@ -76,6 +76,8 @@ public class CharacterTest {
         Character player = new Character(start);
         PathPosition above = new PathPosition(3, path);
         PathPosition below = new PathPosition(4, path);
+        PathPosition below1 = new PathPosition(5, path);
+        PathPosition below2 = new PathPosition(6, path);
         Slug slug = new Slug(above);
         Vampire vampire = new Vampire(below);
         //test unarmed damage
@@ -108,9 +110,24 @@ public class CharacterTest {
 
         //test the damage of Anduril
         vampire.setHealth(10);
-        array.clear
+        array.clear();
         BasicItem anduril = ItemFactory.generateBasicItems(eItems.Anduril, -1, -1);
         player.setWeapon(anduril);
+        player.dealDamage(vampire,array);
+        assertEquals(-5, vampire.getHealth());
+
+        // test Anduril deal triple damage to the boss Elan Muske
+        ElanMuske muske = new ElanMuske(below1);
+        DoggieCoin doggiecoin = new DoggieCoin();
+        muske.setDoggieCoin(doggiecoin);
+        player.dealDamage(muske,array);
+        assertEquals(5, muske.getHealth());
+
+        // test Anduril deal triple damage to the boss Dodge
+        BasicEnemy doggggy = new Doggie(below2);
+        player.dealDamage(muske,array);
+        assertEquals(25, muske.getHealth());
+        
 
 
     }
@@ -133,6 +150,7 @@ public class CharacterTest {
         Character player = new Character(start);
         PathPosition above = new PathPosition(3, path);
         PathPosition below = new PathPosition(4, path);
+
         Slug slug = new Slug(above);
         Vampire vampire = new Vampire(below);
         
@@ -164,10 +182,57 @@ public class CharacterTest {
 
         damage = new DamageClass(vampire, 10, 10);
         damage = player.takeDamage(damage);
+        assertEquals(4,damage.getCriticalChance());        
+
+    }
+
+    @Test
+    public void testTreeStump()
+    {
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair<Integer, Integer>(4,3));
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));
+
+        //LoopManiaWorld world = new LoopManiaWorld(5,5, path);
+        PathPosition start = new PathPosition(2, path);
+        Character player = new Character(start);
+        PathPosition above = new PathPosition(3, path);
+        PathPosition below = new PathPosition(4, path);
+        PathPosition below1 = new PathPosition(5, path);
+        PathPosition below2 = new PathPosition(6, path);
+
+        DamageClass damage = null;
+        Vampire vampire = new Vampire(below);
+
+        // Testing TreeStump
+        TreeStump TS = new TreeStump(10, "TreeStump", 100,-1,-1);
+
+        // test tree stump reduce half of the boss's damage
+        player.setShield(TS);
+        
+        BasicEnemy muske = new ElanMuske(below1);
+        damage = new DamageClass(muske, 20, 0);
+        damage = player.takeDamage(damage);
+        assertEquals(10,damage.getDamage());
+        
+        // test tree stump reduce half of the boss's damage
+        BasicEnemy doggggy = new Doggie(below2);
+        damage = new DamageClass(doggggy, 5, 0);
+        damage = player.takeDamage(damage);
+        assertEquals(2,damage.getDamage());
+
+        // test tree stump reduce
+        damage = new DamageClass(vampire, 10, 10);
+        damage = player.takeDamage(damage);
         assertEquals(4,damage.getCriticalChance());
-    
-        
-        
 
     }
     

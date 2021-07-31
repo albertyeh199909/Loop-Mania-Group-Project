@@ -13,8 +13,10 @@ public class ElanMuske extends BasicEnemy{
         super(pathPosition, 1, 20, 1);
         setMaximumHealth(50);
         setHealth(getMaximumHealth());
+        
     }
 
+    
     /**
      * deflates doggiecoin on defeat
      */

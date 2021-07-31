@@ -456,7 +456,9 @@ public class LoopManiaWorld {
                 //determine whether the battle is over
                 if(character.getHealth() <= 0)
                 {
-                    break;
+                    useItem(TheRing.class);
+                    if(character.getHealth() <= 0)               
+                        break;
                 }
                 // any there is still an undeafted enemy then simply carry on the battle
                 boolean continueBattle = false;
@@ -621,11 +623,11 @@ public class LoopManiaWorld {
          else if(value == 14)
             item = ItemFactory.generateBasicItems(eItems.TreeStump,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
         else if(value == 15)
-            item = ItemFactory.generateBasicItems(eItems.TheRing,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+            item = ItemFactory.generateBasicItems(eItems.Anduril,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
         else
             System.out.println("EXCEPTION erros at line around 626 world.java");
         if(item == null)
-            System.out.println("item is null line 645");
+            System.out.println("item is null line 628");
         unequippedInventoryItems.add(item);
         return item;
     }
@@ -641,12 +643,12 @@ public class LoopManiaWorld {
         {
             removeItemByPositionInUnequippedInventoryItems(0);
             
-            character.setGold(100);
-            character.setExperience(100);
+            character.setGold(character.getGold()+100);
+            character.setExperience(character.getGold()+100);
         }
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
 
-        int value = new Random().nextInt(3);
+        int value = new Random().nextInt(1);
         RareItem item = null;
         if(value == 0)
             item = ItemFactory.generateRareItems(eItems.TheRing,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
@@ -987,7 +989,7 @@ public class LoopManiaWorld {
         else if(this.markethandler.getDifficulties() == 2)
             purchaseFromMarketPlace(1, -1,x,y);
         else
-            System.out.println("Error,the difficuites is not 1,2 or 3, line 950 World");
+            System.out.println("Error,the difficulties is not 1,2 or 3, line 950 World");
     }
 
     //actuall purchase function
@@ -1027,11 +1029,22 @@ public class LoopManiaWorld {
         return this.soldierCount;
     }
 
-    public void usePotion() {
+    public IntegerProperty getGoldCount() {
+        return character.getGoldIntegerProperty();
+    }
+    public IntegerProperty getHealthCount() {
+        return character.getHealthIntegerProperty();
+    }
+    public IntegerProperty getXpCount() {
+        return character.getXPIntegerProperty();
+    }
+    
+
+    public void useItem(Class<?> c) {
         int x = -1;
         int y = -1;
         for(Entity e: unequippedInventoryItems) {
-            if(e instanceof Potion) {
+            if(e.getClass().equals(c)) {
                 Item item = (Item) e;
                 item.useItem(character);
                 x = item.getX();

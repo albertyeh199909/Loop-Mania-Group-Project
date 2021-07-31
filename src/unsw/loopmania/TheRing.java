@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.CharacterAction;
+
 public class TheRing extends RareItem {
     //Constructor
     /*
@@ -24,5 +26,9 @@ public class TheRing extends RareItem {
     public Boolean isApplicable()
     {
         return false;
+    }
+    @Override
+    public void useItem(Character c) {
+        c.setHealth(c.getMaximumHealth());
     }
 }

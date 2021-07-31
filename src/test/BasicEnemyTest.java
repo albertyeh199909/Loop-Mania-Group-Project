@@ -74,6 +74,4 @@ public class BasicEnemyTest {
         assertTrue(result);
     }
 
-
-   
 }

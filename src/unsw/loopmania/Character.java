@@ -160,12 +160,18 @@ public class Character extends MovingEntity {
     public void setHelmet(Helmet helmet) {
         
         this.helmet = helmet;
+        int index = -1;
         for(Defense def: defense) {
             if(def instanceof HelmetStrategy) {
-                int index = defense.indexOf(def);
-                defense.remove(index);
+                index = defense.indexOf(def);
+               
                 
             }    
+        }
+        if(index != -1) {
+            defense.remove(index);
+            defense.add(index,new HelmetStrategy());
+            
         }
         defense.add(new HelmetStrategy());
     }
@@ -179,12 +185,18 @@ public class Character extends MovingEntity {
         
         this.shield = shield;
         if(shield instanceof TreeStump) {
+            int index  = -1;
             for(Defense def: defense) {
                 if(def instanceof ShieldStrategy || def instanceof TreeStumpStrategy) {
-                    int index = defense.indexOf(def);
-                    defense.remove(index);
-                    defense.add(index, new TreeStumpStrategy());
+                    index = defense.indexOf(def);
                 }    
+            }
+            if(index != -1) {
+                defense.remove(index);
+                defense.add(index, new TreeStumpStrategy());
+            }
+            else {
+                defense.add(new TreeStumpStrategy());
             }
         }
         else {
@@ -199,13 +211,19 @@ public class Character extends MovingEntity {
     public void setArmor(Armour armor) {
         
         this.armor = armor;
+        int index = -1;
         for(Defense def: defense) {
-            if(def instanceof HelmetStrategy) {
-                int index = defense.indexOf(def);
+            if(def instanceof ArmorStrategy) {
+                index = defense.indexOf(def);
                 defense.remove(index);
                 
             }    
         }
+        if(index != -1) {
+            defense.remove(index);
+           
+        }
+
         defense.add(0,new ArmorStrategy());
         
     }

@@ -71,13 +71,23 @@ public class LoopManiaApplication extends Application {
 
         loseScreenController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
-            mainController.startTimer();
+            try {
+                mainController.startTimer();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             }, () -> {switchToRoot(scene, mainMenuRoot, primaryStage);
         });
 
         winScreenController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
-            mainController.startTimer();
+            try {
+                mainController.startTimer();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }, () -> {switchToRoot(scene, mainMenuRoot, primaryStage);
         });
 
@@ -90,7 +100,12 @@ public class LoopManiaApplication extends Application {
         mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);}, () -> {switchToRoot(scene, loseScreenRoot, primaryStage);}, () -> {switchToRoot(scene, winScreenRoot, primaryStage);}, () -> {switchToRoot(scene, goalMenuRoot, primaryStage);});
         mainMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
-            mainController.startTimer();
+            try {
+                mainController.startTimer();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         });
         
         // deploy the main onto the stage
