@@ -778,6 +778,16 @@ public class LoopManiaWorldController {
         mainMenuSwitcher.switchMenu();
     }
 
+    private void switchToLoseScreen() throws IOException {
+        pause();
+        loseScreenSwitcher.switchMenu();
+    }
+
+    private void switchToWinScreen() throws IOException {
+        pause();
+        winScreenSwitcher.switchMenu();
+    }
+
     /**
      * Set a node in a GridPane to have its position track the position of an
      * entity in the world.
