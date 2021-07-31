@@ -90,6 +90,7 @@ public class CharacterTest {
         assertEquals(-1, slug.getHealth());
         player.dealDamage(vampire,array);
         assertEquals(4, vampire.getHealth());
+
         //test sword damage
         vampire.setHealth(10);
         BasicItem sword = new Sword(10, "sword", 200,-1,-1);
@@ -104,6 +105,13 @@ public class CharacterTest {
         array.add(new AlliedSoldier());
         player.dealDamage(vampire,array);
         assertEquals(-10, vampire.getHealth());
+
+        //test the damage of Anduril
+        vampire.setHealth(10);
+        array.clear
+        BasicItem anduril = ItemFactory.generateBasicItems(eItems.Anduril, -1, -1);
+        player.setWeapon(anduril);
+
 
     }
     @Test
