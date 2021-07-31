@@ -749,16 +749,17 @@ public class LoopManiaWorldController {
         switch (event.getCode()) {
             case G:
                 switchToGoalMenu();
-        case SPACE:
-            if (isPaused){
-                startTimer();
-            }
-            else{
-                pause();
-            }
-            break;
-        default:
-            break;
+                break;
+            case SPACE:
+                if (isPaused){
+                    startTimer();
+                }
+                else{
+                    pause();
+                }
+                break;
+            default:
+                break;
         }
     }
 
