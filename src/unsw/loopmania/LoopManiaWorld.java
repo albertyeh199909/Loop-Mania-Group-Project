@@ -20,10 +20,10 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
 
-    public static SimpleBooleanProperty standardMode;
-    public static SimpleBooleanProperty survivalMode;
-    public static SimpleBooleanProperty berserkerMode;
-    public static SimpleBooleanProperty confusingMode;
+    public static SimpleBooleanProperty standardMode = new SimpleBooleanProperty();
+    public static SimpleBooleanProperty survivalMode = new SimpleBooleanProperty();
+    public static SimpleBooleanProperty berserkerMode = new SimpleBooleanProperty();
+    public static SimpleBooleanProperty confusingMode = new SimpleBooleanProperty();
 
     
     public int cycleCounter = 1;
