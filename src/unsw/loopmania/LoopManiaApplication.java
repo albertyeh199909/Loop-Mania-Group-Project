@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -54,6 +55,12 @@ public class LoopManiaApplication extends Application {
         winScreenLoader.setController(winScreenController);
         Parent winScreenRoot = menuLoader.load();
 
+        //load the goal menu
+        GoalMenuController goalMenuController = new GoalMenuController();
+        FXMLLoader goalMenuLoader = new FXMLLoader(getClass().getResource("goalView.fxml"));
+        goalMenuLoader.setController(goalMenuController);
+        Parent goalMenuRoot = menuLoader.load();
+
 
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
@@ -68,6 +75,11 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         }, () -> {switchToRoot(scene, mainMenuRoot, primaryStage);
+        });
+
+        goalMenuController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
         });
         
         // set functions which are activated when button click to switch menu is pressed
