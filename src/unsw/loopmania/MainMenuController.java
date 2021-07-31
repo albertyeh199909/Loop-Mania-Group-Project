@@ -2,6 +2,7 @@ package unsw.loopmania;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 
 /**
  * controller for the main menu.
@@ -12,6 +13,18 @@ public class MainMenuController {
      * facilitates switching to main game
      */
     private MenuSwitcher gameSwitcher;
+
+    @FXML
+    private CheckBox standardModeCheckBox;
+
+    @FXML
+    private CheckBox survivalModeCheckBox;
+
+    @FXML
+    private CheckBox berserkerModeCheckBox;
+
+    @FXML
+    private CheckBox confusingModeCheckBox;
 
     public void setGameSwitcher(MenuSwitcher gameSwitcher){
         this.gameSwitcher = gameSwitcher;
