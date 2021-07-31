@@ -47,19 +47,19 @@ public class LoopManiaApplication extends Application {
         LoseScreenController loseScreenController = new LoseScreenController();
         FXMLLoader loseScreenLoader = new FXMLLoader(getClass().getResource("loseScreen.fxml"));
         loseScreenLoader.setController(loseScreenController);
-        Parent loseScreenRoot = menuLoader.load();
+        Parent loseScreenRoot = loseScreenLoader.load();
 
         // load the win menu
         WinScreenController winScreenController = new WinScreenController();
         FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("winScreen.fxml"));
         winScreenLoader.setController(winScreenController);
-        Parent winScreenRoot = menuLoader.load();
+        Parent winScreenRoot = winScreenLoader.load();
 
         //load the goal menu
         GoalMenuController goalMenuController = new GoalMenuController("world_with_twists_and_turns.json");
         FXMLLoader goalMenuLoader = new FXMLLoader(getClass().getResource("goalView.fxml"));
         goalMenuLoader.setController(goalMenuController);
-        Parent goalMenuRoot = menuLoader.load();
+        Parent goalMenuRoot = goalMenuLoader.load();
 
 
         // create new scene with the main menu (so we start with the main menu)
