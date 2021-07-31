@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -18,6 +19,11 @@ public class LoopManiaWorld {
 
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
+
+    public SimpleBooleanProperty standardMode;
+    public SimpleBooleanProperty survivalMode;
+    public SimpleBooleanProperty berserkerMode;
+    public SimpleBooleanProperty confusingMode;
 
     
     public int cycleCounter = 1;
