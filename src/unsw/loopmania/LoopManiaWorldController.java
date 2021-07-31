@@ -744,9 +744,12 @@ public class LoopManiaWorldController {
      * @param event some keyboard key press
      */
     @FXML
-    public void handleKeyPress(KeyEvent event) {
+    public void handleKeyPress(KeyEvent event) throws IOException {
         // TODO = handle additional key presses, e.g. for consuming a health potion
         switch (event.getCode()) {
+            case G:
+                pause();
+                switchToGoalMenu();
         case SPACE:
             if (isPaused){
                 startTimer();
