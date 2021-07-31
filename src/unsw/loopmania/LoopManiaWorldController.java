@@ -748,7 +748,6 @@ public class LoopManiaWorldController {
         // TODO = handle additional key presses, e.g. for consuming a health potion
         switch (event.getCode()) {
             case G:
-                pause();
                 switchToGoalMenu();
         case SPACE:
             if (isPaused){

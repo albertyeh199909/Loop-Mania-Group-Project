@@ -1,6 +1,7 @@
 package unsw.loopmania;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import org.json.JSONObject;
@@ -14,6 +15,9 @@ public class GoalMenuController {
     @FXML
     private Text displayWindow;
 
+    @FXML
+    private Label displayLabel;
+
     private JSONObject goalFile;
 
     private MenuSwitcher gameSwitcher;
@@ -22,8 +26,13 @@ public class GoalMenuController {
         goalFile = new JSONObject(new JSONTokener(new FileReader("worlds/" + file)));
     }
 
+    @FXML
+    public void initialize() {
+        displayWindow.setText(goalFile.get("goal-condition").toString());
+    }
+
     public void displayGoal() {
-        displayWindow.setText(goalFile.getString("goal-condition"));
+        displayWindow.setText(goalFile.get("goal-condition").toString());
     }
 
     public void setGameSwitcher(MenuSwitcher gameSwitcher) {

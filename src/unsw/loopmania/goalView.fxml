@@ -13,9 +13,9 @@
          </font>
       </Text>
       <Button fx:id="returnButton" layoutX="222.0" layoutY="341.0" mnemonicParsing="false" onAction="#returnToGame" prefHeight="25.0" prefWidth="156.0" text="Return" />
-      <Text fx:id="displayWindow" layoutX="13.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="574.1366577148438">
+      <Text fx:id="displayWindow" layoutX="12.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="574.1366577148438">
          <font>
-            <Font size="35.0" />
+            <Font size="25.0" />
          </font>
       </Text>
    </children>
