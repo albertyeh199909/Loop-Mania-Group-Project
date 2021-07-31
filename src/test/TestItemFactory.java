@@ -24,7 +24,7 @@ public class TestItemFactory
         assertEquals(b.getX(), 0);
         assertEquals(b.getY(), 0);
         assertEquals(b.getType(), "Sword");
-        assertTrue(b instanceof Sword);
+        assertEquals(b instanceof Sword, true);
 
         // test the stake
         b = null;
@@ -32,53 +32,64 @@ public class TestItemFactory
         assertEquals(b.getX(), 0);
         assertEquals(b.getY(), 0);
         assertEquals(b.getType(), "Stake");
-        assertTrue(b instanceof Stake);
+         assertEquals(b instanceof Stake, true);
 
         // test the staff
         b = ItemFactory.generateBasicItems(eItems.Staff, 0, 0);
         assertEquals(b.getX(), 0);
         assertEquals(b.getY(), 0);
         assertEquals(b.getType(), "Staff");
-        assertTrue(b instanceof Staff);
+         assertEquals(b instanceof Staff, true);
 
         // test the Armour
         b = ItemFactory.generateBasicItems(eItems.Armour, 0, 0);
         assertEquals(b.getX(), 0);
         assertEquals(b.getY(), 0);
         assertEquals(b.getType(), "Armour");
-        assertTrue(b instanceof Armour);
+        assertEquals(b instanceof Armour, true);
 
         // test the Helmet
         b = ItemFactory.generateBasicItems(eItems.Helmet, 0, 0);
         assertEquals(b.getX(), 0);
         assertEquals(b.getY(), 0);
         assertEquals(b.getType(), "Helmet");
-        assertTrue(b instanceof Helmet);
+        assertEquals(b instanceof Helmet, true);
 
         // test the Shield
         b = ItemFactory.generateBasicItems(eItems.Shield, 0, 0);
         assertEquals(b.getX(), 0);
         assertEquals(b.getY(), 0);
         assertEquals(b.getType(), "Shield");
-        assertTrue(b instanceof Shield);
+        assertEquals(b instanceof Shield, true);
         
         // test the Potion
-        b = ItemFactory.generateBasicItems(eItems.Shield, 0, 0);
+        b = ItemFactory.generateBasicItems(eItems.Potion, 0, 0);
         assertEquals(b.getX(), 0);
         assertEquals(b.getY(), 0);
-        assertEquals(b.getType(), "Shield");
-        assertTrue(b instanceof Shield);
+        assertEquals(b.getType(), "Potion");
+        assertEquals(b instanceof Potion, true);
 
+        // test the Anduril
+        b = ItemFactory.generateBasicItems(eItems.Anduril, 0, 0);
+        assertEquals(b.getX(), 0);
+        assertEquals(b.getY(), 0);
+        assertEquals(b.getType(), "Anduril");
+        assertEquals(b instanceof Anduril, true);
 
+        // test the TreeStump
+        b = ItemFactory.generateBasicItems(eItems.TreeStump, 0, 0);
+        assertEquals(b.getX(), 0);
+        assertEquals(b.getY(), 0);
+        assertEquals(b.getType(), "TreeStump");
+        assertEquals(b instanceof TreeStump, true);
 
+        // test the TheRing
 
-
-
-
-
-
-
-
+        RareItem c = ItemFactory.generateRareItems(eItems.TheRing, 0, 0);
+        assertEquals(c.getX(), 0);
+        assertEquals(c.getY(), 0);
+        assertEquals(c.getType(), "TheRing");
+        assertEquals(c instanceof TheRing, true);
     }
 
 

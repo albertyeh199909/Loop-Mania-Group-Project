@@ -45,7 +45,7 @@ public class ItemFactory
                 item = new Anduril(10, "Anduril",1000,x,y);
                 break;
             case TreeStump:
-                item = new TreeStump(10, "Anduril",1000,x,y);
+                item = new TreeStump(10, "TreeStump",1000,x,y);
                 break;
         }
         return item;
@@ -56,7 +56,7 @@ public class ItemFactory
         RareItem item = null;
         switch(name) {
             case TheRing:
-                item = new TheRing(20, "Potion",x,y);
+                item = new TheRing(20, "TheRing",x,y);
                 break;
         }
         return item;
