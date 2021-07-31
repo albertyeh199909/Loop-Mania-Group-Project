@@ -7,7 +7,8 @@ public class Zombie extends BasicEnemy {
     PathPosition path;
     public Zombie(PathPosition pathPosition) {
         super(pathPosition, 4, 5, 2);
-        setHealth(3);
+        setMaximumHealth(3);
+        setHealth(getMaximumHealth());
         path = pathPosition;
     }
 

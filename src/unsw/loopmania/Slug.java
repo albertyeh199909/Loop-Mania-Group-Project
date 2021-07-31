@@ -3,7 +3,8 @@ package unsw.loopmania;
 public class Slug extends BasicEnemy{
     public Slug(PathPosition pathPosition) {
         super(pathPosition, 1, 3, 1);
-        setHealth(3);
+        setMaximumHealth(3);
+        setHealth(getMaximumHealth());
     }
     
     @Override

@@ -9,6 +9,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 /**
  * the main application
  * run main method from this class
@@ -113,6 +117,12 @@ public class LoopManiaApplication extends Application {
     }
 
     public static void main(String[] args) {
+        /*
+        String bip = "bip.mp3";
+        Media hit = new Media(new File(bip).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(hit);
+        mediaPlayer.play();
+        */
         launch(args);
     }
 }
