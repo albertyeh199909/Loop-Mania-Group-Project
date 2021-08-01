@@ -255,6 +255,8 @@ public class LoopManiaWorldController {
 
     private MediaPlayer musicPlayer;
 
+    private int counter = 1;
+
 
     /**
      * Reference for music implementation: https://www.javatpoint.com/javafx-playing-audio
@@ -398,7 +400,8 @@ public class LoopManiaWorldController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                cycle++;
+                cycle += counter;
+                counter++;
             }
             List<BasicEnemy> defeatedEnemies = world.runBattles();
             for (BasicEnemy e: defeatedEnemies){
