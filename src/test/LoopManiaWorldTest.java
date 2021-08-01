@@ -254,9 +254,16 @@ public class LoopManiaWorldTest {
         
         world.runTickMoves();
         world.runTickMoves();
+        world.runTickMoves();
+        world.runTickMoves();
+        world.runTickMoves();
+        world.runTickMoves();
+        world.runTickMoves();
+        world.runTickMoves();
+        world.runTickMoves();
 
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 1);
+        assertEquals(player.getX(), 3);
+        assertEquals(player.getY(), 2);
 
         assertEquals(player.getHealth(), 100);
     }
