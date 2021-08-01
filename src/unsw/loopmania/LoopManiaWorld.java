@@ -150,6 +150,11 @@ public class LoopManiaWorld {
         enemies.add(e);
     }
 
+     public List<BasicEnemy> getEnemy()
+    {
+        return this.enemies;
+    }
+
     public List<Building> getBuildingList()
     {
         return buildingEntities;
