@@ -135,7 +135,7 @@
             <Font size="23.0" />
          </font>
       </Text>
-      <Label fx:id="outputFeedback" layoutX="228.0" layoutY="324.0" prefHeight="81.0" prefWidth="351.0" textAlignment="CENTER" textFill="RED">
+      <Label fx:id="outputFeedback" layoutX="281.0" layoutY="324.0" prefHeight="94.0" prefWidth="298.0" textAlignment="CENTER" textFill="RED">
          <font>
             <Font size="20.0" />
          </font>
