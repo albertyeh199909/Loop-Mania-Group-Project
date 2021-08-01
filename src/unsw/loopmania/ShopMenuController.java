@@ -115,7 +115,7 @@ public class ShopMenuController {
 
     @FXML
     private void sellShield() {
-        if (world.purchase("Shield")) {
+        if (world.sell("Shield")) {
             outputFeedback.setText("Success!");
         } else {
             outputFeedback.setText("Sorry, you cannot do that yet...");
@@ -134,7 +134,7 @@ public class ShopMenuController {
 
     @FXML
     private void sellHelmet() {
-        if (world.purchase("Helmet")) {
+        if (world.sell("Helmet")) {
             outputFeedback.setText("Success!");
         } else {
             outputFeedback.setText("Sorry, you cannot do that yet...");
@@ -153,7 +153,7 @@ public class ShopMenuController {
 
     @FXML
     private void sellPotion() {
-        if (world.purchase("Potion")) {
+        if (world.sell("Potion")) {
             outputFeedback.setText("Success!");
         } else {
             outputFeedback.setText("Sorry, you cannot do that yet...");

@@ -92,6 +92,9 @@ public class LoopManiaWorld {
 
     private DoggieCoin doggieCoin = new DoggieCoin();
 
+    private int potionPurchased = 0;
+    private int armourPurchased = 0;
+
     /**
      * create the world (constructor)
      * 
@@ -729,6 +732,8 @@ public class LoopManiaWorld {
     {
         if(x == this.initMainCharacterPosX && y == this.initMainCharacterPosY) {
             this.cycleCounter += 1;
+            potionPurchased = 0;
+            armourPurchased = 0;
             int random = new Random().nextInt(2);
             if(random == 0) {
                 doggieCoin.inflation();
@@ -1051,21 +1056,29 @@ public class LoopManiaWorld {
         switch (name) {
             case "potion":
                 if (gold < 50) return false;
+                if (survivalMode.getValue() && potionPurchased >= 1) return false;
+                potionPurchased++;
                 character.setGold(gold - 50);
                 item = ItemFactory.generateBasicItems(eItems.Potion,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
                 break;
             case "helmet":
                 if (gold < 25) return false;
+                if (berserkerMode.getValue() && armourPurchased >= 1) return false;
+                armourPurchased++;
                 character.setGold(gold - 25);
                 item = ItemFactory.generateBasicItems(eItems.Helmet,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
                 break;
             case "shield":
                 if (gold < 75) return false;
+                if (berserkerMode.getValue() && armourPurchased >= 1) return false;
+                armourPurchased++;
                 character.setGold(gold - 75);
                 item = ItemFactory.generateBasicItems(eItems.Shield,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
                 break;
             case "armour":
                 if (gold < 100) return false;
+                if (berserkerMode.getValue() && armourPurchased >= 1) return false;
+                armourPurchased++;
                 character.setGold(gold - 100);
                 item = ItemFactory.generateBasicItems(eItems.Armour,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
                 break;
