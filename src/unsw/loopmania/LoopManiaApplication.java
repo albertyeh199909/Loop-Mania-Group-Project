@@ -71,6 +71,7 @@ public class LoopManiaApplication extends Application {
         shopMenuLoader.setController(shopMenuController);
         Parent shopMenuRoot = shopMenuLoader.load();
         shopMenuController.setWorld(mainController.getWorld());
+        shopMenuController.setLoopManiaWorldController(mainController);
 
         //load the cheat menu
         CheatScreenController cheatMenuController = new CheatScreenController(mainController.getWorld());

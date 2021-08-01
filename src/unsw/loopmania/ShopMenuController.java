@@ -10,6 +10,8 @@ public class ShopMenuController {
 
     private LoopManiaWorld world;
 
+    private LoopManiaWorldController loopManiaWorldController;
+
     @FXML
     private Label outputFeedback;
 
@@ -19,10 +21,15 @@ public class ShopMenuController {
 
     public void setWorld(LoopManiaWorld world) {this.world = world; }
 
+    public void setLoopManiaWorldController(LoopManiaWorldController loopManiaWorldController) {
+        this.loopManiaWorldController = loopManiaWorldController;
+    }
+
     @FXML
     private void buySword() {
         if (world.purchase("sword")) {
             outputFeedback.setText("Success!");
+            loopManiaWorldController.onLoad(ItemFactory.generateBasicItems(eItems.Sword,0,0));
         } else {
             outputFeedback.setText("Sorry, you cannot do that yet...");
         }
@@ -41,6 +48,7 @@ public class ShopMenuController {
     private void buyStake() {
         if (world.purchase("stake")) {
             outputFeedback.setText("Success!");
+            loopManiaWorldController.onLoad(ItemFactory.generateBasicItems(eItems.Stake,0,0));
         } else {
             outputFeedback.setText("Sorry, you cannot do that yet...");
         }
@@ -59,6 +67,7 @@ public class ShopMenuController {
     private void buyStaff() {
         if (world.purchase("staff")) {
             outputFeedback.setText("Success!");
+            loopManiaWorldController.onLoad(ItemFactory.generateBasicItems(eItems.Staff,0,0));
         }
         else {
             outputFeedback.setText("Sorry, you cannot do that yet...");
@@ -79,6 +88,7 @@ public class ShopMenuController {
     private void buyArmour() {
         if (world.purchase("armour")) {
             outputFeedback.setText("Success!");
+            loopManiaWorldController.onLoad(ItemFactory.generateBasicItems(eItems.Armour,0,0));
         } else {
             outputFeedback.setText("Sorry, you cannot do that yet...");
         }
@@ -97,6 +107,7 @@ public class ShopMenuController {
     private void buyShield() {
         if (world.purchase("shield")) {
             outputFeedback.setText("Success!");
+            loopManiaWorldController.onLoad(ItemFactory.generateBasicItems(eItems.Shield,0,0));
         } else {
             outputFeedback.setText("Sorry, you cannot do that yet...");
         }
@@ -115,6 +126,7 @@ public class ShopMenuController {
     private void buyHelmet() {
         if (world.purchase("helmet")) {
             outputFeedback.setText("Success!");
+            loopManiaWorldController.onLoad(ItemFactory.generateBasicItems(eItems.Helmet,0,0));
         } else {
             outputFeedback.setText("Sorry, you cannot do that yet...");
         }
@@ -133,6 +145,7 @@ public class ShopMenuController {
     private void buyPotion() {
         if (world.purchase("potion")) {
             outputFeedback.setText("Success!");
+            loopManiaWorldController.onLoad(ItemFactory.generateBasicItems(eItems.Potion,0,0));
         } else {
             outputFeedback.setText("Sorry, you cannot do that yet...");
         }

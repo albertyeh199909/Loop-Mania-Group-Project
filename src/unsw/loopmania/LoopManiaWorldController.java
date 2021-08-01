@@ -535,7 +535,7 @@ public class LoopManiaWorldController {
      * and load the image into the unequippedInventory GridPane.
      * @param sword
      */
-    private void onLoad(Item item) {
+    public void onLoad(Item item) {
         ImageView view = null;
         if (item instanceof Sword)
             view = new ImageView(swordImage);
