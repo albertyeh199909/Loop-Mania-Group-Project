@@ -8,6 +8,9 @@ public class Doggie extends BasicEnemy{
     private DoggieCoin doggiecoin = null;
     private boolean isInit = true;
 
+    /**
+    * @param pathposition the position where the doggie spawns.
+    */
     public Doggie(PathPosition pathPosition) {
         super(pathPosition, 1, 5, 1);
         setMaximumHealth(70);

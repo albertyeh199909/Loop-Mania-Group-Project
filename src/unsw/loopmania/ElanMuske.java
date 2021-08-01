@@ -40,6 +40,9 @@ public class ElanMuske extends BasicEnemy{
         }
     }
 
+    /**
+    *   @param b the basicenemy to heal
+    */
     public boolean heal(BasicEnemy b) 
     {
         if(b.getHealth() > 0 && b.getHealth() < b.getMaximumHealth() && b.getTrance() == -1)
