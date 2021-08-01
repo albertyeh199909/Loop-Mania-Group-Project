@@ -13,6 +13,11 @@ public class Shield extends BasicItem {
     {
         super(dropRate,type, purchasePrice, x, y);
     }
+    // for super class
+    public Shield()
+    {
+        
+    }
     /*
         equip and unequip
     */

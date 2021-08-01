@@ -8,7 +8,8 @@ public class Vampire extends BasicEnemy {
 
     public Vampire(PathPosition pathPosition) {
         super(pathPosition, 4, 10, 6);
-        setHealth(10);
+        setMaximumHealth(10);
+        setHealth(getMaximumHealth());
     }
     
     @Override

@@ -3,10 +3,15 @@ package unsw.loopmania;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.File;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 /**
  * the main application
@@ -42,15 +47,100 @@ public class LoopManiaApplication extends Application {
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
 
+        // load the lose menu
+        LoseScreenController loseScreenController = new LoseScreenController();
+        FXMLLoader loseScreenLoader = new FXMLLoader(getClass().getResource("loseScreen.fxml"));
+        loseScreenLoader.setController(loseScreenController);
+        Parent loseScreenRoot = loseScreenLoader.load();
+
+        // load the win menu
+        WinScreenController winScreenController = new WinScreenController();
+        FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("winScreen.fxml"));
+        winScreenLoader.setController(winScreenController);
+        Parent winScreenRoot = winScreenLoader.load();
+
+        //load the goal menu
+        GoalMenuController goalMenuController = new GoalMenuController("world_with_twists_and_turns.json");
+        FXMLLoader goalMenuLoader = new FXMLLoader(getClass().getResource("goalView.fxml"));
+        goalMenuLoader.setController(goalMenuController);
+        Parent goalMenuRoot = goalMenuLoader.load();
+
+        //load the shop menu
+        ShopMenuController shopMenuController = new ShopMenuController();
+        FXMLLoader shopMenuLoader = new FXMLLoader(getClass().getResource("shopMenu.fxml"));
+        shopMenuLoader.setController(shopMenuController);
+        Parent shopMenuRoot = shopMenuLoader.load();
+        shopMenuController.setWorld(mainController.getWorld());
+        shopMenuController.setLoopManiaWorldController(mainController);
+
+        //load the cheat menu
+        CheatScreenController cheatMenuController = new CheatScreenController(mainController.getWorld());
+        FXMLLoader cheatMenuLoader = new FXMLLoader(getClass().getResource("CheatScreen.fxml"));
+        cheatMenuLoader.setController(cheatMenuController);
+        Parent cheatMenuRoot = cheatMenuLoader.load();
+
+        victoryFinal victoryFinal = new victoryFinal("world_with_twists_and_turns.json");
+        mainController.setGoal(victoryFinal);
+
+
+
+
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
-        
-        // set functions which are activated when button click to switch menu is pressed
-        // e.g. from main menu to start the game, or from the game to return to main menu
-        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
-        mainMenuController.setGameSwitcher(() -> {
+
+        loseScreenController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            try {
+                mainController.startTimer();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            }, () -> {switchToRoot(scene, mainMenuRoot, primaryStage);
+        });
+
+        winScreenController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            try {
+                mainController.startTimer();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }, () -> {switchToRoot(scene, mainMenuRoot, primaryStage);
+        });
+
+        cheatMenuController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            try {
+                mainController.startTimer();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }, () -> {switchToRoot(scene, mainMenuRoot, primaryStage);
+        });
+
+        goalMenuController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+        });
+
+        shopMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
+        });
+
+        // set functions which are activated when button click to switch menu is pressed
+        // e.g. from main menu to start the game, or from the game to return to main menu
+        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, cheatMenuRoot, primaryStage);}, () -> {switchToRoot(scene, mainMenuRoot, primaryStage);}, () -> {switchToRoot(scene, loseScreenRoot, primaryStage);}, () -> {switchToRoot(scene, winScreenRoot, primaryStage);}, () -> {switchToRoot(scene, goalMenuRoot, primaryStage);}, () -> {switchToRoot(scene, shopMenuRoot, primaryStage);});
+        mainMenuController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            try {
+                mainController.startTimer();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         });
         
         // deploy the main onto the stage
@@ -77,6 +167,12 @@ public class LoopManiaApplication extends Application {
     }
 
     public static void main(String[] args) {
+        /*
+        String bip = "bip.mp3";
+        Media hit = new Media(new File(bip).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(hit);
+        mediaPlayer.play();
+        */
         launch(args);
     }
 }

@@ -12,6 +12,15 @@ public abstract class MovingEntity extends Entity {
      */
     private PathPosition position;
     private int health;
+    private int maximumHealth;
+
+    public int getMaximumHealth() {
+        return this.maximumHealth;
+    }
+
+    public void setMaximumHealth(int maximumHealth) {
+        this.maximumHealth = maximumHealth;
+    }
 
     public void setHealth(int health) {
         this.health = health;

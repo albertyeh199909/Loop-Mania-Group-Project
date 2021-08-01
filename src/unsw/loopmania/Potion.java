@@ -30,6 +30,6 @@ public class Potion extends BasicItem {
     @Override
     public void useItem(Character c)
     {
-        //c.setHealth(20);
+        c.setHealth(c.getMaximumHealth());
     }
 }

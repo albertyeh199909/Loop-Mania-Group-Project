@@ -10,6 +10,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 
 <!-- TODO = modify and expand the GUI? -->
 
@@ -82,6 +83,11 @@
                         <Image url="@../../images/shield_unequipped.png"/>
                      </image>
                   </ImageView>
+                  <ImageView id="helmetCell"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="3" GridPane.rowIndex="0">    
+                     <image>
+                        <Image url="@../../images/helmet_slot.png"/>
+                     </image>
+                  </ImageView>
                </children>
             </GridPane>
 
@@ -98,6 +104,42 @@
                </children>
             </GridPane>
 
+            <GridPane fx:id="stats"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" >
+               <children>
+                     
+                     <ImageView id="heart"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="0" GridPane.rowIndex="0">    
+                        <image>
+                           <Image url="@../../images/heart.png"/>
+                        </image>
+                     </ImageView>
+                     <Label fx:id="healthNumber" text = "100" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                     <ImageView id="goldPile"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="0" GridPane.rowIndex="1">    
+                        <image>
+                           <Image url="@../../images/gold_pile.png"/>
+                        </image>
+                     </ImageView>
+                     <Label fx:id="gold" text = "0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                     <ImageView id="xpIcon"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="0" GridPane.rowIndex="2">    
+                        <image>
+                           <Image url="@../../images/cropped-XP-icon.png"/>
+                        </image>
+                     </ImageView>
+                     <Label fx:id="xp" text = "0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                     <ImageView id="soldier"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="0" GridPane.rowIndex="3">    
+                        <image>
+                           <Image url="@../../images/deep_elf_master_archer.png"/>
+                        </image>
+                     </ImageView>
+                     <Label fx:id="soldierCount" text = "0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                     <ImageView id="doggiecoin"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="0" GridPane.rowIndex="4">    
+                        <image>
+                           <Image url="@../../images/doggiecoin.png"/>
+                        </image>
+                     </ImageView>
+                     <Label fx:id="doggiecoinAmount" text = "Amount:0" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                     <Label fx:id="doggiecoinValue" text = "Value:0" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+               </children>
+            </GridPane>
             <!-- clicking this button returns the human player to the main menu -->
             <Button text="Exit to Main Menu" onAction="#switchToMainMenu"/>
          </children>

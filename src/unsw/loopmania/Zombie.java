@@ -7,7 +7,8 @@ public class Zombie extends BasicEnemy {
     PathPosition path;
     public Zombie(PathPosition pathPosition) {
         super(pathPosition, 4, 5, 2);
-        setHealth(3);
+        setMaximumHealth(3);
+        setHealth(getMaximumHealth());
         path = pathPosition;
     }
 
@@ -21,9 +22,12 @@ public class Zombie extends BasicEnemy {
         
         if (movingEntity instanceof AlliedSoldier && damageClass.getIsCritical()) {
                 // Turn alliedSoldier to zombie
+            
             AlliedSoldier s = (AlliedSoldier)movingEntity;
-            s.setTurnToZombie(true);    
-            s.setPath(path);
+            if(s.getConvertedFrom() == null) {
+                s.setTurnToZombie(true);    
+                s.setPath(path);
+            }
         }
         
     }

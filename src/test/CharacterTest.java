@@ -24,7 +24,7 @@ import org.javatuples.Pair;
 
 public class CharacterTest {
 
-    @Test
+    /*@Test
     public void testMove() {
         List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
         path.add(new Pair<Integer, Integer>(4,3));
@@ -53,33 +53,8 @@ public class CharacterTest {
         assertEquals(player.getY(), 1);
     }
 
-    @Test
-    public void testInventory() {
-        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
-        path.add(new Pair<Integer, Integer>(4,3));
-        
-
-        //LoopManiaWorld world = new LoopManiaWorld(5,5, path);
-        //check if equipment storing and equipping reflects the inventory correctly
-        PathPosition start = new PathPosition(0, path);
-        Character player = new Character(start);
-        Sword sword = new Sword(20, "sword", 300,-1,-1);
-        player.store(sword);
-        assertTrue(player.getInventory().contains(sword));
-        player.setWeapon(sword);
-        assertFalse(player.getInventory().contains(sword));
-        assertEquals(player.getWeapon(), sword);
-        assertTrue(player.getDamage() instanceof SwordStrategy);
-        Potion potion = new Potion(10, "potion", 10,-1,-1);
-        player.store(potion);
-        //sword is equipped so it's not in inventory
-        assertFalse(player.getInventory().contains(sword));
-        player.useItem(potion);
-        assertFalse(player.getInventory().contains(potion));
-
-
-
-    }
+   
+    
 
     @Test
     public void testDamage() {
@@ -101,6 +76,8 @@ public class CharacterTest {
         Character player = new Character(start);
         PathPosition above = new PathPosition(3, path);
         PathPosition below = new PathPosition(4, path);
+        PathPosition below1 = new PathPosition(5, path);
+        PathPosition below2 = new PathPosition(6, path);
         Slug slug = new Slug(above);
         Vampire vampire = new Vampire(below);
         //test unarmed damage
@@ -109,16 +86,17 @@ public class CharacterTest {
         assertEquals(2, slug.getHealth());
         //test stake damage against basic enemy and against vampire
         BasicItem stake = new Stake(10,"stake",100,-1,-1);
-        player.store(stake);
+        
         player.setWeapon(stake);
         player.dealDamage(slug,array);
         assertEquals(-1, slug.getHealth());
         player.dealDamage(vampire,array);
         assertEquals(4, vampire.getHealth());
+
         //test sword damage
         vampire.setHealth(10);
         BasicItem sword = new Sword(10, "sword", 200,-1,-1);
-        player.store(sword);
+        
         player.setWeapon(sword);
         player.dealDamage(vampire,array);
         assertEquals(6, vampire.getHealth());
@@ -129,6 +107,28 @@ public class CharacterTest {
         array.add(new AlliedSoldier());
         player.dealDamage(vampire,array);
         assertEquals(-10, vampire.getHealth());
+
+        //test the damage of Anduril
+        vampire.setHealth(10);
+        array.clear();
+        BasicItem anduril = ItemFactory.generateBasicItems(eItems.Anduril, -1, -1);
+        player.setWeapon(anduril);
+        player.dealDamage(vampire,array);
+        assertEquals(-5, vampire.getHealth());
+
+        // test Anduril deal triple damage to the boss Elan Muske
+        ElanMuske muske = new ElanMuske(below1);
+        DoggieCoin doggiecoin = new DoggieCoin();
+        muske.setDoggieCoin(doggiecoin);
+        player.dealDamage(muske,array);
+        assertEquals(5, muske.getHealth());
+
+        // test Anduril deal triple damage to the boss Dodge
+        BasicEnemy doggggy = new Doggie(below2);
+        player.dealDamage(doggggy,array);
+        assertEquals(25, doggggy.getHealth());
+        
+
 
     }
     @Test
@@ -150,12 +150,13 @@ public class CharacterTest {
         Character player = new Character(start);
         PathPosition above = new PathPosition(3, path);
         PathPosition below = new PathPosition(4, path);
+
         Slug slug = new Slug(above);
         Vampire vampire = new Vampire(below);
         
         //test helmet defence and damage reduction
         Helmet helmet = new Helmet(10, "helmet", 100,-1,-1);
-        player.store(helmet);
+        
         player.setHelmet(helmet);
         ArrayList<AlliedSoldier> array = new ArrayList<AlliedSoldier>();
         player.dealDamage(slug,array);
@@ -167,7 +168,7 @@ public class CharacterTest {
 
         //test armor and armor damage reduction, armor should take priority over helmet for damage calculations
         Armour armor = new Armour(10, "Armour", 100,-1,-1);
-        player.store(armor);
+        
         player.setArmor(armor);
 
         damage = new DamageClass(vampire, 10, 0);
@@ -176,36 +177,64 @@ public class CharacterTest {
 
         //test if shield reduces vampire crit chance by 60%
         Shield shield = new Shield(10, "Shield", 100,-1,-1);
-        player.store(shield);
+        
         player.setShield(shield);
 
         damage = new DamageClass(vampire, 10, 10);
         damage = player.takeDamage(damage);
-        assertEquals(4,damage.getCriticalChance());
-    
-        
-        
+        assertEquals(4,damage.getCriticalChance());        
 
     }
-    
+
     @Test
-    public void testInventoryLimit() {
+    public void testTreeStump()
+    {
         List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
         path.add(new Pair<Integer, Integer>(4,3));
-        
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));
 
         //LoopManiaWorld world = new LoopManiaWorld(5,5, path);
-        PathPosition start = new PathPosition(0, path);
+        PathPosition start = new PathPosition(2, path);
         Character player = new Character(start);
+        PathPosition above = new PathPosition(3, path);
+        PathPosition below = new PathPosition(4, path);
+        PathPosition below1 = new PathPosition(5, path);
+        PathPosition below2 = new PathPosition(6, path);
+
+        DamageClass damage = null;
+        Vampire vampire = new Vampire(below);
+
+        // Testing TreeStump
+        TreeStump TS = new TreeStump(10, "TreeStump", 100,-1,-1);
+
+        // test tree stump reduce half of the boss's damage
+        player.setShield(TS);
         
-        for(int i = 1; i < 17; i++) {
-            player.store(new Sword(20, "sword", i*100,-1,-1));
-        }
-        player.store(new Sword(20, "sword", 1700,-1,-1));
-        //assert player gets experience and gold, and oldest item disappears
-        assertEquals(50, player.getExperience());
-        assertEquals(25, player.getGold());
-        assertEquals(200, player.getInventory().get(0).getpurchasePrice());
+        BasicEnemy muske = new ElanMuske(below1);
+        damage = new DamageClass(muske, 20, 0);
+        damage = player.takeDamage(damage);
+        assertEquals(10,damage.getDamage());
         
-    }
+        // test tree stump reduce half of the boss's damage
+        BasicEnemy doggggy = new Doggie(below2);
+        damage = new DamageClass(doggggy, 5, 0);
+        damage = player.takeDamage(damage);
+        assertEquals(2,damage.getDamage());
+
+        // test tree stump reduce
+        damage = new DamageClass(vampire, 10, 10);
+        damage = player.takeDamage(damage);
+        assertEquals(4,damage.getCriticalChance());
+
+    }*/
+    
+    
 }
