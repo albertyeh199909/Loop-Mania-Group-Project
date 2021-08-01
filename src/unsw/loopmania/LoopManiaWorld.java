@@ -165,6 +165,11 @@ public class LoopManiaWorld {
         return cardEntities;
     }
 
+    public DoggieCoin getDoggieCoin()
+    {
+        return this.doggieCoin;
+    }
+
 
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
@@ -252,6 +257,7 @@ public class LoopManiaWorld {
         if (pos != null && cycleCounter!= 0 && cycleCounter % 40 == 0 && character.getExperience() >= 10000 && MuskeSpawnChecker != cycleCounter) {
             int indexInPath = orderedPath.indexOf(pos);
             ElanMuske elan = new ElanMuske(new PathPosition(indexInPath, orderedPath));
+            elan.setDoggieCoin(this.doggieCoin);
             enemies.add(elan);
             spawningEnemies.add(elan);
         }
@@ -259,6 +265,7 @@ public class LoopManiaWorld {
         if (pos != null && cycleCounter!= 0 && cycleCounter % 20 == 0 && DodgeSpawnChecker != cycleCounter) {
             int indexInPath = orderedPath.indexOf(pos);
             Doggie doggie = new Doggie(new PathPosition(indexInPath, orderedPath));
+            doggie.setDoggieCoin(this.doggieCoin);
             enemies.add(doggie);
             spawningEnemies.add(doggie);
         }
@@ -509,7 +516,6 @@ public class LoopManiaWorld {
                 // fight...
                 e.setInBattle(true);
                 enemiesInBattle.add(e);
-                System.out.println(e.getClass());
                 //defeatedEnemies.add(e);
             }
         }
@@ -525,7 +531,6 @@ public class LoopManiaWorld {
             }
         }
 
-        System.out.println(character.getHealth());
         // execute the battle here !!!
         executeBattle(enemiesInBattle, defeatedEnemies);
 
@@ -545,7 +550,6 @@ public class LoopManiaWorld {
             // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
             // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
-            System.out.println("KILLL");
             killEnemy(e);
         }
         return defeatedEnemies;
@@ -849,7 +853,7 @@ public class LoopManiaWorld {
         Random rand = new Random();
         int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
         // TODO = change based on spec
-        if ((choice == 0) && (enemies.size() < 5)){
+        if ((choice == 0) && (enemies.size() < 15)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
