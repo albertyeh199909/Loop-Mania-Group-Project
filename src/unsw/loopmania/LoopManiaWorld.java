@@ -160,6 +160,11 @@ public class LoopManiaWorld {
         return cardEntities;
     }
 
+    public List<BasicEnemy> getEnemy()
+    {
+        return this.enemies;
+    }
+
 
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
@@ -216,7 +221,7 @@ public class LoopManiaWorld {
                         Zombie zombie = new Zombie(pos);
                         spawningEnemies.add(zombie);
                         enemies.add(zombie);
-                       
+
                     }
                 }
             }
@@ -229,7 +234,7 @@ public class LoopManiaWorld {
                         Vampire v = new Vampire(pos);
                         spawningEnemies.add(v);
                         enemies.add(v);
-                        
+
                     }
                 }
             }
@@ -251,7 +256,7 @@ public class LoopManiaWorld {
             spawningEnemies.add(elan);
         }
         pos = possiblyGetBasicEnemySpawnPosition();
-        if (pos != null && cycleCounter % 20 == 0 && MuskeSpawnChecker != cycleCounter) {
+        if (pos != null && cycleCounter % 20 == 0 && DodgeSpawnChecker != cycleCounter) {
             int indexInPath = orderedPath.indexOf(pos);
             Doggie doggie = new Doggie(new PathPosition(indexInPath, orderedPath));
             enemies.add(doggie);
@@ -260,8 +265,8 @@ public class LoopManiaWorld {
 
         VampireSpawnChecker = cycleCounter;
         ZombieSpawnChecker = cycleCounter;
-        VampireSpawnChecker = cycleCounter;
-        ZombieSpawnChecker = cycleCounter;
+        MuskeSpawnChecker = cycleCounter;
+        DodgeSpawnChecker = cycleCounter;
 
         return spawningEnemies;
     }
@@ -466,7 +471,7 @@ public class LoopManiaWorld {
                 if(character.getHealth() <= 0)
                 {
                     useItem(TheRing.class);
-                    if(character.getHealth() <= 0)               
+                    if(character.getHealth() <= 0)
                         break;
                 }
                 // any there is still an undeafted enemy then simply carry on the battle
@@ -970,61 +975,7 @@ public class LoopManiaWorld {
         }
         return null;
     }
-
-    // create sell function so the player can sell items in the marketplace
-    public void sellToMarketPlace(int x, int y)
-    {
-        Entity find = null;
-        for(Entity e: unequippedInventoryItems)
-        {
-            if(e.getX() == x && e.getY() == y)
-                find = e;
-        }
-        if(find != null)
-        {
-            BasicItem item = (BasicItem) find;
-            character.setGold(character.getGold()+item.getSellPrice());
-            removeUnequippedInventoryItemByCoordinates(x, y);
-        }
-        else
-            System.out.println("around line 943 world, can not find the item in the  unequippedInventoryItems ");
-    }
-
-    // create purchase function so the player can sell items in the marketplace
-    public void purchaseHandler(int x, int y)
-    {
-        if(this.markethandler.getDifficulties() == 0)
-            purchaseFromMarketPlace(-1, -1,x,y);
-        else if(this.markethandler.getDifficulties() == 1)
-            purchaseFromMarketPlace(-1, 1,x,y);
-        else if(this.markethandler.getDifficulties() == 2)
-            purchaseFromMarketPlace(1, -1,x,y);
-        else
-            System.out.println("Error,the difficulties is not 1,2 or 3, line 950 World");
-    }
-
-    //actuall purchase function
-    public void purchaseFromMarketPlace(int amourLimit, int potionLimit, int x, int y)
-    {
-        Entity find = null;
-        for(Entity e: markethandler.getShopItemList())
-        {
-            if(e.getX() == x && e.getY() == y)
-                find = e;
-        }
-        if(find != null)
-        {
-            BasicItem item = (BasicItem) find;
-            if(character.getGold() >= item.getpurchasePrice()) 
-            {
-                character.setGold(character.getGold() - item.getpurchasePrice());  
-                 
-            }
-        }
-        else
-            System.out.println("around line 943 world, can not find the item in the  unequippedInventoryItems ");
-    }
-
+    
     // the character is rewarded with gold
     public void rewardGold(int amount) {
         character.setGold(character.getGold() + amount);
@@ -1049,7 +1000,7 @@ public class LoopManiaWorld {
     public IntegerProperty getXpCount() {
         return character.getXPIntegerProperty();
     }
-    
+
 
     public void useItem(Class<?> c) {
         int x = -1;
@@ -1066,6 +1017,104 @@ public class LoopManiaWorld {
         if(x!=-1 && y!= -1)
             removeUnequippedInventoryItemByCoordinates(x, y);
 
+    }
+
+    // purchase the item as directed by the ShopMenuController
+    // Reference: from the above addUnequippedBasicItem() function.
+    public boolean purchase(String name) {
+        int gold = character.getGold();
+        BasicItem item = null;
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+
+        switch (name) {
+            case "potion":
+                if (gold < 200) return false;
+                character.setGold(gold - 50);
+                item = ItemFactory.generateBasicItems(eItems.Potion,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+            case "helmet":
+                if (gold < 300) return false;
+                character.setGold(gold - 300);
+                item = ItemFactory.generateBasicItems(eItems.Helmet,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+            case "shield":
+                if (gold < 300) return false;
+                character.setGold(gold - 300);
+                item = ItemFactory.generateBasicItems(eItems.Shield,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+            case "armour":
+                if (gold < 300) return false;
+                character.setGold(gold - 300);
+                item = ItemFactory.generateBasicItems(eItems.Armour,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+            case "staff":
+                if (gold < 75) return false;
+                character.setGold(gold - 75);
+                item = ItemFactory.generateBasicItems(eItems.Staff,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+            case "stake":
+                if (gold < 50) return false;
+                character.setGold(gold - 50);
+                item = ItemFactory.generateBasicItems(eItems.Stake,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+            case "sword":
+                if (gold < 50) return false;
+                character.setGold(gold - 50);
+                item = ItemFactory.generateBasicItems(eItems.Sword,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+        }
+
+        if (item == null) return false;
+
+        unequippedInventoryItems.add(item);
+
+        return true;
+    }
+
+    // purchase the item as directed by the ShopMenuController
+    // Reference: from the above addUnequippedBasicItem() function.
+    public boolean sell(String name) {
+        int gold = character.getGold();
+
+        if (!removeUnequippedItem(name)) return false;
+
+        switch (name) {
+            case "Potion":
+                character.setGold(gold + 50);
+                break;
+            case "Helmet":
+                character.setGold(gold + 25);
+                break;
+            case "Shield":
+                character.setGold(gold + 75);
+                break;
+            case "Armour":
+                character.setGold(gold + 100);
+                break;
+            case "Staff":
+                character.setGold(gold + 75);
+                break;
+            case "Stake":
+                character.setGold(gold + 50);
+                break;
+            case "Sword":
+                character.setGold(gold + 50);
+                break;
+        }
+        return true;
+    }
+
+    private boolean removeUnequippedItem(String name) {
+        for (Entity item : unequippedInventoryItems) {
+            if (item instanceof BasicItem) {
+                if (((BasicItem) item).getType().equals(name)) {
+                    unequippedInventoryItems.remove(item);
+                    item.destroy();
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public StringProperty getDoggieCoinValue() {
