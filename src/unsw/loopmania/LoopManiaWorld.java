@@ -150,7 +150,7 @@ public class LoopManiaWorld {
         enemies.add(e);
     }
 
-     public List<BasicEnemy> getEnemy()
+    public List<BasicEnemy> getEnemy()
     {
         return this.enemies;
     }
@@ -248,15 +248,15 @@ public class LoopManiaWorld {
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
-        pos = possiblyGetBasicEnemySpawnPosition();
-        if (pos != null && cycleCounter % 40 == 0 && character.getExperience() == 10000 && MuskeSpawnChecker != cycleCounter) {
+        pos = possiblyGetBasicBossSpawnPosition();
+        if (pos != null && cycleCounter!= 0 && cycleCounter % 40 == 0 && character.getExperience() >= 10000 && MuskeSpawnChecker != cycleCounter) {
             int indexInPath = orderedPath.indexOf(pos);
             ElanMuske elan = new ElanMuske(new PathPosition(indexInPath, orderedPath));
             enemies.add(elan);
             spawningEnemies.add(elan);
         }
-        pos = possiblyGetBasicEnemySpawnPosition();
-        if (pos != null && cycleCounter % 20 == 0 && DodgeSpawnChecker != cycleCounter) {
+        pos = possiblyGetBasicBossSpawnPosition();
+        if (pos != null && cycleCounter!= 0 && cycleCounter % 20 == 0 && DodgeSpawnChecker != cycleCounter) {
             int indexInPath = orderedPath.indexOf(pos);
             Doggie doggie = new Doggie(new PathPosition(indexInPath, orderedPath));
             enemies.add(doggie);
@@ -849,7 +849,7 @@ public class LoopManiaWorld {
         Random rand = new Random();
         int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
         // TODO = change based on spec
-        if ((choice == 0) && (enemies.size() < 2)){
+        if ((choice == 0) && (enemies.size() < 15)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -866,6 +866,24 @@ public class LoopManiaWorld {
             return spawnPosition;
         }
         return null;
+    }
+
+    private Pair<Integer, Integer> possiblyGetBasicBossSpawnPosition(){
+        Random rand = new Random();
+        List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+            // inclusive start and exclusive end of range of positions not allowed
+            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+            // note terminating condition has to be != rather than < since wrap around...
+            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+                orderedPathSpawnCandidates.add(orderedPath.get(i));
+            }
+
+            // choose random choice
+            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+
+            return spawnPosition;
     }
 
     /**
