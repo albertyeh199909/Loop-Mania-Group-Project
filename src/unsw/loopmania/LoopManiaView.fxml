@@ -131,6 +131,13 @@
                         </image>
                      </ImageView>
                      <Label fx:id="soldierCount" text = "0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                     <ImageView id="doggiecoin"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="0" GridPane.rowIndex="4">    
+                        <image>
+                           <Image url="@../../images/doggiecoin.png"/>
+                        </image>
+                     </ImageView>
+                     <Label fx:id="doggiecoinAmount" text = "Amount:0" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                     <Label fx:id="doggiecoinValue" text = "Value:0" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
                </children>
             </GridPane>
             <!-- clicking this button returns the human player to the main menu -->

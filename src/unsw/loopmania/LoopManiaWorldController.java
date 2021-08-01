@@ -32,7 +32,8 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import java.util.EnumMap;
 import javafx.scene.control.Label;
-import javafx.beans.binding.Bindings;
+
+import javafx.scene.control.TextField;
 
 import java.io.File;
 import java.io.IOException;
@@ -106,6 +107,10 @@ public class LoopManiaWorldController {
     private Button exitToMainMenuButton;
 
     @FXML
+    private Button add;
+
+
+    @FXML
     private Label healthNumber;
 
     @FXML
@@ -116,6 +121,21 @@ public class LoopManiaWorldController {
 
     @FXML
     private Label soldierCount;
+
+    @FXML
+    private Label doggiecoinAmount;
+
+    @FXML
+    private Label doggiecoinValue;
+
+    @FXML
+    private TextField healthCheat;
+
+    @FXML
+    private TextField goldCheat;
+
+    @FXML
+    private TextField expCheat;
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -156,19 +176,25 @@ public class LoopManiaWorldController {
     private Image swordImage;
     private Image staffImage;
     private Image stakeImage;
+    private Image andurilImage;
     //armours
     private Image shieldImage;
     private Image armourImage;
     private Image helmetImage;
-    //potions
+    private Image treeStumpImage;
+    //item
     private Image potionImage;
+
     //The Ring
     private Image theRingImage;
     
+
     //enemies
     private Image slugImage; //Slug
     private Image vampireImage;
     private Image zombieImage;
+    private Image elanImage;
+    private Image doggieImage;
 
     private int cycle = 2;
 
@@ -219,6 +245,9 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher shopMenuSwitcher;
 
+    private MenuSwitcher cheatMenuSwitcher;
+
+
     /**
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
@@ -248,18 +277,23 @@ public class LoopManiaWorldController {
         vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
         zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());        
         slugImage = new Image((new File("src/images/slug.png")).toURI().toString());
-        
+        doggieImage = new Image((new File("src/images/doggie.png")).toURI().toString());
+        elanImage = new Image((new File("src/images/ElanMuske.png")).toURI().toString());
+
         //equipments
         //weapons
         helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
         armourImage = new Image((new File("src/images/armour.png")).toURI().toString());
         shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
+        treeStumpImage = new Image((new File("src/images/tree_stump.png")).toURI().toString());
         // armours
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
         staffImage = new Image((new File("src/images/staff.png")).toURI().toString());
         stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
+        andurilImage = new Image((new File("src/images/anduril_flame_of_the_west.png")).toURI().toString());
         //potions
         potionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+
         //The Ring
         theRingImage = new Image((new File("src/images/the_one_ring.png")).toURI().toString());
         
@@ -312,10 +346,13 @@ public class LoopManiaWorldController {
         }
 
         //healthNumber = new Label();
-        healthNumber.textProperty().bind(world.getCharacter().getHealthIntegerProperty().asString());
-        gold.textProperty().bind(world.getCharacter().getGoldIntegerProperty().asString());
-        xp.textProperty().bind(world.getCharacter().getXPIntegerProperty().asString());
+        healthNumber.textProperty().bind(world.getHealthCount().asString());
+        gold.textProperty().bind(world.getGoldCount().asString());
+        xp.textProperty().bind(world.getXpCount().asString());
         soldierCount.textProperty().bind(world.getSoldierCount().asString());
+
+        doggiecoinAmount.textProperty().bind(world.getDoggieCoinAmount());
+        doggiecoinValue.textProperty().bind(world.getDoggieCoinValue());
 
         // create the draggable icon
         draggedEntity = new DragIcon();
@@ -327,7 +364,7 @@ public class LoopManiaWorldController {
     /**
      * create and run the timer
      */
-    public void startTimer(){
+    public void startTimer() throws IOException{
         // TODO = handle more aspects of the behaviour required by the specification
         System.out.println("starting timer");
         isPaused = false;
@@ -350,6 +387,14 @@ public class LoopManiaWorldController {
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
+            }
+            if(world.getHealthCount().getValue() <= 0) {
+                try {
+                    switchToLoseScreen();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
             //printThreadingNotes("HANDLED TIMER");
             
@@ -402,6 +447,13 @@ public class LoopManiaWorldController {
         onLoad(item);
     }
 
+    private void loadRare(){
+        // TODO = load more types of weapon
+        // start by getting first available coordinates
+        Item item = world.addUnequippedRareItem();
+        onLoad(item);
+    }
+
     /**
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
      * @param enemy defeated enemy for which we should react to the death of
@@ -413,11 +465,12 @@ public class LoopManiaWorldController {
         if(enemy instanceof Slug) {
             world.rewardExp(10);
             world.rewardGold(50);
-            loadSword();
+
             loadCard();
         }
         if(enemy instanceof Zombie) {
             world.rewardExp(50);
+
             loadSword();
         }
         if(enemy instanceof Vampire) {
@@ -430,8 +483,9 @@ public class LoopManiaWorldController {
         if(enemy instanceof ElanMuske || enemy instanceof Doggie) {
             world.rewardExp(1000);
             world.rewardGold(1000);
-            loadSword();
+            loadRare();
             loadCard();
+
         }
 
 
@@ -481,27 +535,33 @@ public class LoopManiaWorldController {
      * and load the image into the unequippedInventory GridPane.
      * @param sword
      */
-    private void onLoad(BasicItem basicitem) {
+    private void onLoad(Item item) {
         ImageView view = null;
-        if (basicitem instanceof Sword) 
+        if (item instanceof Sword)
             view = new ImageView(swordImage);
-        else if (basicitem instanceof Staff) 
+        else if (item instanceof Staff)
             view = new ImageView(staffImage);
-        else if (basicitem instanceof Stake) 
+        else if (item instanceof Stake)
             view = new ImageView(stakeImage);
-        else if (basicitem instanceof Armour) 
+        else if (item instanceof Armour)
             view = new ImageView(armourImage);
-        else if (basicitem instanceof Helmet) 
+        else if (item instanceof Helmet)
             view = new ImageView(helmetImage);
-        else if (basicitem instanceof Shield) 
+        else if (item instanceof Shield)
             view = new ImageView(shieldImage);
-        else if (basicitem instanceof Potion)
+        else if (item instanceof Potion)
             view = new ImageView(potionImage);
+        else if (item instanceof Anduril)
+            view = new ImageView(andurilImage);
+        else if (item instanceof TreeStump)
+            view = new ImageView(treeStumpImage);
+        else if (item instanceof TheRing)
+            view = new ImageView(theRingImage);
         else
             System.out.println("error at around line 380 file controller");
         
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
-        addEntity(basicitem, view);
+        addEntity(item, view);
         unequippedInventory.getChildren().add(view);
     }
 
@@ -823,15 +883,18 @@ public class LoopManiaWorldController {
                     pause();
                 }
                 break;
+            case C:
+                cheat();
+                break;
             case ENTER:
-                world.usePotion();
+                world.useItem(Potion.class);
                 break;
             default:
                 break;
         }
     }
 
-    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher, MenuSwitcher loseScreenSwitcher, MenuSwitcher winScreenSwitcher, MenuSwitcher goalMenuSwitcher, MenuSwitcher shopMenuSwitcher){
+    public void setMainMenuSwitcher(MenuSwitcher cheatMenuSwitcher, MenuSwitcher mainMenuSwitcher, MenuSwitcher loseScreenSwitcher, MenuSwitcher winScreenSwitcher, MenuSwitcher goalMenuSwitcher, MenuSwitcher shopMenuSwitcher){
         // TODO = possibly set other menu switchers
         this.mainMenuSwitcher = mainMenuSwitcher;
 
@@ -842,6 +905,8 @@ public class LoopManiaWorldController {
         this.goalMenuSwitcher = goalMenuSwitcher;
 
         this.shopMenuSwitcher = shopMenuSwitcher;
+
+        this.cheatMenuSwitcher = cheatMenuSwitcher;
 
     }
 
@@ -855,6 +920,17 @@ public class LoopManiaWorldController {
         pause();
         mainMenuSwitcher.switchMenu();
     }
+
+
+
+
+    private void cheat() throws IOException {
+        // TODO = possibly set other menu switchers
+        pause();
+        cheatMenuSwitcher.switchMenu();
+    }
+
+
 
     private void switchToLoseScreen() throws IOException {
         pause();

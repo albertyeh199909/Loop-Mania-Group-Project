@@ -4,19 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import org.hamcrest.core.IsInstanceOf;
 import org.javatuples.Pair;
 import org.junit.Test;
 
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
-import unsw.loopmania.Slug;
-
 import javafx.beans.property.SimpleIntegerProperty;
 
-import java.io.FileNotFoundException;
 
 
 
@@ -70,6 +67,7 @@ public class LoopManiaWorldTest {
         assertEquals(3,slug.getX());
         assertEquals(1,slug.getY());
         world.addEnemy(slug);
+
         //create a Vampire
         position = new PathPosition(4, path);
         Vampire vampire = new Vampire(position);
@@ -93,12 +91,13 @@ public class LoopManiaWorldTest {
         world.addSoldier();
 
         world.runBattles();
-        assertEquals(20, world.getCharacter().getHealth());
+
+        assertEquals(100, world.getCharacter().getHealth());
 
     }
         @Test
         public void testCard() {
-           List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
         path.add(new Pair<Integer, Integer>(4,3));
         path.add(new Pair<Integer, Integer>(4,2));
         path.add(new Pair<Integer, Integer>(3,2));
@@ -142,23 +141,33 @@ public class LoopManiaWorldTest {
         // make another new card is added so the player is rewarded more based on that
         assertEquals(player.getExperience(), 200);
         assertEquals(player.getGold(),200);
-
-        Building building = world.convertCardToBuildingByCoordinates(0,0,3,3);
+        
+        // select card first, and then call card to buidling !!
         card = world.getCardEntities().get(3);
+        Building building = world.convertCardToBuildingByCoordinates(3,0,3,3);
+
         if(card instanceof VampireCastleCard) {
-            assertEquals(building, null);
+            // can not be placed to the path
+            assertTrue(building == null);
+            assertEquals(world.getCardEntities().size(),5);
         }
         else if (card instanceof ZombiePitCard) {
-            assertEquals(building, null);
+            // can not be placed to the path
+            assertTrue(building == null);
+            assertEquals(world.getCardEntities().size(),5);
         }
         else if (card instanceof TowerCard) {
-            assertEquals(building, null);
+            // can not be placed to the path
+            assertTrue(building == null);
+            assertEquals(world.getCardEntities().size(),5);
         }
         else if (card instanceof CampfireCard) {
-            assertEquals(building, null);
+            // can not be placed to the path
+            assertTrue(building == null);
+            assertEquals(world.getCardEntities().size(),5);
         }
         else if (card instanceof VillageCard) {
-            assertTrue(building instanceof Village) ;
+            assertTrue(building instanceof Village);
             assertEquals(world.getCardEntities().size(),4);
         }
         else if (card instanceof BarracksCard) {
@@ -194,12 +203,9 @@ public class LoopManiaWorldTest {
         PathPosition start = new PathPosition(1, path);
         Character player = new Character(start);
 
-
-
         world.setCharacter(player);
         assertNotNull(world.getCharacter());
 
-        
         world.runTickMoves();
 
         assertEquals(player.getX(), 3);
@@ -225,7 +231,7 @@ public class LoopManiaWorldTest {
         assertEquals(player.getX(), 1);
         assertEquals(player.getY(), 1);
 
-        assertEquals(player.getHealth(), 20);
+        assertEquals(player.getHealth(), 100);
     }
 
     @Test
@@ -324,9 +330,54 @@ public class LoopManiaWorldTest {
             world.runTickMoves();
     }
 
+    @Test
+    public void testTrap() {
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair<Integer, Integer>(4,3));  //0
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));  
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));  //9
+        LoopManiaWorld world = new LoopManiaWorld(5,5, path);
 
+        assertEquals(5, world.getWidth());
+        assertEquals(5, world.getHeight());
 
-      
+        // simply try to call all the functions in world
+        // and try to simulate a game
+
+        // init a charcter fisrt, 
+        PathPosition position = new PathPosition(9, path);
+        Character c = new Character(position);
+        world.setCharacter(c);
+
+        // create a Slug
+        position = new PathPosition(0, path);
+        Slug slug = new Slug(position); 
+        assertEquals(4,slug.getX());
+        assertEquals(3,slug.getY());
+        world.addEnemy(slug);
+
+        // create spawning card
+        TrapCard trapcard = new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        trapcard.setType("trap");
+        world.addACard(trapcard); 
+        assertTrue(world.getCardEntities().get(0) instanceof TrapCard);
+
+        // create a trap on 4,2
+        Building b = world.convertCardToBuildingByCoordinates(0,0,4,2);
+        assertTrue(world.getBuildingList().get(0).getX() == 4);
+        assertTrue(world.getBuildingList().get(0).getY() == 2);
+
+        world.runTickMoves();
+
+        assertTrue(slug.getHealth() == 0);
+    }
 }
 
 
