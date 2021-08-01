@@ -29,8 +29,26 @@ public class ShopMenuController {
     }
 
     @FXML
+    private void sellSword() {
+        if (world.sell("Sword")) {
+            outputFeedback.setText("Success!");
+        } else {
+            outputFeedback.setText("Sorry, you cannot do that yet...");
+        }
+    }
+
+    @FXML
     private void buyStake() {
         if (world.purchase("stake")) {
+            outputFeedback.setText("Success!");
+        } else {
+            outputFeedback.setText("Sorry, you cannot do that yet...");
+        }
+    }
+
+    @FXML
+    private void sellStake() {
+        if (world.sell("Stake")) {
             outputFeedback.setText("Success!");
         } else {
             outputFeedback.setText("Sorry, you cannot do that yet...");
@@ -48,8 +66,27 @@ public class ShopMenuController {
     }
 
     @FXML
+    private void sellStaff() {
+        if (world.sell("Staff")) {
+            outputFeedback.setText("Success!");
+        }
+        else {
+            outputFeedback.setText("Sorry, you cannot do that yet...");
+        }
+    }
+
+    @FXML
     private void buyArmour() {
         if (world.purchase("armour")) {
+            outputFeedback.setText("Success!");
+        } else {
+            outputFeedback.setText("Sorry, you cannot do that yet...");
+        }
+    }
+
+    @FXML
+    private void sellArmour() {
+        if (world.sell("Armour")) {
             outputFeedback.setText("Success!");
         } else {
             outputFeedback.setText("Sorry, you cannot do that yet...");
@@ -66,6 +103,15 @@ public class ShopMenuController {
     }
 
     @FXML
+    private void sellShield() {
+        if (world.purchase("Shield")) {
+            outputFeedback.setText("Success!");
+        } else {
+            outputFeedback.setText("Sorry, you cannot do that yet...");
+        }
+    }
+
+    @FXML
     private void buyHelmet() {
         if (world.purchase("helmet")) {
             outputFeedback.setText("Success!");
@@ -75,8 +121,26 @@ public class ShopMenuController {
     }
 
     @FXML
+    private void sellHelmet() {
+        if (world.purchase("Helmet")) {
+            outputFeedback.setText("Success!");
+        } else {
+            outputFeedback.setText("Sorry, you cannot do that yet...");
+        }
+    }
+
+    @FXML
     private void buyPotion() {
         if (world.purchase("potion")) {
+            outputFeedback.setText("Success!");
+        } else {
+            outputFeedback.setText("Sorry, you cannot do that yet...");
+        }
+    }
+
+    @FXML
+    private void sellPotion() {
+        if (world.purchase("Potion")) {
             outputFeedback.setText("Success!");
         } else {
             outputFeedback.setText("Sorry, you cannot do that yet...");
