@@ -1,10 +1,14 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.text.AbstractDocument.Content;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.javatuples.Pair;
@@ -146,25 +150,26 @@ public class LoopManiaWorldTest {
         card = world.getCardEntities().get(3);
         Building building = world.convertCardToBuildingByCoordinates(3,0,3,3);
 
+        // the cards will be destoried after be placed to unaviliable tiles 
         if(card instanceof VampireCastleCard) {
             // can not be placed to the path
             assertTrue(building == null);
-            assertEquals(world.getCardEntities().size(),5);
+            assertEquals(world.getCardEntities().size(),4);
         }
         else if (card instanceof ZombiePitCard) {
             // can not be placed to the path
             assertTrue(building == null);
-            assertEquals(world.getCardEntities().size(),5);
+            assertEquals(world.getCardEntities().size(),4);
         }
         else if (card instanceof TowerCard) {
             // can not be placed to the path
             assertTrue(building == null);
-            assertEquals(world.getCardEntities().size(),5);
+            assertEquals(world.getCardEntities().size(),4);
         }
         else if (card instanceof CampfireCard) {
             // can not be placed to the path
             assertTrue(building == null);
-            assertEquals(world.getCardEntities().size(),5);
+            assertEquals(world.getCardEntities().size(),4);
         }
         else if (card instanceof VillageCard) {
             assertTrue(building instanceof Village);
@@ -234,23 +239,6 @@ public class LoopManiaWorldTest {
         assertEquals(player.getHealth(), 100);
     }
 
-    @Test
-    public void addUnequipped() {
-        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
-        path.add(new Pair<Integer, Integer>(4,3));
-        path.add(new Pair<Integer, Integer>(4,2));
-        path.add(new Pair<Integer, Integer>(3,2));
-        path.add(new Pair<Integer, Integer>(3,1));
-        path.add(new Pair<Integer, Integer>(2,1));
-        path.add(new Pair<Integer, Integer>(1,1));
-        path.add(new Pair<Integer, Integer>(1,2));
-        path.add(new Pair<Integer, Integer>(1,3));
-        path.add(new Pair<Integer, Integer>(2,3));
-        path.add(new Pair<Integer, Integer>(3,3));
-
-        LoopManiaWorld world = new LoopManiaWorld(5,5, path);
-    }
-
     @Test 
     public void givenInventory() {
         List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
@@ -293,6 +281,7 @@ public class LoopManiaWorldTest {
         assertEquals(5, world.getWidth());
         assertEquals(5, world.getHeight());
 
+        
         // simply try to call all the functions in world
         // and try to simulate a game
 
@@ -306,6 +295,9 @@ public class LoopManiaWorldTest {
         assertEquals(3,c.getX());
         assertEquals(2,c.getY());
 
+        c.setHealth(-100);
+        
+
         
         //create spawning card
         ZombiePitCard zombiecard = new ZombiePitCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
@@ -315,19 +307,32 @@ public class LoopManiaWorldTest {
         VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
         vampireCastleCard.setType("Tower");
         world.addACard(vampireCastleCard);
-        
-       
 
         //convert the card to buiding
-        Building b1 = world.convertCardToBuildingByCoordinates(1,1,3,3);
+        Building b1 = world.convertCardToBuildingByCoordinates(1,1,3,4);
          
 
         // convert the card to building
         Building b2 = world.convertCardToBuildingByCoordinates(1,2,2,2);
         
 
-        for(int i = 0; i<10;i++)
-            world.runTickMoves();
+        for(int i = 0; i < 10; i++)
+        {
+            world.incrementCycleCounter(3, 2);
+            world.possiblySpawnEnemies();
+        }
+        // we should have 10 zombies and 2 vampires
+        int zNum = 0;
+        int vNum = 0;
+        for(BasicEnemy e : world.getEnemy())
+        {
+            if(e instanceof Zombie)
+                zNum += 1;
+            if(e instanceof Vampire)
+                vNum += 1;
+        }
+        assertTrue(zNum == 10);
+        assertTrue(vNum == 2);
     }
 
     @Test
@@ -374,11 +379,190 @@ public class LoopManiaWorldTest {
         assertTrue(world.getBuildingList().get(0).getX() == 4);
         assertTrue(world.getBuildingList().get(0).getY() == 2);
 
+        assertTrue(slug.getHealth() == 3);
+
         world.runTickMoves();
 
         assertTrue(slug.getHealth() == 0);
     }
+
+    @Test
+    public void testAddItem() {
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair<Integer, Integer>(4,3));  //0
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));  
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));  //9
+        LoopManiaWorld world = new LoopManiaWorld(101,101, path);
+
+        // init a charcter fisrt, 
+        PathPosition position = new PathPosition(9, path);
+        Character c = new Character(position);
+        world.setCharacter(c);
+
+        ArrayList<BasicItem> A = new ArrayList<BasicItem>();
+
+        for(int i = 0 ; i < 10000; i++)
+            A.add(world.addUnequippedBasicItem());
+
+        ArrayList<BasicItem> Content = new ArrayList<BasicItem>();
+
+        for(int i = 0 ; i < 10000 ; i++)
+        {
+            Boolean bb = true;
+            BasicItem b = A.get(i);
+            for(int j = 0; j < Content.size(); j++)
+            {
+                if(b.getType().equals(Content.get(j).getType()))
+                    bb = false;
+            }
+            if(bb)
+                Content.add(b);
+        }
+        assertTrue(Content.size() == 9);
+
+        // test generate rare item
+        ArrayList<RareItem> B = new ArrayList<RareItem>();
+
+        boolean isTheRing = false;
+
+        for(int i = 0; i< 100; i++)
+        {
+            B.add(world.addUnequippedRareItem());
+            if(B.get(i).getType().equals("TheRing"))
+                isTheRing = true;
+        }
+
+        assertTrue(isTheRing);
+    }
+
+    @Test
+    public void testequip() {
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair<Integer, Integer>(4,3));  //0
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));  
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));  //9
+        LoopManiaWorld world = new LoopManiaWorld(101,101, path);
+
+        // init a charcter fisrt, 
+        PathPosition position = new PathPosition(9, path);
+        Character c = new Character(position);
+        world.setCharacter(c);
+
+        ArrayList<BasicItem> A = new ArrayList<BasicItem>();
+
+        for(int i = 0 ; i < 10000; i++)
+            A.add(world.addUnequippedBasicItem());
+
+        ArrayList<BasicItem> Content = new ArrayList<BasicItem>();
+
+        for(int i = 0 ; i < 10000 ; i++)
+        {
+            Boolean bb = true;
+            BasicItem b = A.get(i);
+            for(int j = 0; j < Content.size(); j++)
+            {
+                if(b.getType().equals(Content.get(j).getType()))
+                    bb = false;
+            }
+            if(bb)
+                Content.add(b);
+        }
+        assertTrue(Content.size() == 9);
+
+        // test generate rare item
+        ArrayList<RareItem> B = new ArrayList<RareItem>();
+
+        boolean isTheRing = false;
+
+        for(int i = 0; i< 100; i++)
+        {
+            B.add(world.addUnequippedRareItem());
+            if(B.get(i).getType().equals("TheRing"))
+                isTheRing = true;
+        }
+
+        assertTrue(isTheRing);
+    }
+
+    @Test
+    public void testEquipAndDrinkPotion()
+    {
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair<Integer, Integer>(4,3));  //0
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));  
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));  //9
+        LoopManiaWorld world = new LoopManiaWorld(101,101, path);
+
+        // init a charcter fisrt, 
+        PathPosition position = new PathPosition(9, path);
+        Character c = new Character(position);
+        world.setCharacter(c);
+
+        world.addItem(ItemFactory.generateBasicItems(eItems.Sword,0,0));
+        world.addItem(ItemFactory.generateBasicItems(eItems.Staff,1,0));
+        world.addItem(ItemFactory.generateBasicItems(eItems.Stake,2,0));
+        world.addItem(ItemFactory.generateBasicItems(eItems.Armour,3,0));
+        world.addItem(ItemFactory.generateBasicItems(eItems.Helmet,4,0));
+        world.addItem(ItemFactory.generateBasicItems(eItems.Shield,5,0));
+        world.addItem(ItemFactory.generateBasicItems(eItems.Potion,6,0));
+
+        world.equip(0, 0);
+        assertTrue(world.getCharacter().getWeapon() instanceof Sword);
+
+        world.equip(1, 0);
+        assertTrue(world.getCharacter().getWeapon() instanceof Staff);
+
+        world.equip(2, 0);
+        assertTrue(world.getCharacter().getWeapon() instanceof Stake);
+
+        world.equip(3, 0);
+        assertTrue(world.getCharacter().getArmor() instanceof Armour);
+
+        world.equip(4, 0);
+        assertTrue(world.getCharacter().getHelmet() instanceof Helmet);
+
+        world.equip(5, 0);
+        assertTrue(world.getCharacter().getShield() instanceof Shield);
+
+        c = world.getCharacter();
+        c.setHealth(10);
+        assertTrue(world.getCharacter().getHealth() == 10);
+
+        // drink the potion
+        world.useItem(Potion.class);
+        assertTrue(world.getCharacter().getHealth() == 100);
+        assertTrue(world.getInventory().size() == 0);
+
+        // check the add health
+        world.addHealth(100);
+        assertTrue(world.getCharacter().getHealth() == 100);
+        world.getCharacter().setHealth(20);
+        world.addHealth(80);
+        assertTrue(world.getCharacter().getHealth() == 100);
+    }
 }
+
 
 
 
