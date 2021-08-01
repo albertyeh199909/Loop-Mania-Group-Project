@@ -119,6 +119,10 @@ public class Character extends MovingEntity {
         return this.shield;
     }
 
+    public Helmet getHelmet() {
+        return this.helmet;
+    }
+
     public int getGold() {
         return this.gold;
     }
