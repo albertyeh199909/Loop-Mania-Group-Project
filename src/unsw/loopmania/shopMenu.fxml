@@ -16,13 +16,13 @@
          </font>
       </Text>
       <Button fx:id="returnButton" layoutX="211.0" layoutY="448.0" mnemonicParsing="false" onAction="#returnToGame" prefHeight="25.0" prefWidth="175.0" text="Return" />
-      <Button fx:id="buyButton11" layoutX="26.0" layoutY="185.0" mnemonicParsing="false" onAction="#purchase11" text="Buy" />
-      <Button fx:id="buyButton1" layoutX="26.0" layoutY="94.0" mnemonicParsing="false" onAction="#purchase1" text="Buy" />
-      <Button fx:id="buyButton3" layoutX="25.0" layoutY="260.0" mnemonicParsing="false" onAction="#purchase3" text="Buy" />
-      <Button fx:id="buyButton5" layoutX="26.0" layoutY="350.0" mnemonicParsing="false" onAction="#purchase5" text="Buy" />
-      <Button fx:id="buyButton2" layoutX="328.0" layoutY="106.0" mnemonicParsing="false" onAction="#purchase2" text="Buy" />
-      <Button fx:id="buyButton4" layoutX="327.0" layoutY="185.0" mnemonicParsing="false" onAction="#purchase4" text="Buy" />
-      <Button fx:id="buyButton6" layoutX="327.0" layoutY="260.0" mnemonicParsing="false" onAction="#purchase6" text="Buy" />
+      <Button fx:id="buyButton11" layoutX="26.0" layoutY="185.0" mnemonicParsing="false" onAction="#buyStake" text="Buy" />
+      <Button fx:id="buyButtonSword" layoutX="26.0" layoutY="94.0" mnemonicParsing="false" onAction="#buySword" text="Buy" />
+      <Button fx:id="buyButton3" layoutX="25.0" layoutY="260.0" mnemonicParsing="false" onAction="#buyStaff" text="Buy" />
+      <Button fx:id="buyButton5" layoutX="26.0" layoutY="350.0" mnemonicParsing="false" onAction="#buyArmour" text="Buy" />
+      <Button fx:id="buyButton2" layoutX="328.0" layoutY="106.0" mnemonicParsing="false" onAction="#buyShield" text="Buy" />
+      <Button fx:id="buyButton4" layoutX="327.0" layoutY="185.0" mnemonicParsing="false" onAction="#buyHelmet" text="Buy" />
+      <Button fx:id="buyButton6" layoutX="327.0" layoutY="260.0" mnemonicParsing="false" onAction="#buyPotion" text="Buy" />
       <ImageView fitHeight="81.0" fitWidth="119.0" layoutX="61.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../images/basic_sword.png" />
@@ -58,13 +58,13 @@
             <Image url="@../../images/brilliant_blue_new.png" />
          </image>
       </ImageView>
-      <Button layoutX="26.0" layoutY="119.0" mnemonicParsing="false" text="Sell" />
-      <Button layoutX="26.0" layoutY="210.0" mnemonicParsing="false" text="Sell" />
-      <Button layoutX="26.0" layoutY="285.0" mnemonicParsing="false" text="Sell" />
-      <Button layoutX="26.0" layoutY="375.0" mnemonicParsing="false" text="Sell" />
-      <Button layoutX="328.0" layoutY="132.0" mnemonicParsing="false" text="Sell" />
-      <Button layoutX="328.0" layoutY="210.0" mnemonicParsing="false" text="Sell" />
-      <Button layoutX="328.0" layoutY="285.0" mnemonicParsing="false" text="Sell" />
+      <Button layoutX="26.0" layoutY="119.0" mnemonicParsing="false" onAction="#sellSword" text="Sell" />
+      <Button layoutX="26.0" layoutY="210.0" mnemonicParsing="false" onAction="#sellStake" text="Sell" />
+      <Button layoutX="26.0" layoutY="285.0" mnemonicParsing="false" onAction="#sellStaff" text="Sell" />
+      <Button layoutX="26.0" layoutY="375.0" mnemonicParsing="false" onAction="#sellArmour" text="Sell" />
+      <Button layoutX="328.0" layoutY="132.0" mnemonicParsing="false" onAction="#sellShield" text="Sell" />
+      <Button layoutX="328.0" layoutY="210.0" mnemonicParsing="false" onAction="#sellHelmet" text="Sell" />
+      <Button layoutX="328.0" layoutY="285.0" mnemonicParsing="false" onAction="#sellPotion" text="Sell" />
       <Text layoutX="142.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sword">
          <font>
             <Font size="23.0" />
