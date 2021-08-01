@@ -149,6 +149,7 @@ public class ShopMenuController {
 
     @FXML
     private void returnToGame() throws IOException {
+        outputFeedback.setText("");
         gameSwitcher.switchMenu();
     }
 }
