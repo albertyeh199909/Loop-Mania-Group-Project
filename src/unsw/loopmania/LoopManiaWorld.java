@@ -47,6 +47,8 @@ public class LoopManiaWorld {
     private int initMainCharacterPosY;
     private int VampireSpawnChecker = 0;
     private int ZombieSpawnChecker = 0;
+    private int MuskeSpawnChecker = 0;
+    private int DodgeSpawnChecker = 0;
 
     // integer proprty that returns the number of valid alliedsoilders
     private IntegerProperty soldierCount = new SimpleIntegerProperty(0);
@@ -203,7 +205,6 @@ public class LoopManiaWorld {
     public List<BasicEnemy> possiblySpawnEnemies(){
         // TODO = expand this very basic version
         // go through all the building try to to find zombie pit and Vampire catsle
-
         
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         for(int i =0; i < buildingEntities.size();i++) {
@@ -215,7 +216,7 @@ public class LoopManiaWorld {
                         Zombie zombie = new Zombie(pos);
                         spawningEnemies.add(zombie);
                         enemies.add(zombie);
-                        ZombieSpawnChecker = cycleCounter;
+                       
                     }
                 }
             }
@@ -228,11 +229,12 @@ public class LoopManiaWorld {
                         Vampire v = new Vampire(pos);
                         spawningEnemies.add(v);
                         enemies.add(v);
-                        VampireSpawnChecker = cycleCounter;
+                        
                     }
                 }
             }
         }
+
         Pair<Integer, Integer> pos = possiblyGetBasicEnemySpawnPosition();
         
         if (pos != null){
@@ -242,19 +244,25 @@ public class LoopManiaWorld {
             spawningEnemies.add(enemy);
         }
         pos = possiblyGetBasicEnemySpawnPosition();
-        if (pos != null && cycleCounter % 40 == 0 && character.getExperience() == 10000) {
+        if (pos != null && cycleCounter % 40 == 0 && character.getExperience() == 10000 && MuskeSpawnChecker != cycleCounter) {
             int indexInPath = orderedPath.indexOf(pos);
             ElanMuske elan = new ElanMuske(new PathPosition(indexInPath, orderedPath));
             enemies.add(elan);
             spawningEnemies.add(elan);
         }
         pos = possiblyGetBasicEnemySpawnPosition();
-        if (pos != null && cycleCounter % 20 == 0 ) {
+        if (pos != null && cycleCounter % 20 == 0 && MuskeSpawnChecker != cycleCounter) {
             int indexInPath = orderedPath.indexOf(pos);
             Doggie doggie = new Doggie(new PathPosition(indexInPath, orderedPath));
             enemies.add(doggie);
             spawningEnemies.add(doggie);
         }
+
+        VampireSpawnChecker = cycleCounter;
+        ZombieSpawnChecker = cycleCounter;
+        VampireSpawnChecker = cycleCounter;
+        ZombieSpawnChecker = cycleCounter;
+
         return spawningEnemies;
     }
 
