@@ -16,6 +16,11 @@ public class ItemFactory
 
     } 
 
+    /**
+    * @param name the type of item to be spawned
+    * @param x    x coordinate of basic item
+    * @param y    y coordinate of basic item
+    */
     public static BasicItem generateBasicItems(eItems name, int x, int y)
     {
         BasicItem item = null;
@@ -51,6 +56,11 @@ public class ItemFactory
         return item;
     }
 
+    /**
+    * @param name the type of item to be spawned
+    * @param x    x coordinate of rare item
+    * @param y    y coordinate of rare item
+    */
     public static RareItem generateRareItems(eItems name, int x, int y)
     {
         RareItem item = null;
