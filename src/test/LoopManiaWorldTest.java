@@ -66,6 +66,11 @@ public class LoopManiaWorldTest {
         TowerCard towercard = new TowerCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
         towercard.setType("Tower");
         world.addACard(towercard);
+
+        // add stake to play
+        world.addItem(ItemFactory.generateBasicItems(eItems.Stake,0,0));
+        world.equip(0, 0);
+        assertTrue(world.getCharacter().getWeapon() instanceof Stake);
         
         // create 10 zombies
         for(int i = 0; i < 5; i++)
