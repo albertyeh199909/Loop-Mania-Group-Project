@@ -5,6 +5,8 @@ import java.util.List;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
 
@@ -249,13 +251,20 @@ public class LoopManiaWorldController {
 
     private victoryFinal goal;
 
+    private Media music;
+
+    private MediaPlayer musicPlayer;
+
 
     /**
+     * Reference for music implementation: https://www.javatpoint.com/javafx-playing-audio
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
      */
     public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities) {
         this.world = world;
+        this.music = new Media(new File("src/unsw/loopmania/music.mp3").toURI().toString());
+        this.musicPlayer = new MediaPlayer(music);
         entityImages = new ArrayList<>(initialEntities);
         // pics of cards
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
@@ -318,6 +327,8 @@ public class LoopManiaWorldController {
         Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
         Rectangle2D imagePart = new Rectangle2D(0, 0, 32, 32);
 
+        musicPlayer.setAutoPlay(true);
+
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
         for (int x = 0; x < world.getWidth(); x++) {
             for (int y = 0; y < world.getHeight(); y++) {
@@ -368,18 +379,19 @@ public class LoopManiaWorldController {
      */
     public void startTimer() throws IOException{
         // TODO = handle more aspects of the behaviour required by the specification
+        musicPlayer.setAutoPlay(true);
         System.out.println("starting timer");
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
             world.runTickMoves();
-            if (goal.victoryAchieved(world.getCharacter(), world)) {
+            /*if (goal.victoryAchieved(world.getCharacter(), world)) {
                 try {
                     switchToWinScreen();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
             if (world.cycleCounter == cycle) {
                 try {
                     switchToShopMenu();
