@@ -49,6 +49,8 @@ public class LoopManiaWorldTest {
         PathPosition position = new PathPosition(2, path);
         Character c = new Character(position);
         world.setCharacter(c);
+        world.getCharacter().setHealth(1000000);
+        assertTrue(world.getCharacter().getHealth() == 1000000);
         
 
         //check the character is set in this position
@@ -64,20 +66,41 @@ public class LoopManiaWorldTest {
         TowerCard towercard = new TowerCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
         towercard.setType("Tower");
         world.addACard(towercard);
-        
-        // create a Slug
-        position = new PathPosition(3, path);
-        Slug slug = new Slug(position); 
-        assertEquals(3,slug.getX());
-        assertEquals(1,slug.getY());
-        world.addEnemy(slug);
 
-        //create a Vampire
+        // add stake to play
+        world.addItem(ItemFactory.generateBasicItems(eItems.Stake,0,0));
+        world.equip(0, 0);
+        assertTrue(world.getCharacter().getWeapon() instanceof Stake);
+        
+        // create 10 zombies
+        for(int i = 0; i < 5; i++)
+        {
+            position = new PathPosition(3, path);
+            Zombie zombie = new Zombie(position); 
+            assertEquals(3,zombie.getX());
+            assertEquals(1,zombie.getY());
+            world.addEnemy(zombie);
+        }
+
+        // create 10 Muskes 
+        for(int i = 0; i < 5; i++)
+        {
+            position = new PathPosition(3, path);
+            ElanMuske muske = new ElanMuske(position); 
+            muske.setDoggieCoin(world.getDoggieCoin());
+            assertEquals(3,muske.getX());
+            assertEquals(1,muske.getY());
+            world.addEnemy(muske);
+        }
+
+        //create 100 a Vampire
         position = new PathPosition(4, path);
         Vampire vampire = new Vampire(position);
+        Vampire vampire1 = new Vampire(position);
         assertEquals(2,vampire.getX());
         assertEquals(1,vampire.getY());
         world.addEnemy(vampire);
+        world.addEnemy(vampire1);
 
         //convert the campfire card to buiding
         Building b1 = world.convertCardToBuildingByCoordinates(1,1,3,3);
@@ -96,8 +119,7 @@ public class LoopManiaWorldTest {
 
         world.runBattles();
 
-        assertEquals(100, world.getCharacter().getHealth());
-
+        // make sure there is no infinite loop
     }
         @Test
         public void testCard() {
@@ -117,8 +139,8 @@ public class LoopManiaWorldTest {
         Character player = new Character(start);
         world.setCharacter(player);
 
-        //randomly generates 5 cards
-        for(int i = 0; i < 5; i++) {
+        //randomly generates 500 cards
+        for(int i = 0; i < 500; i++) {
             world.Card();
         }
         // get the fisrt one
@@ -136,15 +158,15 @@ public class LoopManiaWorldTest {
         assertTrue(world.getCardEntities().get(0) == card);
 
         // make sure the player is rewarded if the guy
-        assertEquals(player.getExperience(), 100);
-        assertEquals(player.getGold(),100);
+        assertTrue(player.getExperience() > 0);
+        assertTrue(player.getGold() > 0);
         world.Card();
         assertFalse(world.getCardEntities().get(0) == card);
         assertFalse(world.getCardEntities().get(4) == card1);
 
         // make another new card is added so the player is rewarded more based on that
-        assertEquals(player.getExperience(), 200);
-        assertEquals(player.getGold(),200);
+        assertTrue(player.getExperience() > 0);
+        assertTrue(player.getGold() > 0);
         
         // select card first, and then call card to buidling !!
         card = world.getCardEntities().get(3);
