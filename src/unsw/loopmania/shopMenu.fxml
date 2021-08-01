@@ -1,42 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane gridLinesVisible="true" layoutX="13.0" layoutY="78.0" prefHeight="328.0" prefWidth="571.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Button fx:id="buyButton1" mnemonicParsing="false" onAction="#purchase1" text="Buy" GridPane.rowIndex="1" />
-            <Button fx:id="buyButton3" mnemonicParsing="false" onAction="#purchase3" text="Buy" GridPane.rowIndex="2" />
-            <Button fx:id="buyButton5" mnemonicParsing="false" onAction="#purchase5" text="Buy" GridPane.rowIndex="3" />
-            <Button fx:id="buyButton2" mnemonicParsing="false" onAction="#purchase2" text="Buy" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button fx:id="buyButton4" mnemonicParsing="false" onAction="#purchase4" text="Buy" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="buyButton6" mnemonicParsing="false" onAction="#purchase6" text="Buy" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button fx:id="buyButton11" mnemonicParsing="false" onAction="#purchase11" text="Buy" />
-            <Button fx:id="buyButton12" mnemonicParsing="false" onAction="#purchase11" text="Buy" GridPane.columnIndex="1" />
-         </children>
-      </GridPane>
       <Text layoutX="255.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shop">
          <font>
             <Font size="40.0" />
          </font>
       </Text>
       <Button fx:id="returnButton" layoutX="211.0" layoutY="448.0" mnemonicParsing="false" onAction="#returnToGame" prefHeight="25.0" prefWidth="175.0" text="Return" />
+      <Button fx:id="buyButton11" layoutX="26.0" layoutY="185.0" mnemonicParsing="false" onAction="#purchase11" text="Buy" />
+      <Button fx:id="buyButton1" layoutX="26.0" layoutY="94.0" mnemonicParsing="false" onAction="#purchase1" text="Buy" />
+      <Button fx:id="buyButton3" layoutX="25.0" layoutY="260.0" mnemonicParsing="false" onAction="#purchase3" text="Buy" />
+      <Button fx:id="buyButton5" layoutX="26.0" layoutY="350.0" mnemonicParsing="false" onAction="#purchase5" text="Buy" />
+      <Button fx:id="buyButton2" layoutX="328.0" layoutY="106.0" mnemonicParsing="false" onAction="#purchase2" text="Buy" />
+      <Button fx:id="buyButton4" layoutX="327.0" layoutY="185.0" mnemonicParsing="false" onAction="#purchase4" text="Buy" />
+      <Button fx:id="buyButton6" layoutX="327.0" layoutY="260.0" mnemonicParsing="false" onAction="#purchase6" text="Buy" />
+      <ImageView fitHeight="81.0" fitWidth="119.0" layoutX="61.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/basic_sword.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="81.0" fitWidth="98.0" layoutX="61.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/stake.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="61.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/staff.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="61.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/armour.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="81.0" fitWidth="91.0" layoutX="363.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/shield.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="363.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/helmet.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="363.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/brilliant_blue_new.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="26.0" layoutY="119.0" mnemonicParsing="false" text="Sell" />
+      <Button layoutX="26.0" layoutY="210.0" mnemonicParsing="false" text="Sell" />
+      <Button layoutX="26.0" layoutY="285.0" mnemonicParsing="false" text="Sell" />
+      <Button layoutX="26.0" layoutY="375.0" mnemonicParsing="false" text="Sell" />
+      <Button layoutX="328.0" layoutY="132.0" mnemonicParsing="false" text="Sell" />
+      <Button layoutX="328.0" layoutY="210.0" mnemonicParsing="false" text="Sell" />
+      <Button layoutX="328.0" layoutY="285.0" mnemonicParsing="false" text="Sell" />
+      <Text layoutX="142.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sword">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="142.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stake">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="142.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Staff">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="142.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Armour">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="444.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shield">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="443.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Helmet">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="443.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Health Potion">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="142.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$50">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="142.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$50">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="142.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$75">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="142.0" layoutY="396.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$100">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="444.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$75">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="444.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$25">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="444.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$50">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Label fx:id="outputFeedback" layoutX="369.0" layoutY="348.0" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
