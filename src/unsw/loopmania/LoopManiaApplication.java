@@ -70,6 +70,7 @@ public class LoopManiaApplication extends Application {
         FXMLLoader shopMenuLoader = new FXMLLoader(getClass().getResource("shopMenu.fxml"));
         shopMenuLoader.setController(shopMenuController);
         Parent shopMenuRoot = shopMenuLoader.load();
+        shopMenuController.setWorld(mainController.getWorld());
 
 
         // create new scene with the main menu (so we start with the main menu)
@@ -90,10 +91,14 @@ public class LoopManiaApplication extends Application {
         goalMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
         });
+
+        shopMenuController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+        });
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
-        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);}, () -> {switchToRoot(scene, loseScreenRoot, primaryStage);}, () -> {switchToRoot(scene, winScreenRoot, primaryStage);}, () -> {switchToRoot(scene, goalMenuRoot, primaryStage);});
+        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);}, () -> {switchToRoot(scene, loseScreenRoot, primaryStage);}, () -> {switchToRoot(scene, winScreenRoot, primaryStage);}, () -> {switchToRoot(scene, goalMenuRoot, primaryStage);}, () -> {switchToRoot(scene, shopMenuRoot, primaryStage);});
         mainMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();

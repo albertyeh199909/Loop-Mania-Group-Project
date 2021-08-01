@@ -215,6 +215,8 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher goalMenuSwitcher;
 
+    private MenuSwitcher shopMenuSwitcher;
+
     /**
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
@@ -819,7 +821,7 @@ public class LoopManiaWorldController {
         }
     }
 
-    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher, MenuSwitcher loseScreenSwitcher, MenuSwitcher winScreenSwitcher, MenuSwitcher goalMenuSwitcher){
+    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher, MenuSwitcher loseScreenSwitcher, MenuSwitcher winScreenSwitcher, MenuSwitcher goalMenuSwitcher, MenuSwitcher shopMenuSwitcher){
         // TODO = possibly set other menu switchers
         this.mainMenuSwitcher = mainMenuSwitcher;
 
@@ -828,6 +830,8 @@ public class LoopManiaWorldController {
         this.winScreenSwitcher = winScreenSwitcher;
 
         this.goalMenuSwitcher = goalMenuSwitcher;
+
+        this.shopMenuSwitcher = shopMenuSwitcher;
 
     }
 
@@ -855,6 +859,11 @@ public class LoopManiaWorldController {
     private void switchToGoalMenu() throws IOException {
         pause();
         goalMenuSwitcher.switchMenu();
+    }
+
+    private void switchToShopMenu() throws IOException {
+        pause();
+        shopMenuSwitcher.switchMenu();
     }
 
     /**
@@ -941,5 +950,9 @@ public class LoopManiaWorldController {
         System.out.println("current method = "+currentMethodLabel);
         System.out.println("In application thread? = "+Platform.isFxApplicationThread());
         System.out.println("Current system time = "+java.time.LocalDateTime.now().toString().replace('T', ' '));
+    }
+
+    public LoopManiaWorld getWorld() {
+        return this.world;
     }
 }
