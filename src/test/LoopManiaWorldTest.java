@@ -264,7 +264,7 @@ public class LoopManiaWorldTest {
 
     }
     @Test
-    public void testSpawnZombieAndVampire() {
+    public void testAllEnemies() {
         List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
         path.add(new Pair<Integer, Integer>(4,3));
         path.add(new Pair<Integer, Integer>(4,2));
@@ -333,6 +333,40 @@ public class LoopManiaWorldTest {
         }
         assertTrue(zNum == 10);
         assertTrue(vNum == 2);
+
+        // test for dogggggy
+        
+        for(int i = 0; i < 10; i++)
+        {
+            world.incrementCycleCounter(3, 2);
+            world.possiblySpawnEnemies();
+        }
+
+        int doggggy = 0;
+
+        for(BasicEnemy e : world.getEnemy())
+        {
+            if(e instanceof Doggie)
+                doggggy += 1;
+        }
+        assertTrue(doggggy == 1);
+
+        // for muske
+        world.getCharacter().setExperience(10000);
+        for(int i = 0; i < 20; i++)
+        {
+            world.incrementCycleCounter(3, 2);
+            world.possiblySpawnEnemies();
+        }
+
+        int muske = 0;
+
+        for(BasicEnemy e : world.getEnemy())
+        {
+            if(e instanceof ElanMuske)
+                muske += 1;
+        }
+        assertTrue(muske == 1);
     }
 
     @Test
@@ -368,17 +402,29 @@ public class LoopManiaWorldTest {
         assertEquals(3,slug.getY());
         world.addEnemy(slug);
 
+
         // create spawning card
         TrapCard trapcard = new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         trapcard.setType("trap");
         world.addACard(trapcard); 
         assertTrue(world.getCardEntities().get(0) instanceof TrapCard);
 
+        // create spawning card
+        // put it to a "wrong" place
+        TrapCard trapcard1 = new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        trapcard.setType("trap");
+        world.addACard(trapcard); 
+        assertTrue(world.getCardEntities().get(1) instanceof TrapCard);
+
         // create a trap on 4,2
         Building b = world.convertCardToBuildingByCoordinates(0,0,4,2);
         assertTrue(world.getBuildingList().get(0).getX() == 4);
         assertTrue(world.getBuildingList().get(0).getY() == 2);
 
+        // create a trap on 4,2
+        Building b1 = world.convertCardToBuildingByCoordinates(1,0,4,7);
+        assertTrue(b1 == null);
+        
         assertTrue(slug.getHealth() == 3);
 
         world.runTickMoves();
@@ -549,10 +595,16 @@ public class LoopManiaWorldTest {
         c.setHealth(10);
         assertTrue(world.getCharacter().getHealth() == 10);
 
+        // test equip dup items
+        // create a new stake
+        world.addItem(ItemFactory.generateBasicItems(eItems.Stake,7,0));
+        world.equip(7, 0);
+        assertTrue(world.getCharacter().getWeapon() instanceof Stake);
+
         // drink the potion
         world.useItem(Potion.class);
         assertTrue(world.getCharacter().getHealth() == 100);
-        assertTrue(world.getInventory().size() == 0);
+        assertTrue(world.getInventory().size() == 1);
 
         // check the add health
         world.addHealth(100);
@@ -560,6 +612,44 @@ public class LoopManiaWorldTest {
         world.getCharacter().setHealth(20);
         world.addHealth(80);
         assertTrue(world.getCharacter().getHealth() == 100);
+    }
+
+    @Test
+    public void testEquipdup()
+    {
+        List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
+        path.add(new Pair<Integer, Integer>(4,3));  //0
+        path.add(new Pair<Integer, Integer>(4,2));
+        path.add(new Pair<Integer, Integer>(3,2));
+        path.add(new Pair<Integer, Integer>(3,1));  
+        path.add(new Pair<Integer, Integer>(2,1));
+        path.add(new Pair<Integer, Integer>(1,1));
+        path.add(new Pair<Integer, Integer>(1,2));
+        path.add(new Pair<Integer, Integer>(1,3));
+        path.add(new Pair<Integer, Integer>(2,3));
+        path.add(new Pair<Integer, Integer>(3,3));  //9
+        LoopManiaWorld world = new LoopManiaWorld(101,101, path);
+
+        // init a charcter fisrt, 
+        PathPosition position = new PathPosition(9, path);
+        Character c = new Character(position);
+        world.setCharacter(c);
+
+        for(int i = 0; i < 16; i++)
+            world.addItem(ItemFactory.generateBasicItems(eItems.Sword,0,0));
+
+        assertTrue(world.getInventory().size() == 16);
+
+        world.equip(0, 0);
+        assertTrue(world.getCharacter().getWeapon() instanceof Sword);
+
+        assertTrue(world.getInventory().size() == 15);
+
+        world.addItem(ItemFactory.generateBasicItems(eItems.Sword,0,0));
+
+        world.equip(0, 0);
+        assertTrue(world.getCharacter().getWeapon() instanceof Sword);
+
     }
 }
 
