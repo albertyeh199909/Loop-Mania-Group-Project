@@ -127,6 +127,7 @@ public class LoopManiaApplication extends Application {
 
         shopMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
         });
 
         // set functions which are activated when button click to switch menu is pressed
