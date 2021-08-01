@@ -876,6 +876,9 @@ public class LoopManiaWorld {
         card = cardEntities.get(pos);
         //need to check if building can be placed at tile
         if(!card.checkPlaceable(buildingNodeX, buildingNodeY, orderedPath)) {
+            card.destroy();
+            cardEntities.remove(card);
+            shiftCardsDownFromXCoordinate(cardNodeX);
             return null;
         }
         Building newBuilding = card.createBuilding(buildingNodeX, buildingNodeY);
@@ -885,7 +888,6 @@ public class LoopManiaWorld {
         buildingEntities.add(newBuilding);
 
         // destroy the card
-        
         card.destroy();
         cardEntities.remove(card);
         shiftCardsDownFromXCoordinate(cardNodeX);
