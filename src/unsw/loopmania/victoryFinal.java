@@ -71,7 +71,7 @@ public class victoryFinal {
     public boolean victoryAchieved(Character c, LoopManiaWorld w) {
         // Calls helper function to read the JSON file containing the world
         JSONObject goals = new JSONObject();
-        goals = json.getJSONObject("goal");
+        goals = json.getJSONObject("goal-condition");
         // Calls helper function to recursively determine if the goals have been achieved
         return victory(goals, c,w);
     }
