@@ -23,10 +23,18 @@ import java.io.FileNotFoundException;
  * A clickable "Run Test" link should appear if you have installed the Java Extension Pack properly.
  */
 public class TestGoal {
-    private victoryFinal w = null;
+    //private victoryFinal w;
     @Test
     public void Testcase1(){
-        readJson("world_with_twists_and_turns.json");
+        //readJson("world_with_twists_and_turns.json");
+        victoryFinal w = null;
+
+        try{
+            w = new victoryFinal("world_with_twists_and_turns.json");
+        } catch(FileNotFoundException e) {
+            System.out.println("error");
+        }
+
         List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
         path.add(new Pair<Integer, Integer>(4,3));
         path.add(new Pair<Integer, Integer>(4,2));
@@ -48,7 +56,7 @@ public class TestGoal {
         assertEquals(true, w.victoryAchieved(c,w1));
     }
 
-    private void readJson(String filename)
+    /*private void readJson(String filename)
     {
         victoryFinal w = null;
         try{
@@ -58,7 +66,7 @@ public class TestGoal {
             System.out.println("error");
         }
         this.w = w;
-    }
+    }*/
     
     @Test
     public void blahTest2(){

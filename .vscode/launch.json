@@ -11,6 +11,13 @@
             "name": "Launch TestGoal",
             "request": "launch",
             "mainClass": "test.TestGoal",
+            "projectName": "21T2-cs2511-project_b104fb5f"
+        },
+        {
+            "type": "java",
+            "name": "Launch TestGoal",
+            "request": "launch",
+            "mainClass": "test.TestGoal",
             "projectName": "21T2-cs2511-project_89cfaee1"
         },
         {

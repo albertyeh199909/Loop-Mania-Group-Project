@@ -79,6 +79,10 @@ public class LoopManiaApplication extends Application {
         cheatMenuLoader.setController(cheatMenuController);
         Parent cheatMenuRoot = cheatMenuLoader.load();
 
+        victoryFinal victoryFinal = new victoryFinal("world_with_twists_and_turns.json");
+        mainController.setGoal(victoryFinal);
+
+
 
 
         // create new scene with the main menu (so we start with the main menu)

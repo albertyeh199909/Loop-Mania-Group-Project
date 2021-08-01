@@ -247,6 +247,8 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher cheatMenuSwitcher;
 
+    private victoryFinal goal;
+
 
     /**
      * @param world world object loaded from file
@@ -371,6 +373,13 @@ public class LoopManiaWorldController {
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
             world.runTickMoves();
+            if (goal.victoryAchieved(world.getCharacter(), world)) {
+                try {
+                    switchToWinScreen();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             if (world.cycleCounter == cycle) {
                 try {
                     switchToShopMenu();
@@ -1040,5 +1049,9 @@ public class LoopManiaWorldController {
 
     public LoopManiaWorld getWorld() {
         return this.world;
+    }
+
+    public void setGoal(victoryFinal goal) {
+        this.goal = goal;
     }
 }
