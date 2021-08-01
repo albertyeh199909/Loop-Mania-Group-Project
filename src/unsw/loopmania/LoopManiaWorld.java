@@ -1043,5 +1043,57 @@ public class LoopManiaWorld {
             removeUnequippedInventoryItemByCoordinates(x, y);
 
     }
+
+    // purchase the item as directed by the ShopMenuController
+    // Reference: from the above addUnequippedBasicItem() function.
+    public boolean purchase(String name) {
+        int gold = character.getGold();
+        BasicItem item = null;
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+
+        switch (name) {
+            case "potion":
+                if (gold < 50) return false;
+                character.setGold(gold - 50);
+                item = ItemFactory.generateBasicItems(eItems.Potion,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+            case "helmet":
+                if (gold < 25) return false;
+                character.setGold(gold - 25);
+                item = ItemFactory.generateBasicItems(eItems.Helmet,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+            case "shield":
+                if (gold < 75) return false;
+                character.setGold(gold - 75);
+                item = ItemFactory.generateBasicItems(eItems.Shield,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+            case "armour":
+                if (gold < 100) return false;
+                character.setGold(gold - 100);
+                item = ItemFactory.generateBasicItems(eItems.Armour,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+            case "staff":
+                if (gold < 75) return false;
+                character.setGold(gold - 75);
+                item = ItemFactory.generateBasicItems(eItems.Staff,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+            case "stake":
+                if (gold < 50) return false;
+                character.setGold(gold - 50);
+                item = ItemFactory.generateBasicItems(eItems.Stake,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+            case "sword":
+                if (gold < 50) return false;
+                character.setGold(gold - 50);
+                item = ItemFactory.generateBasicItems(eItems.Sword,firstAvailableSlot.getValue0(),firstAvailableSlot.getValue1());
+                break;
+        }
+
+        if (item == null) return false;
+
+        unequippedInventoryItems.add(item);
+
+        return true;
+    }
 }
 
