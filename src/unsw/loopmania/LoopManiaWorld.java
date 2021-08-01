@@ -971,60 +971,6 @@ public class LoopManiaWorld {
         return null;
     }
 
-    // create sell function so the player can sell items in the marketplace
-    public void sellToMarketPlace(int x, int y)
-    {
-        Entity find = null;
-        for(Entity e: unequippedInventoryItems)
-        {
-            if(e.getX() == x && e.getY() == y)
-                find = e;
-        }
-        if(find != null)
-        {
-            BasicItem item = (BasicItem) find;
-            character.setGold(character.getGold()+item.getSellPrice());
-            removeUnequippedInventoryItemByCoordinates(x, y);
-        }
-        else
-            System.out.println("around line 943 world, can not find the item in the  unequippedInventoryItems ");
-    }
-
-    // create purchase function so the player can sell items in the marketplace
-    public void purchaseHandler(int x, int y)
-    {
-        if(this.markethandler.getDifficulties() == 0)
-            purchaseFromMarketPlace(-1, -1,x,y);
-        else if(this.markethandler.getDifficulties() == 1)
-            purchaseFromMarketPlace(-1, 1,x,y);
-        else if(this.markethandler.getDifficulties() == 2)
-            purchaseFromMarketPlace(1, -1,x,y);
-        else
-            System.out.println("Error,the difficulties is not 1,2 or 3, line 950 World");
-    }
-
-    //actuall purchase function
-    public void purchaseFromMarketPlace(int amourLimit, int potionLimit, int x, int y)
-    {
-        Entity find = null;
-        for(Entity e: markethandler.getShopItemList())
-        {
-            if(e.getX() == x && e.getY() == y)
-                find = e;
-        }
-        if(find != null)
-        {
-            BasicItem item = (BasicItem) find;
-            if(character.getGold() >= item.getpurchasePrice()) 
-            {
-                character.setGold(character.getGold() - item.getpurchasePrice());  
-                 
-            }
-        }
-        else
-            System.out.println("around line 943 world, can not find the item in the  unequippedInventoryItems ");
-    }
-
     // the character is rewarded with gold
     public void rewardGold(int amount) {
         character.setGold(character.getGold() + amount);
