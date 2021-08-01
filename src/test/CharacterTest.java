@@ -24,7 +24,7 @@ import org.javatuples.Pair;
 
 public class CharacterTest {
 
-    @Test
+    /*@Test
     public void testMove() {
         List<Pair<Integer, Integer>> path = new ArrayList<Pair<Integer, Integer>>();
         path.add(new Pair<Integer, Integer>(4,3));
@@ -234,7 +234,7 @@ public class CharacterTest {
         damage = player.takeDamage(damage);
         assertEquals(4,damage.getCriticalChance());
 
-    }
+    }*/
     
     
 }
