@@ -125,8 +125,8 @@ public class CharacterTest {
 
         // test Anduril deal triple damage to the boss Dodge
         BasicEnemy doggggy = new Doggie(below2);
-        player.dealDamage(muske,array);
-        assertEquals(25, muske.getHealth());
+        player.dealDamage(doggggy,array);
+        assertEquals(25, doggggy.getHealth());
         
 
 
